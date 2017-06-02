@@ -13,10 +13,7 @@ require('async')
     db: function (config, callback) {
       var TingoDB = require('tingodb')();
 
-      try{
-        require('fs').mkdirSync(require('path').join(__dirname, 'data'));
-      } catch (e) {}
-      var db = new TingoDB.Db(require('path').join(__dirname, 'data'), {});
+      var db = new TingoDB.Db(require('path').resolve(config.db), {});
 
       callback(null, db);
     },
