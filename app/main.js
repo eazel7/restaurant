@@ -11,15 +11,11 @@ require('async')
       callback(null, process.env.PORT || config.port);
     },
     db: function (config, callback) {
-      if (config.dbEngine === 'mongodb') {
-        require('mongodb').MongoClient.connect(config.db, callback);
-      } else if (config.dbEngine === 'tingodb') {
-        var TingoDB = require('tingodb')();
+      var TingoDB = require('tingodb')();
 
-        var db = new TingoDB.Db(require('path').resolve(config.db), {});
+      var db = new TingoDB.Db(require('path').resolve(config.db), {});
 
-        callback(null, db);
-      }
+      callback(null, db);
     },
     api: function (db, bus, callback) {
       const API = require('./api');
