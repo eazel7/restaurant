@@ -38,7 +38,7 @@ RUN echo "#!/bin/bash" > /etc/X11/xinit/xserverrc \
 WORKDIR /usr/src/app
 
 # Move app to filesystem
-COPY ./app ./
+COPY . /usr/src/app
 RUN npm install
 
 ## uncomment if you want systemd
