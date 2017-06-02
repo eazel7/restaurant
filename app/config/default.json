@@ -1,0 +1,6 @@
+{
+    "dbEngine": "tingodb",
+    "port": 10080,
+    "apiUrl":"/api",
+    "db": "./data"
+}

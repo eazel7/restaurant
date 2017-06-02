@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/admin/app.css">
+    <meta name="viewport" content="width=device-width">
+    <script src="/admin/deps.js"></script>
+    <script src="/admin/app.js"></script>
+
+</head>
+
+<body layout='row'>
+
+    <div layout="column" layout-fill>
+
+        <md-toolbar ng-controller="BaseToolbarController as toolbar">
+            <div class="md-toolbar-tools" layout="row" layout-align="center center">
+                <md-button layout ng-click="toolbar.toggleSidenav()">
+                    <ng-md-icon icon="menu"></ng-md-icon>
+                </md-button>
+                <md-button ng-disabled="!toolbar.canGoBack()" ng-click="toolbar.goBack()" class="md-icon-button">
+                    <ng-md-icon icon="arrow_back"></ng-md-icon>
+                </md-button>
+                <ui-view flex layout name="top-toolbar"></ui-view>
+            </div>
+        </md-toolbar>
+
+        <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="false">
+            <md-list>
+                <md-list-item ui-sref="settings">Configuración</md-list-item>
+                <md-list-item ui-sref="tables">Mesas</md-list-item>
+                <md-list-item ui-sref="menu.dishes.list">Platos</md-list-item>         
+                <md-list-item ui-sref="menu.categories.list">Categorías</md-list-item>                
+        </md-sidenav>
+
+        <md-content flex>
+            <div ui-view="" autoscroll="">
+
+            </div>
+        </md-content>
+    </div>
+</body>
+
+</html>

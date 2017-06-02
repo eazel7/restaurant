@@ -1,0 +1,5 @@
+<md-list layout-fill>
+    <md-list-item ui-sref=".edit({table: table._id})" ng-repeat="table in tables.tables | orderBy:'name'">
+        {{table.name}}
+    </md-list-item>
+</md-list>

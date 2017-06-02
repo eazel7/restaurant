@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="/waiter/app.css">
+    <meta name="viewport" content="width=device-width">
+    <script src="/waiter/deps.js"></script>
+    <script src="/waiter/app.js"></script>
+
+</head>
+
+<body layout='row'>
+
+    <div layout="column" layout-fill>
+        <md-content flex layout-fill layout-align="space-around" layout="row">
+            <div layout="column" style="width: 560px">
+                <md-button href="/waiter">
+                    Servicio de mesa
+                </md-button>
+                <iframe style="border: 0" flex src="/waiter"></iframe>
+            </div>
+            <div layout="column" style="width: 560px">
+                <md-button href="/admin">
+                    Administración
+                </md-button>
+                <iframe style="border: 0" flex src="/admin"></iframe>
+            </div>
+            <div layout="column" style="width: 560px">
+                <md-button href="/kitchen">
+                    Cocina
+                </md-button>
+                <iframe style="border: 0" flex src="/kitchen"></iframe>
+            </div>
+        </md-content>
+    </div>
+</body>
+
+</html>

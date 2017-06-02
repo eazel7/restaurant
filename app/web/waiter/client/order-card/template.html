@@ -1,0 +1,24 @@
+<md-card>
+    <md-card-title>
+        <div layout flex class="md-card-title-text">
+            <span flex>{{card.dish.name}}</span>
+            <span ng-transclude="actions"></span>
+        </div>
+    </md-card-title>
+    <md-card-content>
+        <md-list>
+            <md-list-item disabled ng-repeat="option in card.options|filter:{kind:'select'}">
+                <span>{{option.name}}</p>
+                <span class="md-secondary">
+                        {{card.order.optionals[option._id]}}
+                </span>
+            </md-list-item>
+        </md-list>
+        <md-list ng-repeat="option in dialog.options|filter:{kind:'bool'}">
+            <md-list-item>
+                <p>{{option.name}}</p>
+                <md-checkbox class="md-secondary" ng-model="dialog.selected[option._id]"></md-checkbox>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card>

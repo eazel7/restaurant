@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+
+<html lang="es_LA">
+
+<head>
+    <link rel="stylesheet" href="/waiter/app.css">
+    <meta name="viewport" content="width=device-width">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/waiter/deps.js"></script>
+    <script src="/waiter/app.js"></script>
+
+</head>
+
+<body layout='row'>
+
+    <div layout="column" layout-fill>
+
+        <md-toolbar ng-controller="BaseToolbarController as toolbar">
+            <div class="md-toolbar-tools" layout="row" layout-align="center center">
+                <md-button layout ng-click="toolbar.toggleSidenav()">
+                    <ng-md-icon icon="menu"></ng-md-icon>
+                </md-button>
+                <md-button ng-if="toolbar.canGoBack()" ng-click="toolbar.goBack()" class="md-icon-button">
+                    <ng-md-icon icon="arrow_back"></ng-md-icon>
+                </md-button>
+                <ui-view flex layout name="top-toolbar"></ui-view>
+            </div>
+        </md-toolbar>
+
+        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="false">
+            <md-list ng-controller="LeftSidenavController as sidenav">
+                <md-list-item ng-repeat="table in sidenav.tables | orderBy:'name'" ng-click="sidenav.selectTable(table)">
+                    {{table.name}}
+                </md-list-item>
+            </md-list>
+            <div flex></div>
+            <div   layout="column">
+                <md-divider></md-divider>
+                <md-button ui-sref="settings" class="md-block">Configuración</md-button>
+            </div>
+
+        </md-sidenav>
+
+        <md-content flex>
+            <div ui-view="" autoscroll="">
+
+            </div>
+        </md-content>
+    </div>
+</body>
+
+</html>

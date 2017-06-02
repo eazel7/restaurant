@@ -1,0 +1,19 @@
+<md-dialog aria-label="Cierre de mesa ({{dialog.table.name}})">
+
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <h2 md-truncate flex>Cierre de mesa ({{dialog.table.name}})</h2>
+      
+      <md-button ng-click="dialog.cancel()">
+        <ng-md-icon icon="arrow_back"></ng-md-icon>
+      </md-button>
+
+      <md-button class="md-raised md-primary" ng-click="dialog.confirm()">
+        <ng-md-icon icon="check"></ng-md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+  </md-dialog-content>
+</md-dialog>

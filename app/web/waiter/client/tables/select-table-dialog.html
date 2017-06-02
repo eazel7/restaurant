@@ -1,0 +1,16 @@
+<md-dialog aria-label="Selección de Mesa">
+  
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Selección de Mesa</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <md-list>
+          <md-list-item ng-click="dialog.select(table._id)" ng-repeat="table in dialog.tables">
+            {{table.name}}
+          </md-list-item>
+      </md-list>
+    </md-dialog-content>
+</md-dialog>

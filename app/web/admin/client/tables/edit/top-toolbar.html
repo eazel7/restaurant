@@ -1,0 +1,25 @@
+<span layout flex layout-align="center center">
+<span flex></span>
+
+<md-fab-speed-dial md-direction="down" class="md-scale md-fab-top-right">
+    <md-fab-trigger>
+        <md-button aria-label="menu" class="md-fab md-mini md-warn">
+            <md-tooltip md-direction="left">Menu</md-tooltip>
+            <ng-md-icon icon="more_vert"></ng-md-icon>
+        </md-button>
+    </md-fab-trigger>
+
+    <md-fab-actions>
+        <div>
+            <md-button aria-label="Borrar" class="md-fab md-raised md-mini" ng-click="edit.delete()">
+                <md-tooltip md-direction="left" md-autohide="false">
+                    Borrar
+                </md-tooltip>
+
+                <ng-md-icon icon="delete" aria-label="Borrar"></ng-md-icon>
+            </md-button>
+        </div>
+    </md-fab-actions>
+</md-fab-speed-dial>
+
+</span>

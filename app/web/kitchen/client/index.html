@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+
+<html lang="es_LA">
+
+<head>
+    <link rel="stylesheet" href="/waiter/app.css">
+    <meta name="viewport" content="width=device-width">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/kitchen/deps.js"></script>
+    <script src="/kitchen/app.js"></script>
+
+</head>
+
+<body layout='row'>
+
+    <div layout="column" layout-fill ng-controller="KitchenOrdersController as kitchen">
+
+        <md-toolbar>
+            <div class="md-toolbar-tools" layout="row" layout-align="center center">
+                <span flex></span>
+                <md-button name="set-order-ready" ng-click="kitchen.setOrdersReady((kitchen.orders|filter:{selected: true}))" ng-disabled="(kitchen.orders | filter:{selected:true}).length === 0" class="md-accent md-raised">
+                    <ng-md-icon icon="check"></ng-md-icon> Listas
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-content flex layout="column">
+
+            <order-card selected="order.selected" order-id="order._id" ng-repeat="order in kitchen.orders"></order-card>
+
+            <div ng-if="!kitchen.orders.length" class="md-display-1" layout layout-align="center center" layout-fill>
+                No hay pedidos pendientes
+            </div>
+        </md-content>
+    </div>
+</body>
+
+</html>

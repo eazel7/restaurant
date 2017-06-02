@@ -1,0 +1,27 @@
+<md-card>
+    <md-card-title>
+        <div layout="column" flex class="md-card-title-text">
+            <div layout>
+                <span flex>{{card.dish.name}}</span>
+                <md-checkbox class="select-order-checkbox" name="select-order-{{card.order._id}}" ng-model="selected"></md-checkbox>
+            </div>
+            <div>{{card.order.date|timeAgo}}</div>
+        </div>
+    </md-card-title>
+    <md-card-content>
+        <md-list>
+            <md-list-item disabled ng-repeat="option in card.options|filter:{kind:'select'}">
+                <span>{{option.name}}</p>
+                <span class="md-secondary">
+                        {{card.order.optionals[option._id]}}
+                </span>
+            </md-list-item>
+        </md-list>
+        <md-list ng-repeat="option in dialog.options|filter:{kind:'bool'}">
+            <md-list-item>
+                <p>{{option.name}}</p>
+                <md-checkbox class="md-secondary" ng-model="dialog.selected[option._id]"></md-checkbox>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card>

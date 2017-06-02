@@ -1,0 +1,16 @@
+<md-dialog aria-label="{{dialog.title}}">
+
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <h2 md-truncate flex>{{dialog.title}}</h2>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <md-list>
+      <md-list-item ng-click="dialog.select(dish)" ng-repeat="dish in dialog.dishes">
+        {{dish.name}}
+      </md-list-item>
+    </md-list>
+  </md-dialog-content>
+</md-dialog>

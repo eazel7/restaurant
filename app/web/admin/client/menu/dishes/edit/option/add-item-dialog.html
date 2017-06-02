@@ -1,0 +1,22 @@
+<md-dialog aria-label="Agregar item">
+
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <h2 md-truncate flex>Agregar item</h2>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content layout-padding>
+    <md-input-container class="md-block">
+      <label>Nombre</label>
+      <input type="text" ng-model="dialog.item.name" />
+    </md-input-container>
+  </md-dialog-content>
+  <md-dialog-actions>
+      <md-button ng-click="dialog.cancel()">
+          Cancelar
+      </md-button>
+      <md-button class="md-primary md-raised" ng-click="dialog.confirm()" ng-disabled="!dialog.canConfirm()">
+          Confirmar
+      </md-button>
+</md-dialog>

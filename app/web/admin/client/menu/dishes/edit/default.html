@@ -1,0 +1,34 @@
+<md-content layout-padding>
+    <md-input-container class="md-block">
+        <label>Nombre del plato</label>
+        <input type="text" ng-model="edit.dish.name" />
+    </md-input-container>
+    <md-input-container class="md-block">
+        <label>Precio</label>
+        <input type="number" ng-model="edit.dish.price" />
+    </md-input-container>
+</md-content>
+
+<section>
+    <md-subheader class="md-primary">
+        <span layout layout-align="center center" flex>
+            <span flex>Opcionales</span>
+
+        <md-button aria-label="Agregar opcional" class="md-icon-button md-raised md-accent" ng-click="edit.addOptional()">
+            <md-tooltip md-direction="left" md-autohide="false">
+                Agregar opcional
+            </md-tooltip>
+
+            <ng-md-icon icon="add" aria-label="Agregar opcional"></ng-md-icon>
+        </md-button>
+        </span>
+    </md-subheader>
+    <md-list>
+        <md-list-item ui-sref=".option({option: optional._id})" ng-repeat="optional in edit.optionals">
+            <md-button class="md-icon-button md-secondary" ng-click="edit.deleteOptional(optional)">
+                <ng-md-icon icon="delete"></ng-md-icon>
+            </md-button>
+            {{optional.name}}
+        </md-list-item>
+    </md-list>
+</section>

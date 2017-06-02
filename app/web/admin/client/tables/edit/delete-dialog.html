@@ -1,0 +1,20 @@
+<md-dialog aria-label="Borrar mesa">
+
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <h2 md-truncate flex>Borrar mesa</h2>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content layout-padding>
+    <p>¿Está seguro que desea borrar la mesa?</p>
+    <p>Esta acción es irreversible</p>
+  </md-dialog-content>
+  <md-dialog-actions>
+      <md-button ng-click="dialog.cancel()" class="md-primary md-raised">
+          Cancelar
+      </md-button>
+      <md-button ng-click="dialog.confirm()" ng-disabled="!dialog.canConfirm()">
+          Confirmar
+      </md-button>
+</md-dialog>

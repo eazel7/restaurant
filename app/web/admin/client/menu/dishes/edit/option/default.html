@@ -1,0 +1,29 @@
+<md-content layout-padding>
+    <md-input-container class="md-block">
+        <label>Nombre del opcional</label>
+        <input type="text" ng-model="option.option.name" />
+    </md-input-container>
+</md-content>
+
+<section ng-if="option.option.kind === 'select'">
+    <md-subheader class="md-primary">
+        <span layout layout-align="center center" flex>
+            <span flex>Items</span>
+
+        <md-button aria-label="Agregar item" class="md-icon-button md-raised md-accent" ng-click="option.addItem()">
+            <md-tooltip md-direction="left" md-autohide="false">
+                Agregar item
+            </md-tooltip>
+
+            <ng-md-icon icon="add" aria-label="Agregar item"></ng-md-icon>
+        </md-button>
+        </span></md-subheader>
+    <md-list>
+        <md-list-item ng-repeat="item in option.option.items">
+            <md-button class="md-icon-button md-secondary" ng-click="option.deleteItem(item)">
+                <ng-md-icon icon="delete"></ng-md-icon>
+            </md-button>
+            {{item}}
+        </md-list-item>
+    </md-list>
+</section>

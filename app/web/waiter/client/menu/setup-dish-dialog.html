@@ -1,0 +1,44 @@
+<md-dialog aria-label="Configure su plato">
+
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <h2 md-truncate flex>{{dialog.dish.name}}</h2>
+
+      <md-button ng-click="dialog.cancel()">
+        <ng-md-icon icon="arrow_back"></ng-md-icon>
+      </md-button>
+
+      <md-button class="md-raised md-primary" ng-click="dialog.confirm()">
+        <ng-md-icon icon="check"></ng-md-icon>
+      </md-button>
+
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <md-list ng-repeat="option in dialog.options|filter:{kind:'select'}">
+      <md-list-item>
+        <p>{{option.name}}</p>
+        <md-menu class="md-secondary">
+          <md-button>
+            {{dialog.selected[option._id]}}
+          </md-button>
+          <md-menu-content width="4">
+            <md-menu-item ng-repeat="item in option.items">
+              <md-button ng-click="dialog.selected[option._id] = item">
+                {{item}}
+              </md-button>
+            </md-menu-item>
+          </md-menu-content>
+        </md-menu>
+
+      </md-list-item>
+    </md-list>
+    <md-list ng-repeat="option in dialog.options|filter:{kind:'bool'}">
+      <md-list-item>
+        <p>{{option.name}}</p>
+        <md-checkbox class="md-secondary" ng-model="dialog.selected[option._id]"></md-checkbox>
+      </md-list-item>
+    </md-list>
+  </md-dialog-content>
+</md-dialog>
