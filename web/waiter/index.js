@@ -11,6 +11,8 @@ function WaiterApp(clientConfig) {
             var bundleDeps = () => {
                 return new Promise(
                     (resolve, reject) => {
+                        console.log('building waiter deps.js')
+                        
                         var depsBundler = Browserify([], {
                         });
 
@@ -31,11 +33,13 @@ function WaiterApp(clientConfig) {
 
                         depsBundler.bundle((err, buf) => {
                             if (err) {
-                                console.error('Error generating deps script');
+                                console.error('error building waiter deps.js');
                                 console.error(err);
 
                                 return reject(err);
                             }
+
+                            console.log('done building waiter deps.js')
 
                             app.get('/deps.js', (req, res, next) => {
                                 res.set('content-type', 'text/javascript');

@@ -11,6 +11,7 @@ function HomeApp(clientConfig) {
             var bundleDeps = () => {
                 return new Promise(
                     (resolve, reject) => {
+                        console.log('building home deps.js')
                         var depsBundler = Browserify([], {
                         });
 
@@ -31,11 +32,13 @@ function HomeApp(clientConfig) {
 
                         depsBundler.bundle((err, buf) => {
                             if (err) {
-                                console.error('Error generating deps script');
+                                console.error('error home deps script');
                                 console.error(err);
 
                                 return reject(err);
                             }
+    
+                            console.log('done building home deps.js')
 
                             app.get('/deps.js', (req, res, next) => {
                                 res.set('content-type', 'text/javascript');

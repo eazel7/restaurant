@@ -13,6 +13,8 @@ function AdminApp(clientConfig) {
             var bundleDeps = () => {
                 return new Promise(
                     (resolve, reject) => {
+                        console.log('building admin deps.js')
+
                         var depsBundler = Browserify([], {
                         });
 
@@ -33,11 +35,13 @@ function AdminApp(clientConfig) {
 
                         depsBundler.bundle((err, buf) => {
                             if (err) {
-                                console.error('Error generating deps script');
+                                console.error('error building admin deps.js');
                                 console.error(err);
 
                                 return reject(err);
                             }
+
+                            console.log('done building admin deps.js')
 
                             app.get('/deps.js', (req, res, next) => {
                                 res.set('content-type', 'text/javascript');
