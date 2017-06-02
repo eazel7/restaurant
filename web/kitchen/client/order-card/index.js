@@ -19,7 +19,7 @@ require('angular')
                 selected: '='
             },
             controllerAs: 'card',
-            controller: function ($scope, OrdersService, MenuService) {
+            controller: function ($scope, OrdersService, TablesService, MenuService) {
                 var ctrl = this;
 
                 $scope.$watch('orderId', function (orderId) {
@@ -32,7 +32,13 @@ require('angular')
                         .getOrder(orderId).then(function (order) {
                             ctrl.order = order;
 
-                            return MenuService.getDish(order.dish);
+                            return MenuService.getDish(order.dish).then(function (dish) {
+                                return TablesService.getTable(order.table).then(function (table) {
+                                    ctrl.table = table;
+
+                                    return dish;
+                                });
+                            })
                         })
                         .then(function (dish) {
                             ctrl.dish = dish;
