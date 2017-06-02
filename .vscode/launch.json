@@ -8,11 +8,14 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
+            "cwd": "${workspaceRoot}",
             "program": "${workspaceRoot}/node_modules/.bin/electron",
             "args": [
-                "${workspaceRoot}"
+                "."
             ],
             "env": {
+                "URL_LAUNCHER_CONSOLE": "1",
+                "URL_LAUNCHER_FRAME": "1",
                 "NODE_ENV": "development"
             }
         }

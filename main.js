@@ -35,7 +35,7 @@ require('async')
       const Web = require('./web');
 
       Web(api, bus)
-      .then((app) => callback(null, app), (err) => callback(err || new Error()));
+        .then((app) => callback(null, app), (err) => callback(err || new Error()));
     },
     io: function (server, bus, callback) {
       var io = require('socket.io')(server);
@@ -61,6 +61,8 @@ require('async')
       return;
     }
 
+    if (!results.config.browser) return;
+
     // simple parameters initialization
     const electronConfig = {
       URL_LAUNCHER_TOUCH: process.env.URL_LAUNCHER_TOUCH === '1' ? 1 : 0,
@@ -72,7 +74,7 @@ require('async')
       URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
       URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'Restaurant',
       URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
-      URL_LAUNCHER_URL: process.env.URL_LAUNCHER_URL || `http://localhost:` + results.config.port + '/kitchen/',
+      URL_LAUNCHER_URL: process.env.URL_LAUNCHER_URL || `http://localhost:` + results.config.port + results.config.browser,
       URL_LAUNCHER_ZOOM: parseFloat(process.env.URL_LAUNCHER_ZOOM || 1.0),
       URL_LAUNCHER_OVERLAY_SCROLLBARS: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
     };
@@ -86,50 +88,34 @@ require('async')
       app.commandLine.appendSwitch('--simulate-touch-screen-with-mouse');
     }
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Running in development mode');
-      Object.assign(electronConfig, {
-        URL_LAUNCHER_HEIGHT: 600,
-        URL_LAUNCHER_WIDTH: 800,
-        URL_LAUNCHER_KIOSK: 0,
-        URL_LAUNCHER_CONSOLE: 1,
-        URL_LAUNCHER_FRAME: 1,
-      });
+    // here we actually configure the behavour of electronJS
+    const window = new BrowserWindow({
+      width: electronConfig.URL_LAUNCHER_WIDTH,
+      height: electronConfig.URL_LAUNCHER_HEIGHT,
+      frame: !!(electronConfig.URL_LAUNCHER_FRAME),
+      title: electronConfig.URL_LAUNCHER_TITLE,
+      kiosk: !!(electronConfig.URL_LAUNCHER_KIOSK),
+      webPreferences: {
+        nodeIntegration: !!(electronConfig.URL_LAUNCHER_NODE),
+        zoomFactor: electronConfig.URL_LAUNCHER_ZOOM,
+        overlayScrollbars: !!(electronConfig.URL_LAUNCHER_OVERLAY_SCROLLBARS),
+      },
+    });
+
+    // if the env-var is set to true,
+    // a portion of the screen will be dedicated to the chrome-dev-tools
+    if (electronConfig.URL_LAUNCHER_CONSOLE) {
+      window.openDevTools();
     }
 
-    /*
-     we initialize our application display as a callback of the electronJS "ready" event
-     */
-    // app.on('ready', () => {
-      // here we actually configure the behavour of electronJS
-      const window = new BrowserWindow({
-        width: electronConfig.URL_LAUNCHER_WIDTH,
-        height: electronConfig.URL_LAUNCHER_HEIGHT,
-        frame: !!(electronConfig.URL_LAUNCHER_FRAME),
-        title: electronConfig.URL_LAUNCHER_TITLE,
-        kiosk: !!(electronConfig.URL_LAUNCHER_KIOSK),
-        webPreferences: {
-          nodeIntegration: !!(electronConfig.URL_LAUNCHER_NODE),
-          zoomFactor: electronConfig.URL_LAUNCHER_ZOOM,
-          overlayScrollbars: !!(electronConfig.URL_LAUNCHER_OVERLAY_SCROLLBARS),
-        },
-      });
+    window.webContents.on('did-finish-load', () => {
+      setTimeout(() => {
+        window.show();
+      }, 300);
+    });
 
-      window.webContents.on('did-finish-load', () => {
-        setTimeout(() => {
-          window.show();
-        }, 300);
-      });
-
-      // if the env-var is set to true,
-      // a portion of the screen will be dedicated to the chrome-dev-tools
-      // if (electronConfig.URL_LAUNCHER_CONSOLE) {
-      //   window.openDevTools();
-      // }
-
-      // the big red button, here we go
-      window.loadURL(electronConfig.URL_LAUNCHER_URL);
-    // });
+    // the big red button, here we go
+    window.loadURL(electronConfig.URL_LAUNCHER_URL);
 
   })
-  
+
