@@ -45,4 +45,4 @@ RUN npm install
 ENV INITSYSTEM on
 
 # Start app
-CMD ["bash", "/usr/bin/true"]
+CMD ["bash", "/usr/src/app/start.sh"]
