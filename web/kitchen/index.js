@@ -1,96 +1,112 @@
-    const Browserify = require('browserify');
+const Browserify = require('browserify');
 const express = require('express');
 
 function KitchenApp(clientConfig) {
-    var app = express.Router();
+    return new Promise(
+        (resolve, reject) => {
+            var app = express.Router();
 
-    var deps = ['jquery', 'angular', 'angular-timeago', 'angular-material', 'angular-material-icons', 'angular-socket-io' ];
-    var depsBundler = Browserify([], {
-    });
+            var deps = ['jquery', 'angular', 'angular-timeago', 'angular-material', 'angular-material-icons', 'angular-socket-io'];
 
-    deps.forEach((dep) => depsBundler.require(
-        require.resolve(dep),
-        {
-            expose: dep
-        })
-    );
+            var bundleDeps = () => {
+                return new Promise(
+                    (resolve, reject) => {
+                        console.log('building kitchen deps.js')
+                        var depsBundler = Browserify([], {
+                        });
 
-    depsBundler.transform(
-        require('stringify'),
-        {
-            appliesTo: { includeExtensions: ['.html'] }
-        }
-    );
+                        deps.forEach((dep) => depsBundler.require(
+                            require.resolve(dep),
+                            {
+                                expose: dep
+                            })
+                        );
+
+                        depsBundler.transform(
+                            require('stringify'),
+                            {
+                                appliesTo: { includeExtensions: ['.html'] }
+                            }
+                        );
 
 
-    depsBundler.bundle((err, buf) => {
-        if (err) {
-            console.error('Error generating deps script');
-            console.error(err);
+                        depsBundler.bundle((err, buf) => {
+                            if (err) {
+                                console.error('error building kitchen deps.js')
+                                console.error(err);
 
-            process.exit(-1);
-        }
+                                return reject(err);
+                            }
 
-        app.get('/deps.js', (req, res, next) => {
-            res.set('content-type', 'text/javascript');
-            res.send(buf.toString());
-            res.end();
+                        console.log('done building kitchen deps.js')
 
-        });
-    });
+                            app.get('/deps.js', (req, res, next) => {
+                                res.set('content-type', 'text/javascript');
+                                res.send(buf.toString());
+                                res.end();
+                            });
 
-    app.get('/app.js', (req, res, next) => {
-        var bundler = Browserify([], {
-        });
-
-        deps.forEach((dep) => bundler.external(dep));
-
-        var configSource = 'module.exports = ' + JSON.stringify(clientConfig, null, 2) + ';';
-
-        bundler.require(
-            require('string-to-stream')(configSource),
-            {
-                source: configSource,
-                basedir: require('path').resolve(__dirname, '..', 'client'),
-                expose: 'config'
-            })
-        bundler.ignore('config');
-        bundler.transform(
-            require('stringify'),
-            {
-                appliesTo: { includeExtensions: ['.html'] }
+                            resolve();
+                        });
+                    }
+                )
             }
-        );
 
-        bundler.add(require.resolve('./client'), { debug: true });
 
-        bundler.bundle((err, buf) => {
-            if (err) return next(err);
+            app.get('/app.js', (req, res, next) => {
+                var bundler = Browserify([], {
+                });
 
-            res.set('content-type', 'text/javacript');
-            res.send(buf.toString())
-            res.end();
-        })
-    })
+                deps.forEach((dep) => bundler.external(dep));
 
-    app.get('/app.css', (req, res, next) => {
-        res.set('content-type', 'text/css');
+                var configSource = 'module.exports = ' + JSON.stringify(clientConfig, null, 2) + ';';
 
-        res.send([
-            require.resolve('angular-material/angular-material.css'),
-            require.resolve('angular-material-icons/angular-material-icons.css')
-        ].map((path) => require('fs').readFileSync(path)).join('\n'));
-    })
+                bundler.require(
+                    require('string-to-stream')(configSource),
+                    {
+                        source: configSource,
+                        basedir: require('path').resolve(__dirname, '..', 'client'),
+                        expose: 'config'
+                    })
+                bundler.ignore('config');
+                bundler.transform(
+                    require('stringify'),
+                    {
+                        appliesTo: { includeExtensions: ['.html'] }
+                    }
+                );
 
-    app.get('/', (req, res, next) => {
-        var html = require('fs').readFileSync(require.resolve('./client/index.html'));
+                bundler.add(require.resolve('./client'), { debug: true });
 
-        res.set('content-type', 'text/html');
-        res.send(html);
-        res.end();
-    });
+                bundler.bundle((err, buf) => {
+                    if (err) return next(err);
 
-    return app;
+                    res.set('content-type', 'text/javacript');
+                    res.send(buf.toString())
+                    res.end();
+                })
+            })
+
+            app.get('/app.css', (req, res, next) => {
+                res.set('content-type', 'text/css');
+
+                res.send([
+                    require.resolve('angular-material/angular-material.css'),
+                    require.resolve('angular-material-icons/angular-material-icons.css')
+                ].map((path) => require('fs').readFileSync(path)).join('\n'));
+            })
+
+            app.get('/', (req, res, next) => {
+                var html = require('fs').readFileSync(require.resolve('./client/index.html'));
+
+                res.set('content-type', 'text/html');
+                res.send(html);
+                res.end();
+            });
+
+            return bundleDeps().then(() => resolve(app), (err) => reject(err));
+        }
+    )
 }
 
 module.exports = KitchenApp;

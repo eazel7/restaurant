@@ -37,9 +37,8 @@ require('async')
     web: function (api, bus, callback) {
       const Web = require('./web');
 
-      var expressApp = new Web(api, bus);
-
-      callback(null, expressApp);
+      Web(api, bus)
+      .then((app) => callback(null, app), (err) => callback(err || new Error()));
     },
     io: function (server, bus, callback) {
       var io = require('socket.io')(server);
@@ -74,9 +73,9 @@ require('async')
       URL_LAUNCHER_NODE: process.env.URL_LAUNCHER_NODE === '1' ? 1 : 0,
       URL_LAUNCHER_WIDTH: parseInt(process.env.URL_LAUNCHER_WIDTH || 1920, 10),
       URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
-      URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'RESIN.IO',
+      URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'Restaurant',
       URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
-      URL_LAUNCHER_URL: process.env.URL_LAUNCHER_URL || `http://localhost:` + results.config.port + '/kitchen',
+      URL_LAUNCHER_URL: process.env.URL_LAUNCHER_URL || `http://localhost:` + results.config.port + '/kitchen/',
       URL_LAUNCHER_ZOOM: parseFloat(process.env.URL_LAUNCHER_ZOOM || 1.0),
       URL_LAUNCHER_OVERLAY_SCROLLBARS: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
     };
@@ -104,7 +103,7 @@ require('async')
     /*
      we initialize our application display as a callback of the electronJS "ready" event
      */
-    app.on('ready', () => {
+    // app.on('ready', () => {
       // here we actually configure the behavour of electronJS
       const window = new BrowserWindow({
         width: electronConfig.URL_LAUNCHER_WIDTH,
@@ -127,13 +126,13 @@ require('async')
 
       // if the env-var is set to true,
       // a portion of the screen will be dedicated to the chrome-dev-tools
-      if (electronConfig.URL_LAUNCHER_CONSOLE) {
-        window.openDevTools();
-      }
+      // if (electronConfig.URL_LAUNCHER_CONSOLE) {
+      //   window.openDevTools();
+      // }
 
       // the big red button, here we go
       window.loadURL(electronConfig.URL_LAUNCHER_URL);
-    });
+    // });
 
   })
   

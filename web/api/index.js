@@ -10,7 +10,7 @@ function ApiApp(api) {
     app.use('/menu', new Menu(api.menu));
     app.use('/orders', new Orders(api.orders));
 
-    return app;
+    return Promise.resolve(app);
 }
 
 module.exports = ApiApp;

@@ -6,35 +6,34 @@ const HomeApp = require('./home');
 const KitchenApp = require('./kitchen');
 
 function App(api) {
-    var app = express();
+    return Promise.all([
+        ApiApp(api),
+        WaiterApp({
+            apiUrl: require('config').apiUrl,
+            shopName: 'Amadeo'
+        }),
+        AdminApp({
+            apiUrl: require('config').apiUrl,
+            shopName: 'Amadeo'
+        }),
+        KitchenApp({
+            apiUrl: require('config').apiUrl
+        }),
+        HomeApp({
+        })
+    ])
+        .then((results) => {
+            var apiApp = results[0];
 
-    var apiApp = new ApiApp(api);
+            var app = express();
+            app.use('/api', results[0]);
+            app.use('/waiter', results[1]);
+            app.use('/admin', results[2]);
+            app.use('/kitchen', results[3]);
+            app.use('/', results[4]);
 
-    app.use('/api', apiApp);
-
-    var waiterApp = new WaiterApp({
-        apiUrl: require('config').apiUrl,
-        shopName: 'Amadeo'
-    });
-
-    app.use('/waiter', waiterApp);
-
-    var adminApp = new AdminApp({
-        apiUrl: require('config').apiUrl,
-        shopName: 'Amadeo'
-    });
-
-    app.use('/admin', adminApp);
-
-    var kitchenApp = new KitchenApp({
-        apiUrl: require('config').apiUrl
-    });
-    app.use('/kitchen', kitchenApp);
-
-    var homeApp = new HomeApp({});
-    app.use('/', homeApp);
-
-    return app;
+            return app;
+        });
 };
 
 module.exports = App;
