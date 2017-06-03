@@ -32,11 +32,31 @@ describe('Orders', function () {
                     name: 'Table 1'
                 }, callback),
                 (callback) => db.collection('orders').insert({
-                    _id: 'order2'
+                    _id: 'order2',
+                    table: 'table1'
                 }, callback)
             ],
             (err) => done(err));
     });
+    describe('.closeTable', function () {
+        it('sets archived=true', function (done) {
+            target.closeTable('table1').then(function () {
+                db.collection('orders').findOne({
+                    _id: 'order2'
+                }, function (err, doc) {
+                    try {
+                        assert.ifError(err);
+                        assert(doc);
+                        assert.equal(doc.archived, true);
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                });
+            })
+        })
+    })
+
 
     describe('.setOrderReady', function () {
         it('requires order id', (done) => {

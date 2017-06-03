@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "NODE_ENV=development electron .",
     "lint": "eslint .",
+    "watch-test": "node_modules/.bin/mocha -w -G",
+    "test": "node_modules/.bin/mocha -G",
     "start": "NODE_ENV=production startx ./node_modules/electron/dist/electron ."
   },
   "repository": {
