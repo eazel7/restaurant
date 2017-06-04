@@ -1,11 +1,11 @@
-<md-dialog aria-label="Cierre de mesa ({{dialog.table.name}})">
+<md-dialog aria-label="Cobrar {{dialog.total|currency}}">
 
   <md-toolbar class="md-warn">
     <div class="md-toolbar-tools">
-      <h2 md-truncate flex>Cierre de mesa ({{dialog.table.name}})</h2>
-      
+      <h2 md-truncate flex>Cobrar {{dialog.total|currency}}</h2>
+
       <md-button ng-click="dialog.cancel()">
-        <ng-md-icon icon="arrow_back"></ng-md-icon>
+        <ng-md-icon icon="cancel"></ng-md-icon>
       </md-button>
 
       <md-button class="md-raised md-primary" ng-click="dialog.confirm()">
@@ -14,6 +14,20 @@
     </div>
   </md-toolbar>
 
-  <md-dialog-content>
+  <md-dialog-content layout-padding>
+    <section>
+      <md-input-container class="md-block">
+        <label>Mesa</label>
+        <input disabled value="{{dialog.table.name}}" />
+      </md-input-container>
+    </section>
+    <section>
+      <md-list>
+        <md-list-item ng-repeat="order in dialog.orderedDishes">
+          <span>{{order.dish.name}}</span>
+          <span class="md-secondary">{{(order.price || 0)|currency}}</span>
+        </md-list-item>
+      </md-list>
+    </section>
   </md-dialog-content>
 </md-dialog>

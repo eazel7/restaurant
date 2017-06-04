@@ -4,6 +4,18 @@ function Orders(orders) {
     var app = express.Router();
     var parseJsonBody = require('body-parser').json();
 
+    app.post(
+        '/table/:tableId/close-table',
+        (req, res, next) => {
+            orders
+                .closeTable(req.params.tableId)
+                .then(
+                () => res.json(),
+                (err) => next(err || new Error())
+                );
+        }
+    );
+
     app
         .post(
         '/order',

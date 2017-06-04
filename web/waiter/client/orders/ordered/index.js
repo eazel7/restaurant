@@ -66,26 +66,43 @@ require('angular')
                 'top-toolbar@': {
                     template: require('./top-toolbar.html'),
                     controllerAs: 'ordered',
-                    controller: function (orderedDishes, table, $mdDialog) {
+                    controller: function (orderedDishes, table, $mdDialog, $state) {
                         var total = 0;
 
                         orderedDishes.forEach(function (order) {
-                            total += order.dish.price;
+                            total += (order.dish.price || 0)
                         })
 
                         this.total = total;
 
                         this.closeTable = function () {
-                            $mdDialog({
+                            $mdDialog.show({
                                 template: require('./close-table-dialog.html'),
                                 controllerAs: 'dialog',
                                 locals: {
+                                    total: total,
                                     orderedDishes: orderedDishes,
                                     table: table
                                 },
-                                controller: function (orderedDishes, table, OrdersService) {
+                                fullscreen: true,
+                                controller: function (orderedDishes, $mdDialog, total, table, OrdersService) {
+                                    this.total = total;
+                                    this.orderedDishes = orderedDishes;
+                                    this.table = table;
 
+                                    this.cancel = function () {
+                                        $mdDialog.cancel();
+                                    }
+
+                                    this.confirm = function () {
+                                        OrdersService.closeTable(table._id).then(function () {
+                                            $mdDialog.hide();
+                                        });
+                                    }
                                 }
+                            })
+                            .then(function () {
+                                $state.reload();
                             })
                         }
                     }

@@ -14,7 +14,7 @@ Orders.prototype.closeTable = function (tableId) {
                     $set: {
                         archived: true
                     }
-                }, (err) => {
+                }, { multi: true }, (err) => {
                     if (err) return reject(err);
 
                     resolve();

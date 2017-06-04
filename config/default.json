@@ -2,5 +2,5 @@
     "port": 10080,
     "apiUrl":"/api",
     "db": "./data",
-    "browser": "/kitchen"
+    "browser": null
 }

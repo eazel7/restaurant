@@ -109,6 +109,17 @@ function Menu(menu) {
             );
     });
 
+    app.post('/dishes/:dishId/price', 
+    jsonParser,
+    (req, res, next) => {
+        menu
+            .setDishPrice(req.params.dishId, req.body.price)
+            .then(
+            () => res.json(),
+            (err) => next(err || new Error())
+            );
+    });
+
     app.get('/dishes/:dishId/options', (req, res, next) => {
         menu
             .listDishOptions(req.params.dishId)

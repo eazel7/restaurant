@@ -5,7 +5,6 @@ function Tables(tables) {
     var app = express.Router();
     var jsonParser = bodyParser.json();
 
-
     app
         .get(
         '/:tableId',

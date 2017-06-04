@@ -116,6 +116,16 @@ angular
                         return data.data;
                     });
             },
+            setDishPrice: function (dishId, price) {
+                return $http.post(
+                    config.apiUrl + '/menu/dishes/' + encodeURIComponent(dishId) + '/price', 
+                    {
+                        price: price
+                    })
+                    .then(function (data) {
+                        return data.data;
+                    });
+            },
             removeDishFromCategory: function (dishId, categoryId) {
                 return $http.delete(config.apiUrl + '/menu/categories/' + encodeURIComponent(categoryId) + '/dishes/' + encodeURIComponent(dishId))
                     .then(function (data) {

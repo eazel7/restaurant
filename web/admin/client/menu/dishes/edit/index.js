@@ -31,13 +31,16 @@ angular
                         this.canSave = function () {
                             return !require('angular').equals(dish, originalDish);
                         };
-                        
+
                         this.save = function () {
                             MenuService
-                            .renameDish(dish._id, dish.name)
-                            .then(function () {
-                                $state.reload();
-                            });
+                                .renameDish(dish._id, dish.name)
+                                .then(function () {
+                                    return MenuService.setDishPrice(dish._id, dish.price)
+                                        .then(function () {
+                                            $state.reload();
+                                        })
+                                });
                         }
                     }
                 },
@@ -86,16 +89,16 @@ angular
                                     }
                                 }
                             })
-                            .then(function (option) {
-                                optionals.push(option);
-                            })
+                                .then(function (option) {
+                                    optionals.push(option);
+                                })
                         };
 
-                        this.deleteOptional = function  (optional) {
+                        this.deleteOptional = function (optional) {
                             MenuService.deleteDishOption(optional._id)
-                            .then(function () {
-                                optionals.splice(optionals.indexOf(optional), 1);
-                            });
+                                .then(function () {
+                                    optionals.splice(optionals.indexOf(optional), 1);
+                                });
                         };
                     }
                 }

@@ -9,6 +9,13 @@ require('angular')
     'OrdersService',
     function ($http) {
         var service = {
+            closeTable: function (tableId) {
+                return $http
+                .post(config.apiUrl + '/orders/table/' + encodeURIComponent(tableId) + '/close-table', {})
+                .then(function (data) {
+                    return data.data;
+                })
+            },
             getOrder: function (orderId) {
                 return $http.get(config.apiUrl + '/orders/order/'  +encodeURIComponent(orderId))
                 .then(function (data) {
