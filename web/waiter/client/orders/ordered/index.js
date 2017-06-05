@@ -73,6 +73,8 @@ require('angular')
                             total += (order.dish.price || 0)
                         })
 
+                        this.table = table;
+
                         this.total = total;
 
                         this.closeTable = function () {
