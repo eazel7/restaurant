@@ -8,7 +8,7 @@
   }
 </style>
 
-<section ng-repeat="category in placeOrder.categories">
+<section ng-repeat="category in placeOrder.categories|orderBy:'name'">
   <md-subheader>{{category.name}}</md-subheader>
   <md-card ng-repeat="dish in category.dishes">
     <img class="md-card-image" ng-src="{{dish.pictureUrls[0]}}" ng-if="placeOrder.showPhotos && dish.pictureUrls[0]" />
