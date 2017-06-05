@@ -8,7 +8,7 @@
 <section>
     <md-subheader class="md-primary">Platos</md-subheader>
     <md-list>
-        <md-list-item ui-sref="menu.dishes.edit({dish: dish._id})" ng-repeat="dish in edit.dishesInCategory">
+        <md-list-item ui-sref="menu.dishes.edit({dish: dish._id})" ng-repeat="dish in edit.dishesInCategory|orderBy:'name'">
             <md-button ng-click="edit.removeDish(dish)" class="md-icon-button md-secondary">
                 <ng-md-icon icon="delete"></ng-md-icon>
             </md-button>
