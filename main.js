@@ -1,7 +1,3 @@
-const electron = require('electron');
-
-const { app, BrowserWindow } = electron;
-
 require('async')
   .autoInject({
     config: function (callback) {
@@ -11,11 +7,15 @@ require('async')
       callback(null, process.env.PORT || config.port);
     },
     db: function (config, callback) {
-      var TingoDB = require('tingodb')();
+      if (config.mongodb) {
+         require('mongodb').MongoClient.connect(config.db, callback);
+      } else {
+        var TingoDB = require('tingodb')();
 
-      var db = new TingoDB.Db(require('path').resolve(config.db), {});
+        var db = new TingoDB.Db(require('path').resolve(config.db), {});
 
-      callback(null, db);
+        callback(null, db);
+      }
     },
     api: function (db, bus, callback) {
       const API = require('./api');
@@ -62,6 +62,10 @@ require('async')
     }
 
     if (!results.config.browser) return;
+
+    const electron = require('electron');
+
+    const { app, BrowserWindow } = electron;
 
     // simple parameters initialization
     const electronConfig = {

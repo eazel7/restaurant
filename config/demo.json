@@ -1,0 +1,4 @@
+{
+    "mongodb": true,
+    "db": "mongodb://app:9grjgMDV@ds141351.mlab.com:41351/demorestaurant"
+}
