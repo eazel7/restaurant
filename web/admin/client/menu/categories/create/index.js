@@ -26,7 +26,7 @@ angular
                                 category.name
                             )
                             .then(function () {
-                                $state.go('^', {}, { reload: true });
+                                $state.go('^.list', {},  { reload: true });
                             });
                         };
                         this.canConfirm = function () {
