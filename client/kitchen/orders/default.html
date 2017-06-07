@@ -1,0 +1,34 @@
+<body layout='row' style="  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+">
+    <div layout="column" layout-fill>
+
+        <md-toolbar>
+            <div class="md-toolbar-tools" layout="row" layout-align="center center">
+                <md-button ui-sref="settings">
+                    <ng-md-icon icon="settings"></ng-md-icon>&nbsp;
+                    Configuración
+                </md-button>
+                <span flex></span>
+                <md-button name="set-order-ready" ng-click="kitchen.setOrdersReady((kitchen.orders|filter:{selected: true}))" ng-disabled="(kitchen.orders | filter:{selected:true}).length === 0"
+                    class="md-accent md-raised">
+                    <ng-md-icon icon="check"></ng-md-icon> Listas
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-content flex layout="column">
+
+            <order-card selected="order.selected" order-id="order._id" ng-repeat="order in kitchen.orders"></order-card>
+
+            <div ng-if="!kitchen.orders.length" class="md-display-1" layout layout-align="center center" layout-fill>
+                No hay pedidos pendientes
+            </div>
+        </md-content>
+    </div>
+</body>

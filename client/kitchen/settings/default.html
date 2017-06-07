@@ -1,0 +1,31 @@
+<body layout='row' layout-align="center center" style="  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+">
+
+    <div layout="column" layout-fill>
+
+        <md-toolbar>
+            <div class="md-toolbar-tools" layout="row" layout-align="center center">
+                <md-button ui-sref="orders">
+                    <ng-md-icon icon="arrow_back"></ng-md-icon>&nbsp;Volver</md-button>
+                <span flex></span>
+
+            </div>
+        </md-toolbar>
+
+        <div layout="column" layout-padding flex>
+
+            <md-slider-container class="md-block">
+                <ng-md-icon icon="{{ settings.volume > 0 ? 'volume_up' : 'volume_off' }}"></ng-md-icon>
+                <md-slider ng-model="settings.volume" aria-label="Volume" flex md-discrete></md-slider>
+
+            </md-slider-container>
+
+        </div>
+    </div>
+</body>

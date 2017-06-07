@@ -7,79 +7,17 @@ angular
     .module(
     (module.exports = 'restaurant'),
     [
-        require('../base/speech'),
         require('angular-material'),
-        require('angular-material-icons'),
-        'btford.socket-io',
-        'yaru22.angular-timeago',
-        require('./service'),
-        require('./order-card'),    
-        require('./notifications')
+        require('angular-ui-router'),
+        require('./orders'),
+        require('./settings')
     ]
     )
-    .factory('socket', function (socketFactory) {
-        return socketFactory();
-    })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('lime')
             .accentPalette('amber');
     })
-    .controller(
-    'KitchenOrdersController',
-    function (OrdersService, SpeechService, NotificationsService, TablesService, MenuService, socket, $q) {
-        var ctrl = this;
-
-        var refreshOrders = function () {
-            return OrdersService.forKitchen().then(function (orders) {
-                return $q.all(
-                    orders.map(function (order) {
-                        return MenuService.getDish(order.dish)
-                            .then(function (dish) {
-                                order.dish = dish;
-
-                                return order;
-                            })
-                            .then(function (order) {
-                                return TablesService.getTable(order.table).then(function (table) {
-                                    order.table = table;
-
-                                    return order;
-                                })
-                            })
-                    })
-                );
-            })
-                .then(function (orders) {
-                    ctrl.orders = orders;
-                });
-        }
-
-        this.setOrdersReady = function (orders) {
-            $q.all(
-                orders.map(function (order) {
-                    return OrdersService.setOrderReady(order._id);
-                })
-            )
-                .then(function () {
-                    return refreshOrders();
-                })
-        };
-
-        refreshOrders()
-            .then(function () {
-                socket.on('new-dish-ordered', function (orderId) {
-                    OrdersService.getOrder(orderId).then(function (order) {
-                        MenuService.getDish(order.dish).then(function (dish) {
-                            NotificationsService.showNotification('Nuevo pedido: ' + dish.name);
-                            SpeechService.speak('es-US', 'Nuevo pedido, ' + dish.name);
-                        })
-                    });
-                    refreshOrders();
-                })
-            })
-    }
-    )
 
 
 jquery(document).ready(function () {
