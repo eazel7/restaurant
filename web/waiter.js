@@ -97,7 +97,7 @@ function WaiterApp(clientConfig) {
             })
 
             app.get('/', (req, res, next) => {
-                var html = require('fs').readFileSync(require.resolve('../client/kitchen/index.html'));
+                var html = require('fs').readFileSync(require.resolve('../client/waiter/index.html'));
 
                 res.set('content-type', 'text/html');
                 res.send(html);

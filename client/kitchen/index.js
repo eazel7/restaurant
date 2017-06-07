@@ -7,6 +7,7 @@ angular
     .module(
     (module.exports = 'restaurant'),
     [
+        require('../base/speech'),
         require('angular-material'),
         require('angular-material-icons'),
         'btford.socket-io',
@@ -26,7 +27,7 @@ angular
     })
     .controller(
     'KitchenOrdersController',
-    function (OrdersService, NotificationsService, TablesService, MenuService, socket, $q) {
+    function (OrdersService, SpeechService, NotificationsService, TablesService, MenuService, socket, $q) {
         var ctrl = this;
 
         var refreshOrders = function () {
@@ -70,7 +71,8 @@ angular
                 socket.on('new-dish-ordered', function (orderId) {
                     OrdersService.getOrder(orderId).then(function (order) {
                         MenuService.getDish(order.dish).then(function (dish) {
-                            NotificationsService.showNotification('Nuevo pedido: ' + dish.name)
+                            NotificationsService.showNotification('Nuevo pedido: ' + dish.name);
+                            SpeechService.speak('es-US', 'Nuevo pedido, ' + dish.name);
                         })
                     });
                     refreshOrders();
