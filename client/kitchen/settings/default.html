@@ -21,9 +21,12 @@
         <div layout="column" layout-padding flex>
 
             <md-slider-container class="md-block">
+
+                <md-select ng-model="settings.voice">
+                    <md-option ng-value="voice.voiceURI" ng-repeat="voice in settings.voices">{{voice.lang}}</md-option>
+                </md-select>
                 <ng-md-icon icon="{{ settings.volume > 0 ? 'volume_up' : 'volume_off' }}"></ng-md-icon>
                 <md-slider ng-model="settings.volume" aria-label="Volume" flex md-discrete></md-slider>
-
             </md-slider-container>
 
         </div>

@@ -9,8 +9,11 @@ require('angular')
         var synth = $window.speechSynthesis;
 
         return {
-            speak: function (language, text, volume) {
-                var voice = synth.getVoices().filter(function (v) { return v.lang === language; })[0];
+            getVoices: function () {
+                return synth.getVoices();
+            },
+            speak: function (voiceURI, text, volume) {
+                var voice = synth.getVoices().filter(function (v) { return v.voiceURI === voiceURI; })[0];
 
                 if (!voice) return $q.reject(new Error('no voice found for language ' + language));
 

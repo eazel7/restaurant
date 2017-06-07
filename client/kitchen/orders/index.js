@@ -1,5 +1,5 @@
 require('angular')
-.module(
+    .module(
     (module.exports = 'restaurant.kitchen.orders'),
     [
         require('angular-material'),
@@ -13,7 +13,7 @@ require('angular')
         require('../../base/notifications'),
         require('../settings/service')
     ]
-)
+    )
     .factory('socket', function (socketFactory) {
         return socketFactory();
     })
@@ -86,8 +86,22 @@ require('angular')
                             NotificationsService.showNotification('Nuevo pedido: ' + dish.name);
 
                             var volume = SettingsService.get('volume', 100) / 100;
-                            
-                            if (volume) SpeechService.speak('es-US', 'Nuevo pedido, ' + dish.name, volume);
+
+                            var voice = SettingsService.get('voice', SpeechService.getVoices().filter(function (voice) {
+                                return voice.lang.indexOf('es') === 0;
+                            })[0]);
+
+                            if (!volume || !voice) return;
+
+                            MenuService.getDishOptions(dish._id).then(function (options) {
+                                var text = 'Nuevo pedido, ' + dish.name + '.';
+
+                                options.forEach(function (option) {
+                                    text += option.name + ', ' + order.optionals[option._id] + ',';
+                                })
+
+                                SpeechService.speak(voice, text, volume);
+                            })
                         })
                     });
                     refreshOrders();
