@@ -92,6 +92,20 @@ require('angular')
                                     this.orderedDishes = orderedDishes;
                                     this.table = table;
 
+                                    this.rating = 3;
+
+                                    this.stars = [{
+                                        rating: 1
+                                    },{
+                                        rating: 2
+                                    },{
+                                        rating: 3
+                                    },{
+                                        rating: 4
+                                    },{
+                                        rating: 5
+                                    }]
+
                                     this.cancel = function () {
                                         $mdDialog.cancel();
                                     }

@@ -1,17 +1,20 @@
 const Browserify = require('browserify');
 const express = require('express');
 
-function HomeApp(clientConfig) {
+function AdminApp(clientConfig) {
     return new Promise(
         (resolve, reject) => {
             var app = express.Router();
 
-            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons'];
+            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router'];
+
+            var depsScript;
 
             var bundleDeps = () => {
                 return new Promise(
                     (resolve, reject) => {
-                        console.log('building home deps.js')
+                        console.log('building admin deps.js')
+
                         var depsBundler = Browserify([], {
                         });
 
@@ -32,19 +35,18 @@ function HomeApp(clientConfig) {
 
                         depsBundler.bundle((err, buf) => {
                             if (err) {
-                                console.error('error home deps script');
+                                console.error('error building admin deps.js');
                                 console.error(err);
 
                                 return reject(err);
                             }
-    
-                            console.log('done building home deps.js')
+
+                            console.log('done building admin deps.js')
 
                             app.get('/deps.js', (req, res, next) => {
                                 res.set('content-type', 'text/javascript');
                                 res.send(buf.toString());
                                 res.end();
-
                             });
 
                             resolve();
@@ -65,7 +67,7 @@ function HomeApp(clientConfig) {
                     require('string-to-stream')(configSource),
                     {
                         source: configSource,
-                        basedir: require('path').resolve(__dirname, '..', 'client'),
+                        basedir: require('path').resolve(__dirname, '..', 'client', 'admin'),
                         expose: 'config'
                     })
                 bundler.ignore('config');
@@ -76,7 +78,7 @@ function HomeApp(clientConfig) {
                     }
                 );
 
-                bundler.add(require.resolve('./client'), { debug: true });
+                bundler.add(require.resolve('../client/admin'), { debug: true });
 
                 bundler.bundle((err, buf) => {
                     if (err) return next(err);
@@ -97,16 +99,16 @@ function HomeApp(clientConfig) {
             })
 
             app.get('/', (req, res, next) => {
-                var html = require('fs').readFileSync(require.resolve('./client/index.html'));
+                var html = require('fs').readFileSync(require.resolve('../client/admin/index.html'));
 
                 res.set('content-type', 'text/html');
                 res.send(html);
                 res.end();
             });
 
-            return bundleDeps().then(() => resolve(app), (err) => reject(err));
+            bundleDeps().then(() => resolve(app), (err) => reject(err));
         }
     )
 }
 
-module.exports = HomeApp;
+module.exports = AdminApp;

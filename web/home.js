@@ -1,18 +1,17 @@
 const Browserify = require('browserify');
 const express = require('express');
 
-function WaiterApp(clientConfig) {
+function HomeApp(clientConfig) {
     return new Promise(
         (resolve, reject) => {
             var app = express.Router();
 
-            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router'];
+            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons'];
 
             var bundleDeps = () => {
                 return new Promise(
                     (resolve, reject) => {
-                        console.log('building waiter deps.js')
-                        
+                        console.log('building home deps.js')
                         var depsBundler = Browserify([], {
                         });
 
@@ -33,18 +32,19 @@ function WaiterApp(clientConfig) {
 
                         depsBundler.bundle((err, buf) => {
                             if (err) {
-                                console.error('error building waiter deps.js');
+                                console.error('error home deps script');
                                 console.error(err);
 
                                 return reject(err);
                             }
-
-                            console.log('done building waiter deps.js')
+    
+                            console.log('done building home deps.js')
 
                             app.get('/deps.js', (req, res, next) => {
                                 res.set('content-type', 'text/javascript');
                                 res.send(buf.toString());
                                 res.end();
+
                             });
 
                             resolve();
@@ -65,7 +65,7 @@ function WaiterApp(clientConfig) {
                     require('string-to-stream')(configSource),
                     {
                         source: configSource,
-                        basedir: require('path').resolve(__dirname, '..', 'client'),
+                        basedir: require('path').resolve(__dirname, '..', 'client', 'home'),
                         expose: 'config'
                     })
                 bundler.ignore('config');
@@ -76,7 +76,7 @@ function WaiterApp(clientConfig) {
                     }
                 );
 
-                bundler.add(require.resolve('./client'), { debug: true });
+                bundler.add(require.resolve('../client/home'), { debug: true });
 
                 bundler.bundle((err, buf) => {
                     if (err) return next(err);
@@ -97,7 +97,7 @@ function WaiterApp(clientConfig) {
             })
 
             app.get('/', (req, res, next) => {
-                var html = require('fs').readFileSync(require.resolve('./client/index.html'));
+                var html = require('fs').readFileSync(require.resolve('../client/home/index.html'));
 
                 res.set('content-type', 'text/html');
                 res.send(html);
@@ -109,4 +109,4 @@ function WaiterApp(clientConfig) {
     )
 }
 
-module.exports = WaiterApp;
+module.exports = HomeApp;

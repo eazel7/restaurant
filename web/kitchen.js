@@ -1,20 +1,17 @@
 const Browserify = require('browserify');
 const express = require('express');
 
-function AdminApp(clientConfig) {
+function KitchenApp(clientConfig) {
     return new Promise(
         (resolve, reject) => {
             var app = express.Router();
 
-            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router'];
-
-            var depsScript;
+            var deps = ['jquery', 'angular', 'angular-timeago', 'angular-material', 'angular-material-icons', 'angular-socket-io'];
 
             var bundleDeps = () => {
                 return new Promise(
                     (resolve, reject) => {
-                        console.log('building admin deps.js')
-
+                        console.log('building kitchen deps.js')
                         var depsBundler = Browserify([], {
                         });
 
@@ -35,13 +32,13 @@ function AdminApp(clientConfig) {
 
                         depsBundler.bundle((err, buf) => {
                             if (err) {
-                                console.error('error building admin deps.js');
+                                console.error('error building kitchen deps.js')
                                 console.error(err);
 
                                 return reject(err);
                             }
 
-                            console.log('done building admin deps.js')
+                        console.log('done building kitchen deps.js')
 
                             app.get('/deps.js', (req, res, next) => {
                                 res.set('content-type', 'text/javascript');
@@ -55,6 +52,7 @@ function AdminApp(clientConfig) {
                 )
             }
 
+
             app.get('/app.js', (req, res, next) => {
                 var bundler = Browserify([], {
                 });
@@ -67,7 +65,7 @@ function AdminApp(clientConfig) {
                     require('string-to-stream')(configSource),
                     {
                         source: configSource,
-                        basedir: require('path').resolve(__dirname, '..', 'client'),
+                        basedir: require('path').resolve(__dirname, '..', 'client', 'kitchen'),
                         expose: 'config'
                     })
                 bundler.ignore('config');
@@ -78,7 +76,7 @@ function AdminApp(clientConfig) {
                     }
                 );
 
-                bundler.add(require.resolve('./client'), { debug: true });
+                bundler.add(require.resolve('../client/kitchen'), { debug: true });
 
                 bundler.bundle((err, buf) => {
                     if (err) return next(err);
@@ -99,16 +97,16 @@ function AdminApp(clientConfig) {
             })
 
             app.get('/', (req, res, next) => {
-                var html = require('fs').readFileSync(require.resolve('./client/index.html'));
+                var html = require('fs').readFileSync(require.resolve('../client/kitchen/index.html'));
 
                 res.set('content-type', 'text/html');
                 res.send(html);
                 res.end();
             });
 
-            bundleDeps().then(() => resolve(app), (err) => reject(err));
+            return bundleDeps().then(() => resolve(app), (err) => reject(err));
         }
     )
 }
 
-module.exports = AdminApp;
+module.exports = KitchenApp;
