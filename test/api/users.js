@@ -71,7 +71,8 @@ describe('Users', function () {
         });
 
         it('saves user', (done) => {
-            target.createUser('user 1', ['waiter'], '1234')
+            target
+                .createUser('user 1', ['waiter'], '1234')
                 .then((userId) => {
                     db.collection('users').findOne({ _id: userId }, (err, doc) => {
                         try {
@@ -87,6 +88,91 @@ describe('Users', function () {
                         }
                     });
                 })
+        });
+    });
+
+    describe('.listUsers', () => {
+        beforeEach((done) => {
+            db.collection('users').insert({
+                _id: 'user1',
+                name: 'User 1',
+                roles: ['admin'],
+                pin: '1234'
+            }, (err) => done(err))
+        })
+
+        it('returns a list', (done) => {
+            target.listUsers().then((users) => {
+                try {
+                    assert(users);
+                    assert(users instanceof Array);
+                    assert.deepEqual(users, [{ _id: 'user1', name: 'User 1' }]);
+
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            })
+        })
+    })
+
+    describe('.checkPin', () => {
+        beforeEach((done) => {
+            db.collection('users').insert({
+                _id: 'user1',
+                name: 'User 1',
+                roles: ['admin'],
+                pin: '1234'
+            }, (err) => done(err))
+        })
+
+        it('requires user id', (done) => {
+            target.checkPin().then(() => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'user id is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                });
+        });
+
+        it('requires pin', (done) => {
+            target.checkPin('user1').then(() => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'pin is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                });
+        });
+
+        it('rejects invalid pin', (done) => {
+            target.checkPin('user1', '4302').then(() => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'invalid pin');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                });
+        });
+
+        it('resolves valid pin', (done) => {
+            target.checkPin('user1', '1234').then(() => done());
         });
     });
 });
