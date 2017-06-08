@@ -83,9 +83,6 @@ require('async')
       URL_LAUNCHER_OVERLAY_SCROLLBARS: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
     };
 
-    app.commandLine.appendSwitch('--enable-speech-dispatcher');
-    app.commandLine.appendSwitch('enable-speech-dispatcher');
-
     // enable touch events if your device supports them
     if (electronConfig.URL_LAUNCHER_TOUCH) {
       app.commandLine.appendSwitch('--touch-devices');

@@ -10,9 +10,16 @@ angular
         require('angular-material'),
         require('angular-ui-router'),
         require('./orders'),
-        require('./settings')
+        require('./settings'),
+        require('../base/pin-lock')
     ]
     )
+    .run(function ($q, PinLockService) {
+        PinLockService.askPin(function (pin) {
+            if (pin === '4444') return $q.resolve();
+            else return $q.reject();
+        }, false);
+    })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('lime')

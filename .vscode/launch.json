@@ -15,8 +15,7 @@
             ],
             "env": {
                 "URL_LAUNCHER_CONSOLE": "1",
-                "URL_LAUNCHER_FRAME": "1",
-                "NODE_ENV": "development"
+                "URL_LAUNCHER_FRAME": "1"
             }
         }
     ]

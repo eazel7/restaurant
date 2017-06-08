@@ -1,0 +1,68 @@
+<style>
+    .no-margin {
+        margin: 0;
+    }
+</style>
+
+<md-dialog flex layout="column" layout-align="center center" layout-fill>
+    <div layout-align="space-around" layout="row">
+        <md-button disabled class="md-mini md-icon-button no-margin" flex="25" ng-repeat="number in dialog.numbers track by $index">
+            {{number}}
+        </md-button>
+    </div>
+
+    <div layout="column" layout-align="space-around" layout-padding>
+        <md-divider layout-fill></md-divider>
+    </div>
+
+    <div layout="row" layout-align="space-around">
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(1)">
+            1
+        </md-button>
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(2)">
+            2
+        </md-button>
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(3)">
+            3
+        </md-button>
+    </div>
+    <div layout="row" layout-align="space-around">
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(4)">
+            4
+        </md-button>
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(5)">
+            5
+        </md-button>
+        <md-button ng-disabled="dialog.working" class="no-margin" flex="33" ng-click="dialog.enter(6)">
+            6
+        </md-button>
+    </div>
+    <div layout="row" layout-align="space-around">
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(7)">
+            7
+        </md-button>
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(8)">
+            8
+        </md-button>
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(9)">
+            9
+        </md-button>
+    </div>
+    <div layout="row" layout-align="space-around">
+        <md-button ng-disabled="dialog.working" class=" no-margin" flex="33" ng-click="dialog.enter(0)">
+            0
+        </md-button>
+        <md-button ng-if="dialog.canCancel() && dialog.numbers[0] === '*'" ng-disabled="dialog.working" class="md-warn md-raised no-margin">
+            <ng-md-icon icon="cancel"></ng-md-icon>
+        </md-button>
+        <md-button ng-click="dialog.clear()" ng-if="!dialog.canCacen() || dialog.numbers[0] !== '*'" ng-disabled="dialog.working || dialog.numbers[0] === '*'" class="md-warn md-raised no-margin">
+            <ng-md-icon icon="cancel"></ng-md-icon>
+        </md-button>
+        <md-button ng-disabled="dialog.numbers[3] === '*' || dialog.working" flex="33" class="md-raised no-margin md-primary" ng-click="dialog.confirm()">
+            <ng-md-icon ng-if="!dialog.working" icon="check"></ng-md-icon>
+            <span layout layout-fill layout-align="center center"  ng-if="dialog.working">
+            <md-progress-circular md-diameter="16" mode="indeterminate"></md-progress-circular>
+            </span>
+        </md-button>
+    </div>
+</md-dialog>
