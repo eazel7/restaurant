@@ -1,0 +1,23 @@
+<md-content layout="column" layout-padding layout-fill>
+    <md-input-container class="md-block">
+        <label>Nombre</label>
+        <input type="text" ng-model="createUser.user.name" />
+    </md-input-container>
+    <md-input-container>
+        <label>Roles</label>
+        <md-select ng-model="createUser.role">
+            <md-option value="admin">Administrador</md-option>
+            <md-option value="waiter">Mozo</md-option>
+        </md-select>
+    </md-input-container>
+    <md-button ng-click="createUser.setPin()" class="md-raised md-primary">
+        <ng-md-icon icon="security"></ng-md-icon>&nbsp;Setear PIN
+    </md-button>
+
+    <md-toolbar ng-if="!createUser.user.pin" class="md-warn">
+        <div class="md-toolbar-tools" layout-align="start center">
+            <span><ng-md-icon icon="error"></ng-md-icon>&nbsp;Debe setear un PIN para el usuario
+            </span>
+        </div>
+    </md-toolbar>
+</md-content>

@@ -14,6 +14,12 @@ angular
         require('../base/pin-lock')
     ]
     )
+    .run(function ($q, PinLockService) {
+        PinLockService.askPin(function (pin) {
+            if (pin === '4444') return $q.resolve();
+            return $q.reject('No pusiste 4444')
+        })
+    })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('lime')

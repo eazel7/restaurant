@@ -15,7 +15,7 @@ require('angular')
             speak: function (voiceURI, text, volume) {
                 var voice = synth.getVoices().filter(function (v) { return v.voiceURI === voiceURI; })[0];
 
-                if (!voice) return $q.reject(new Error('no voice found for language ' + language));
+                if (!voice) return $q.reject(new Error('no voice found: ' + v.voiceURI));
 
                 var utterance = new SpeechSynthesisUtterance(text);
 

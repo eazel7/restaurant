@@ -6,10 +6,14 @@ angular
     .module(
     (module.exports = 'restaurant'),
     [
+        require('angular-ui-router'),
         require('angular-material'),
         require('angular-material-icons')
     ]
     )
+    .config(function ($urlRouterProvider) {
+        $urlRouterProvider.otherwise('/dishes')
+    })
     .run(function ($rootScope, $mdSidenav) {
         $rootScope.$on('$stateChangeSuccess', function () {
             $mdSidenav('left').close();
@@ -66,10 +70,11 @@ jquery(document).ready(function () {
         document,
         [
             'restaurant',
-            require('./home'),
+            require('angular-ui-router'),
             require('./menu'),
             require('./settings'),
-            require('./tables')
+            require('./tables'),
+            require('./users')
         ]
         )
 })
