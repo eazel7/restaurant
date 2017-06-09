@@ -36,7 +36,7 @@ Users.prototype.checkPin = function (userId, pin) {
     )
 }
 
-Users.prototype.createUser = function (name, roles, pin) {
+Users.prototype.create = function (name, roles, pin) {
     if (!name) return Promise.reject(new Error('name is required'));
     if (!roles || roles.length <= 0) return Promise.reject(new Error('roles are required'));
     if (!pin) return Promise.reject(new Error('pin is required'));

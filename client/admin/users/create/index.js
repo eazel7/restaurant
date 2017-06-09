@@ -26,9 +26,16 @@ require('angular')
             'top-toolbar@': {
                 'template': require('./top-toolbar.html'),
                 controllerAs: 'toolbar',
-                controller: function (user) {
+                controller: function (user, UsersService, $state) {
                     var ctrl = this;
                     
+                    ctrl.confirm = function () {
+                        UsersService.create(user.name, user.roles, user.pin)
+                        .then(function () {
+                            $state.go('users.list');
+                        })
+                    };
+
                     ctrl.canConfirm = function () {
                         return user.roles.length > 0 && user.name && user.pin;
                     }
@@ -42,12 +49,11 @@ require('angular')
 
                      this.user = user;
                      this.setPin = function () {
-                        PinLockService.askPin(function () {
+                        PinLockService.askPin(function (pin) {
+                            user.pin = pin;
+                            
                             return $q.resolve();
                         }, true)
-                        .then(function (pin) {
-                            user.pin = pin;
-                        })
                      };
                 }
             }

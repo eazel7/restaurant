@@ -8,11 +8,15 @@ angular
     [
         require('angular-ui-router'),
         require('angular-material'),
-        require('angular-material-icons')
+        require('angular-material-icons'),
+        require('../base/user-selection')
     ]
     )
     .config(function ($urlRouterProvider) {
         $urlRouterProvider.otherwise('/dishes')
+    })
+    .run(function (UserSelectionService) {
+        UserSelectionService.switchUser();
     })
     .run(function ($rootScope, $mdSidenav) {
         $rootScope.$on('$stateChangeSuccess', function () {

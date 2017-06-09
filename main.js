@@ -8,7 +8,7 @@ require('async')
     },
     db: function (config, callback) {
       if (config.mongodb) {
-         require('mongodb').MongoClient.connect(config.db, callback);
+        require('mongodb').MongoClient.connect(config.db, callback);
       } else {
         var TingoDB = require('tingodb')();
 
@@ -62,7 +62,7 @@ require('async')
     }
 
     console.log(results.config);
+    
     if (!results.config.browser) return;
     else require('./start-electron')(results);
-  })
-
+  });
