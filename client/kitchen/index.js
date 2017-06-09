@@ -11,14 +11,11 @@ angular
         require('angular-ui-router'),
         require('./orders'),
         require('./settings'),
-        require('../base/pin-lock')
+        require('../base/user-selection')
     ]
     )
-    .run(function ($q, PinLockService) {
-        PinLockService.askPin(function (pin) {
-            if (pin === '4444') return $q.resolve();
-            return $q.reject('No pusiste 4444')
-        })
+    .run(function ($q, UserSelectionService) {
+        UserSelectionService.switchUser();
     })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')

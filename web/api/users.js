@@ -4,30 +4,35 @@ function Users(users, bus) {
 
     app.get('/', (req, res, next) => {
         users
-        .listUsers()
-        .then(
+            .listUsers()
+            .then(
             (users) => res.json(users),
             (err) => next(err || new Error())
-        );
+            );
     });
 
     app.post('/create', jsonParser, (req, res, next) => {
         users
-        .create(req.body.name, req.body.roles, req.body.pin)
-        .then(
-            (userId) => res.json(userId), 
+            .create(req.body.name, req.body.roles, req.body.pin)
+            .then(
+            (userId) => res.json(userId),
             (err) => next(err || new Error())
-        );
+            );
     });
 
 
     app.post('/check-pin', jsonParser, (req, res, next) => {
+        var userId = req.body.user;
+        var pin = req.body.pin;
+
         users
-        .checkPin(req.body.user, req.body.pin)
-        .then(
-            (result) => res.json(result), 
+            .checkPin(userId, pin)
+            .then(
+            (result) => {
+                debugger;
+            },
             (err) => next(err || new Error())
-        );
+            );
     });
 
     return app;

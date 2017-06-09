@@ -1,6 +1,6 @@
 <md-dialog>
     <md-list class="md-dialog-content">
-        <md-list-item ng-repeat="user in dialog.users">
+        <md-list-item ng-click="dialog.select(user)" ng-repeat="user in dialog.users">
             {{user.name}}
         </md-list-item>
     </md-list>
