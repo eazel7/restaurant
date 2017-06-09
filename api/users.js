@@ -89,4 +89,20 @@ Users.prototype.generateToken = function (profile) {
     return Promise.resolve(encrypted);
 }
 
+Users.prototype.get = function (userId) {
+    if (!userId) return Promise.reject(new Error('user id is required'));
+
+    return new Promise(
+        (resolve, reject) => {
+            this.users.findOne({
+                _id: userId
+            }, (err, doc) => {
+                if (err) return reject(err);
+                
+                resolve(doc);
+            })
+        }
+    )
+}
+
 module.exports = Users;

@@ -29,7 +29,7 @@ function Users(users, bus) {
             .checkPin(userId, pin)
             .then(
             (result) => {
-                debugger;
+                // users.get
             },
             (err) => next(err || new Error())
             );

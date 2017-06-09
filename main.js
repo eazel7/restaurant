@@ -17,10 +17,13 @@ require('async')
         callback(null, db);
       }
     },
-    api: function (db, bus, callback) {
+    pair: function (config, callback) {
+      callback(null, config.rsa);
+    },
+    api: function (db, bus, pair, callback) {
       const API = require('./api');
 
-      callback(null, new API(db, bus));
+      callback(null, new API(db, bus, pair));
     },
     bus: function (callback) {
       const EventEmitter = require('events').EventEmitter;
@@ -60,8 +63,6 @@ require('async')
 
       return;
     }
-
-    console.log(results.config);
     
     if (!results.config.browser) return;
     else require('./start-electron')(results);

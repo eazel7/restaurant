@@ -3,7 +3,7 @@ const Orders = require('./orders');
 const Tables = require('./tables');
 const Users = require('./users');
 
-function API(db, bus) {
+function API(db, bus, pair) {
     if (!bus) {
         const EventEmitter = require('events').EventEmitter;
 
@@ -15,7 +15,7 @@ function API(db, bus) {
     this.menu = new Menu(db, bus);
     this.orders = new Orders(db, bus);
     this.tables = new Tables(db, bus);
-    this.users = new Users(db, bus)
+    this.users = new Users(db, bus, pair)
 }
 
 module.exports = API;
