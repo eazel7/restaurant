@@ -1,10 +1,5 @@
-const NodeRSA = require('node-rsa');
-function Users(db, bus, pair) {
+function Users(db, bus) {
     this.users = db.collection('users');
-
-    this.pair = pair;
-    
-    this.rsa = new NodeRSA(this.pair.privateKey);
 }
 
 Users.prototype.listUsers = function () {
@@ -62,31 +57,6 @@ Users.prototype.create = function (name, roles, pin) {
             })
         }
     )
-}
-
-Users.prototype.decodeToken = function (token) {
-    if (!token) return Promise.reject(new Error('token is required'));
-
-    try {
-        var decrypted = this.rsa.decrypt(token, 'base64');
-        var clear64 = new Buffer(decrypted, 'base64');
-        var json = (new Buffer(clear64.toString(), 'base64')).toString();
-
-        return Promise.resolve(JSON.parse(json));
-    } catch (e) {
-        console.log(e)
-        return Promise.reject(e);
-    }
-};
-
-Users.prototype.generateToken = function (profile) {
-    if (!profile) return Promise.reject(new Error('profile is required'));
-
-    var json64 = (new Buffer(JSON.stringify(profile))).toString('base64');
-
-    var encrypted = this.rsa.encrypt(json64, 'base64');
-
-    return Promise.resolve(encrypted);
 }
 
 Users.prototype.get = function (userId) {
