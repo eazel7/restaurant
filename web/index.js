@@ -26,6 +26,23 @@ function App(api) {
             var apiApp = results[0];
 
             var app = express();
+
+            app.use((req, res, next) => {
+                var token =req.headers['token'];
+                
+                if (token) api.users.decodeToken(token).then(
+                    (profile) => {
+                        req.profile = profile;
+                         
+                        next();
+                    },
+                    (err) => next(err)
+                );
+                else next();
+            });
+
+            app.use('/service', require('./service').createHandler(api));
+
             app.use('/api', results[0]);
             app.use('/waiter', results[1]);
             app.use('/admin', results[2]);

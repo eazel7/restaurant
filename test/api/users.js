@@ -246,8 +246,8 @@ describe('Users', function () {
                         done(e);
                     }
                 }
-            )
-        })
+            );
+        });
     });
 
     describe('.get', () => {
@@ -278,7 +278,7 @@ describe('Users', function () {
         });
 
         it('resolves user', (done) => {
-            target.get('user1').then(
+            target.get('user').then(
                 (user) => {
                     try {
                         assert.deepEqual(
