@@ -71,6 +71,8 @@ function AdminApp(clientConfig) {
                         expose: 'config'
                     })
                 bundler.ignore('config');
+                bundler.external('api-description');
+                
                 bundler.transform(
                     require('stringify'),
                     {

@@ -69,6 +69,8 @@ function WaiterApp(clientConfig) {
                         expose: 'config'
                     })
                 bundler.ignore('config');
+                bundler.ignore('api-description');
+                
                 bundler.transform(
                     require('stringify'),
                     {

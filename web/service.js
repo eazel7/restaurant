@@ -12,7 +12,7 @@ function extractArgs(fn) {
     var fnText = stringifyFn(fn).replace(STRIP_COMMENTS, ''),
         args = fnText.match(ARROW_ARG) || fnText.match(FN_ARGS);
 
-    return args[1].replace(' ', '').split(',');
+    return args[1].replace(' ', '').split(',').filter((arg) => !!arg);
 }
 
 function describeApi(api) {
@@ -35,6 +35,7 @@ function describeApi(api) {
 
 function createHandler(api) {
     var router = require('express').Router();
+    var jsonParser = require('body-parser').json();
 
     var description = describeApi(api);
 
@@ -63,7 +64,7 @@ function createHandler(api) {
         })
     });
 
-    router.post('/:service/:method', (req, res, next) => {
+    router.post('/:service/:method', jsonParser, (req, res, next) => {
         try {
             var service = api[req.params.service];
             var args = [];
@@ -84,7 +85,7 @@ function createHandler(api) {
                 (err) => next(err || new Error('error invoking ' + req.params.service + '.' + req.params.method))
                 );
         } catch (e) {
-            next(err || new Error('error invoking ' + req.params.service + '.' + req.params.method));
+            next(e || new Error('error invoking ' + req.params.service + '.' + req.params.method));
         }
     });
 

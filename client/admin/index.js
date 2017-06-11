@@ -9,14 +9,12 @@ angular
         require('angular-ui-router'),
         require('angular-material'),
         require('angular-material-icons'),
-        require('../base/user-selection')
+        require('../base/user-selection'),
+        require('../base/api')
     ]
     )
     .config(function ($urlRouterProvider) {
         $urlRouterProvider.otherwise('/dishes')
-    })
-    .run(function (UserSelectionService) {
-        UserSelectionService.switchUser();
     })
     .run(function ($rootScope, $mdSidenav) {
         $rootScope.$on('$stateChangeSuccess', function () {
@@ -50,7 +48,7 @@ angular
 
             var previousState = previousStateStack.slice(-2)[0];
             var index = previousStateStack.length - 2;
-            
+
             $state.go(previousState.name, previousState.params).then(function () {
                 previousStateStack.splice(index, 2);
             });
