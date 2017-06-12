@@ -21,7 +21,7 @@ Menu.prototype.addCategory = function (name) {
             resolve(id);
         });
     });
-}
+};
 
 Menu.prototype.renameDish = function (dishId, name) {
     if (!dishId) return Promise.reject(new Error('dish id is required'));
@@ -42,7 +42,7 @@ Menu.prototype.renameDish = function (dishId, name) {
                 });
         }
     )
-}
+};
 
 Menu.prototype.setDishPrice = function (dishId, price) {
     if (!dishId) return Promise.reject(new Error('dish id is required'));
@@ -67,7 +67,7 @@ Menu.prototype.setDishPrice = function (dishId, price) {
                 });
         }
     )
-}
+};
 
 Menu.prototype.addDish = function (name) {
     if (!name) return Promise.reject(new Error('name is required'));
@@ -85,7 +85,7 @@ Menu.prototype.addDish = function (name) {
             resolve(id);
         });
     });
-}
+};
 
 Menu.prototype.addDishToCategory = function (dishId, categoryId) {
     if (!dishId) return Promise.reject(new Error('dish is required'));
@@ -116,8 +116,7 @@ Menu.prototype.addDishToCategory = function (dishId, categoryId) {
 
         })
     });
-}
-
+};
 
 Menu.prototype.removeDishFromCategory = function (dishId, categoryId) {
     if (!dishId) return Promise.reject(new Error('dish is required'));
@@ -147,7 +146,7 @@ Menu.prototype.removeDishFromCategory = function (dishId, categoryId) {
                 });
         })
     });
-}
+};
 
 Menu.prototype.getDish = function (dishId) {
     return new Promise(
@@ -247,7 +246,7 @@ Menu.prototype.listCategories = function () {
             resolve(docs);
         })
     });
-}
+};
 
 Menu.prototype.listDishes = function () {
     return new Promise((resolve, reject) => {
@@ -257,7 +256,7 @@ Menu.prototype.listDishes = function () {
             resolve(docs);
         })
     });
-}
+};
 
 Menu.prototype.listDishesByCategory = function (categoryId) {
     return new Promise((resolve, reject) => {
@@ -272,7 +271,7 @@ Menu.prototype.listDishesByCategory = function (categoryId) {
                 .then((dishes) => resolve(dishes), (err) => reject(err));
         })
     });
-}
+};
 
 Menu.prototype.getPicture = function (pictureId) {
     if (!pictureId) return Promise.reject(new Error('picture id is required'));
@@ -288,7 +287,7 @@ Menu.prototype.getPicture = function (pictureId) {
             })
         }
     )
-}
+};
 
 Menu.prototype.listDishOptions = function (dishId) {
     if (!dishId) return Promise.reject(new Error('dish id is required'));
@@ -306,7 +305,7 @@ Menu.prototype.listDishOptions = function (dishId) {
                 )
         }
     )
-}
+};
 
 Menu.prototype.addDishOptionItem = function (optionId, name) {
     if (!optionId) return Promise.reject(new Error('option id is required'))
@@ -352,7 +351,7 @@ Menu.prototype.getDishOption = function (optionId) {
             });
         }
     )
-}
+};
 
 Menu.prototype.deleteDishOption = function (optionId) {
     if (!optionId) return Promise.reject(new Error('option id is required'));
@@ -368,7 +367,7 @@ Menu.prototype.deleteDishOption = function (optionId) {
             });
         }
     )
-}
+};
 
 Menu.prototype.addDishOption = function (dishId, kind, name) {
     if (!dishId) return Promise.reject(new Error('dish id is required'));
@@ -398,7 +397,7 @@ Menu.prototype.addDishOption = function (dishId, kind, name) {
                 .then(() => resolve(id), (err) => reject(err));
             })
         })
-}
+};
 
 Menu.prototype.deleteDishOptionItem = function (optionId, item) {
     if (!optionId) return Promise.reject(new Error('option id is required'))
