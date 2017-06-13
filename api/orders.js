@@ -17,10 +17,20 @@ Orders.prototype.closeTable = function (tableId) {
                 }, { multi: true }, (err) => {
                     if (err) return reject(err);
 
-                    resolve();
-                })
+                    this.tables.update({
+                        _id: tableId
+                    }, {
+                        $set: {
+                            status: 'free'
+                        }
+                    }, (err) => {
+                        if (err) return reject(err);
+
+                        resolve();
+                    });
+                });
         }
-    )
+    );
 };
 
 Orders.prototype.setOrderReady = function (orderId) {
