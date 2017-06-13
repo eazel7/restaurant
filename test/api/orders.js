@@ -17,6 +17,11 @@ describe('Orders', function () {
 
         require('async')
             .series([
+                (callback) => db.collection('tables').insert({
+                    _id: 'table1',
+                    name: 'Table 1',
+                    status: 'free'
+                }, callback),
                 (callback) => db.collection('categories').insert({
                     _id: 'category1',
                     name: 'Category 1'
@@ -26,10 +31,6 @@ describe('Orders', function () {
                     name: 'Dish 1',
                     category: 'category1',
                     price: 30
-                }, callback),
-                (callback) => db.collection('tables').insert({
-                    _id: 'table1',
-                    name: 'Table 1'
                 }, callback),
                 (callback) => db.collection('orders').insert({
                     _id: 'order2',
@@ -218,6 +219,27 @@ describe('Orders', function () {
                             assert.ifError(err);
                             assert(order);
                             assert(order.date);
+
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    });
+                });
+
+        });
+
+        it('set table.status=occupied', function (done) {
+            target
+                .orderDish('table1', 'dish1', { withTomato: true })
+                .then((orderId) => {
+                    db.collection('tables').findOne({
+                        _id: 'table1'
+                    }, (err, table) => {
+                        try {
+                            assert.ifError(err);
+                            assert(table);
+                            assert.equal(table.status, 'occupied');
 
                             done();
                         } catch (e) {

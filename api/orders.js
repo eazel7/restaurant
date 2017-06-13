@@ -74,9 +74,19 @@ Orders.prototype.orderDish = function (tableId, dishId, optionals) {
             }, (err, doc) => {
                 if (err) return reject(err);
 
-                resolve(id);
+                this.tables.update({
+                    _id: tableId
+                }, {
+                        $set: {
+                            status: 'occupied'
+                        }
+                    }, (err) => {
+                        if (err) return reject(err);
 
-                this.bus.emit('new-dish-ordered', id);
+                        resolve(id);
+
+                        this.bus.emit('new-dish-ordered', id);
+                    });
             })
         });
     });

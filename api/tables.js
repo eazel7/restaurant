@@ -11,7 +11,8 @@ Tables.prototype.add = function (name) {
 
             this.tables.insert({
                 _id: id,
-                name: name
+                name: name,
+                status: 'free'
             }, (err) => {
                 if (err) return reject(err);
 

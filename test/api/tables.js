@@ -48,7 +48,8 @@ describe('Tables', function () {
                         try {
                             assert.deepEqual(doc, {
                                 _id: id,
-                                name: 'Table X'
+                                name: 'Table X',
+                                status: 'free'
                             })
 
                             done();
