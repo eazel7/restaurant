@@ -1,12 +1,18 @@
 const Browserify = require('browserify');
 const express = require('express');
+const WaiterAPI = require('../client/waiter/api');
 
-function WaiterApp(clientConfig) {
+function WaiterApp(clientConfig, api) {
     return new Promise(
         (resolve, reject) => {
             var app = express.Router();
 
             var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router'];
+
+            var waiterApi = new WaiterAPI(api);
+            var apiDescription = require('./service').describeApi(waiterApi);
+
+            app.use('/service', require('./service').createHandler(waiterApi));
 
             var bundleDeps = () => {
                 return new Promise(
@@ -55,11 +61,16 @@ function WaiterApp(clientConfig) {
 
             app.get('/app.js', (req, res, next) => {
                 var bundler = Browserify([], {
+                    debug: true
                 });
 
                 deps.forEach((dep) => bundler.external(dep));
 
                 var configSource = 'module.exports = ' + JSON.stringify(clientConfig, null, 2) + ';';
+                var apiDescriptionSource = 'module.exports = ' + JSON.stringify({
+                    baseUrl: '/waiter',
+                    apis: apiDescription
+                }, null, 2) + ';';
 
                 bundler.require(
                     require('string-to-stream')(configSource),
@@ -67,6 +78,13 @@ function WaiterApp(clientConfig) {
                         source: configSource,
                         basedir: require('path').resolve(__dirname, '..', 'client', 'waiter'),
                         expose: 'config'
+                    })
+                bundler.require(
+                    require('string-to-stream')(apiDescriptionSource),
+                    {
+                        source: apiDescriptionSource,
+                        basedir: require('path').resolve(__dirname, '..', 'client', 'waiter'),
+                        expose: 'api-description'
                     })
                 bundler.ignore('config');
                 bundler.ignore('api-description');

@@ -39,7 +39,7 @@ Orders.prototype.forKitchen = function () {
 };
 
 Orders.prototype.setOrderReady = function (orderId) {
-    return this.api.setOrderReady(
+    return this.api.orders.setOrderReady(
         orderId
     );
 };

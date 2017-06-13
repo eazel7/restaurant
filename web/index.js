@@ -11,7 +11,8 @@ function App(api) {
         WaiterApp({
             apiUrl: require('config').apiUrl,
             shopName: 'Amadeo'
-        }),
+        },
+        api),
         AdminApp({
             apiUrl: require('config').apiUrl,
             shopName: 'Amadeo'
