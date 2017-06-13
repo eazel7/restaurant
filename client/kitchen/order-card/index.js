@@ -29,11 +29,16 @@ require('angular')
                         ctrl.options = null;
                     } else {
                         OrdersService
-                        .getOrder(orderId).then(function (order) {
+                        .getOrder(orderId)
+                        .then(function (order) {
                             ctrl.order = order;
 
-                            return MenuService.getDish(order.dish).then(function (dish) {
-                                return TablesService.getTable(order.table).then(function (table) {
+                            return MenuService
+                            .getDish(order.dish)
+                            .then(function (dish) {
+                                return TablesService
+                                .getTable(order.table)
+                                .then(function (table) {
                                     ctrl.table = table;
 
                                     return dish;

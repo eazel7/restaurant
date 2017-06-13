@@ -14,9 +14,6 @@ angular
         require('../base/user-selection')
     ]
     )
-    .run(function ($q, UserSelectionService) {
-        UserSelectionService.switchUser();
-    })
     .config(function ($mdThemingProvider) {
         $mdThemingProvider.theme('default')
             .primaryPalette('lime')

@@ -47,7 +47,7 @@ function Users(api) {
 }
 
 Users.prototype.list = function () {
-    return this.api.users.list();
+    return this.api.users.listUsers();
 }
 
 Users.prototype.create = function (name, roles, pin) {
@@ -58,10 +58,127 @@ Users.prototype.create = function (name, roles, pin) {
     )
 }
 
+function Menu(api) {
+    this.api = api;
+}
+
+Menu.prototype.addDishOption = function (dishId, name, kind) {
+    return this.api.menu.addDishOption(
+        dishId,
+        kind,
+        name
+    );
+};
+
+Menu.prototype.addDishOptionItem = function (optionId, name) {
+    return this.api.menu.addDishOptionItem(
+        optionId,
+        name
+    );
+};
+
+Menu.prototype.deleteDishOptionItem = function (optionId, item) {
+    return this.api.menu.deleteDishOptionItem(
+        optionId,
+        item
+    );
+};
+
+Menu.prototype.deleteDishOption = function (optionId) {
+    return this.api.menu.deleteDishOption(
+        optionId
+    );
+};
+
+Menu.prototype.createCategory = function (name) {
+    return this.api.menu.createCategory(
+        name
+    );
+};
+
+Menu.prototype.createDish = function (name) {
+    return this.api.menu.createDish(
+        name
+    );
+};
+
+Menu.prototype.listDishOptions = function (dishId) {
+    return this.api.menu.listDishOptions(
+        dishId
+    );
+};
+
+Menu.prototype.getDishOption = function (optionId) {
+    return this.api.menu.getDishOption(
+        optionId
+    );
+};
+
+Menu.prototype.getDish = function (dishId) {
+    return this.api.menu.getDish(
+        dishId
+    );
+};
+
+Menu.prototype.getCategory = function (categoryId) {
+    return this.api.menu.getCategory(
+        categoryId
+    );
+};
+
+Menu.prototype.deleteCategory = function (categoryId) {
+    return this.api.menu.deleteCategory(
+        categoryId
+    );
+};
+
+Menu.prototype.listCategories = function () {
+    return this.api.menu.listCategories();
+};
+
+Menu.prototype.listDishes = function () {
+    return this.api.menu.listDishes();
+};
+
+Menu.prototype.listDishesByCategory = function (category) {
+    return this.api.menu.listDishesByCategory(
+        category
+    );
+};
+
+Menu.prototype.renameDish = function (dishId, name) {
+    return this.api.menu.renameDish(
+        dishId,
+        name
+    );
+};
+
+Menu.prototype.setDishPrice = function (dishId, price) {
+    return this.api.menu.setDishPrice(
+        dishId,
+        price
+    );
+};
+
+Menu.prototype.removeDishFromCategory = function (dishId, categoryId) {
+    return this.api.menu.removeDishFromCategory(
+        dishId,
+        categoryId
+    );
+};
+
+Menu.prototype.addDishToCategory = function (dishId, categoryId) {
+    return this.api.menu.addDishToCategory(
+        dishId,
+        categoryId
+    );
+};
+
 function AdminAPI(api) {
     this.orders = new Orders(api);
     this.tables = new Tables(api);
     this.users = new Users(api);
+    this.menu = new Menu(api);
 }
 
 module.exports = AdminAPI;

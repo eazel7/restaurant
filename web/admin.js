@@ -1,10 +1,14 @@
 const Browserify = require('browserify');
 const express = require('express');
+const AdminAPI = require('../client/admin/api');
 
-function AdminApp(clientConfig) {
+function AdminApp(clientConfig, api) {
     return new Promise(
         (resolve, reject) => {
             var app = express.Router();
+            var adminApi = new AdminAPI(api);
+            
+            var apisDescription = require('./service').describeApi(adminApi);
 
             var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router'];
 
@@ -55,6 +59,8 @@ function AdminApp(clientConfig) {
                 )
             }
 
+            app.use('/service', require('./service').createHandler(adminApi));
+
             app.get('/app.js', (req, res, next) => {
                 var bundler = Browserify([], {
                 });
@@ -62,6 +68,10 @@ function AdminApp(clientConfig) {
                 deps.forEach((dep) => bundler.external(dep));
 
                 var configSource = 'module.exports = ' + JSON.stringify(clientConfig, null, 2) + ';';
+                var apiDescriptionSource = 'module.exports = ' + JSON.stringify({
+                    baseUrl: '/admin',
+                    apis: apisDescription
+                }, null, 2) + ';';
 
                 bundler.require(
                     require('string-to-stream')(configSource),
@@ -70,8 +80,15 @@ function AdminApp(clientConfig) {
                         basedir: require('path').resolve(__dirname, '..', 'client', 'admin'),
                         expose: 'config'
                     })
+                bundler.require(
+                    require('string-to-stream')(apiDescriptionSource),
+                    {
+                        source: apiDescriptionSource,
+                        basedir: require('path').resolve(__dirname, '..', 'client', 'admin'),
+                        expose: 'api-description'
+                    })
                 bundler.ignore('config');
-                bundler.external('api-description');
+                bundler.ignore('api-description');
                 
                 bundler.transform(
                     require('stringify'),

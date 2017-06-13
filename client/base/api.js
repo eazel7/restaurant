@@ -1,4 +1,4 @@
-var apis = require('api-description');
+var apiDescription = require('api-description');
 
 require('angular')
     .module(
@@ -10,6 +10,8 @@ require('angular')
     'API',
     function ($http) {
         var service = {};
+        var baseUrl = apiDescription.baseUrl;
+        var apis = apiDescription.apis;
 
         var serviceMethod = function (serviceName, methodName, argNames) {
             return function () {
@@ -18,7 +20,7 @@ require('angular')
                 for (var i = 0; i < argNames.length; i++) args[argNames[i]] = arguments[i];
 
                 return $http.post(
-                    '/service/' + encodeURIComponent(serviceName) + '/' + encodeURIComponent(methodName),
+                    baseUrl + '/service/' + encodeURIComponent(serviceName) + '/' + encodeURIComponent(methodName),
                     args
                 )
                     .then(function (data) { return data.data; });

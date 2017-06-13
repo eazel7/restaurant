@@ -15,7 +15,8 @@ function App(api) {
         AdminApp({
             apiUrl: require('config').apiUrl,
             shopName: 'Amadeo'
-        }),
+        },
+        api),
         KitchenApp({
             apiUrl: require('config').apiUrl
         }),
@@ -40,8 +41,6 @@ function App(api) {
                 );
                 else next();
             });
-
-            app.use('/service', require('./service').createHandler(api));
 
             app.use('/api', results[0]);
             app.use('/waiter', results[1]);

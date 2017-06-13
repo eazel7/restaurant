@@ -1,7 +1,6 @@
 const jquery = require('jquery');
 const angular = require('angular');
 
-
 angular
     .module(
     (module.exports = 'restaurant'),
@@ -16,7 +15,7 @@ angular
     .config(function ($urlRouterProvider) {
         $urlRouterProvider.otherwise('/dishes')
     })
-    .run(function ($rootScope, $mdSidenav) {
+    .run(function (API, $rootScope, $mdSidenav) {
         $rootScope.$on('$stateChangeSuccess', function () {
             $mdSidenav('left').close();
         })
