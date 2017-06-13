@@ -1,5 +1,4 @@
 const express = require('express');
-const ApiApp = require('./api');
 const WaiterApp = require('./waiter');
 const AdminApp = require('./admin');
 const HomeApp = require('./home');
