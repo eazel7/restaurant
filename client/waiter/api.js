@@ -65,9 +65,24 @@ Orders.prototype.listByTable = function (tableId) {
     );
 };
 
+function Tables(api) {
+    this.api = api;
+}
+
+Tables.prototype.list = function () {
+    return this.api.tables.list();
+};
+
+Tables.prototype.getTable = function (tableId) {
+    return this.api.tables.getTable(
+        tableId
+    );
+};
+
 function WaiterAPI(api) {
     this.menu = new Menu(api);
     this.orders = new Orders(api);
+    this.tables = new Tables(api);
 }
 
 module.exports = WaiterAPI;

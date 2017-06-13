@@ -6,12 +6,13 @@ angular
     (module.exports = 'restaurant.tables.service'),
     [
         require('angular-material'),
-        require('angular-ui-router')
+        require('angular-ui-router'),
+        require('../../base/api')
     ]
     )
     .service(
     'TablesService',
-    function ($http, $q, $mdDialog) {
+    function (API, $q, $mdDialog) {
         var service = {
             ensureSelected: function () {
                 return service.getSelected().then(function (current) {
@@ -61,14 +62,10 @@ angular
                 return $q.resolve(id);
             },
             list: function () {
-                return $http.get(config.apiUrl + '/tables').then(function (data) {
-                    return data.data;
-                });
+                return API.tables.list();
             },
             getTable: function (tableId) {
-                return $http.get(config.apiUrl + '/tables/' + encodeURIComponent(tableId)).then(function (data) {
-                    return data.data;
-                });
+                return API.tables.getTable(tableId);
             }
         };
 
