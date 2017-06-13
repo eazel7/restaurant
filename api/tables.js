@@ -20,7 +20,7 @@ Tables.prototype.add = function (name) {
             });
         }
     )
-}
+};
 
 Tables.prototype.list = function () {
     return new Promise((resolve, reject) => {
@@ -55,5 +55,26 @@ Tables.prototype.delete = function (tableId) {
         })
     })
 };
+
+Tables.prototype.setTableStatus = function (tableId, status) {
+    if (!tableId) return Promise.reject(new Error('table id is required'));
+    if (!status) return Promise.reject(new Error('status is required'));
+
+    return new Promise(
+        (resolve, reject) => {
+            this.tables.update({
+                _id: tableId
+            }, {
+                $set: {
+                    status: status
+                }
+            }, (err) => {
+                if (err) return reject(err);
+
+                resolve();
+            })
+        }
+    )
+}
 
 module.exports = Tables;

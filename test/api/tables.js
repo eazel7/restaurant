@@ -13,8 +13,71 @@ describe('Tables', function () {
 
         db.collection('tables').insert({
             _id: 'table1',
-            name: 'Table 1'
+            name: 'Table 1',
+            status: 'free'
         }, (err) => done(err))
+    });
+
+    describe('.setTableStatus', () => {
+        it('requires table id', (done) => {
+            target
+            .setTableStatus()
+            .then(
+                () => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'table id is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+            )
+        })
+        
+        it('requires table id', (done) => {
+            target
+            .setTableStatus('table1')
+            .then(
+                () => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'status is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+            )
+        });
+
+        it('updates status in db', (done) => {
+            target
+            .setTableStatus('table1', 'occupied')
+            .then(
+                () => {
+                    db.collection('tables').findOne({
+                        _id: 'table1'
+                    }, (err, doc) => {
+                        try {
+                            assert.ifError(err);
+                            assert(doc);
+                            assert.equal(doc.status, 'occupied');
+
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    });
+                }
+            );
+        });
     });
 
     describe('.add', function () {
@@ -107,7 +170,8 @@ describe('Tables', function () {
                 try {
                     assert.deepEqual([{
                         _id: 'table1',
-                        name: 'Table 1'
+                        name: 'Table 1',
+                        status: 'free'
                     }], tables)
 
                     done();
@@ -135,12 +199,14 @@ describe('Tables', function () {
                 }
             )
         });
+
         it('resolves table', function (done) {
             target.getTable('table1').then(function (table) {
                 try {
                     assert.deepEqual(table, {
                         _id: 'table1',
-                        name: 'Table 1'
+                        name: 'Table 1',
+                        status: 'free'
                     })
 
                     done();
