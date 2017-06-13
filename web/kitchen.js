@@ -1,12 +1,16 @@
 const Browserify = require('browserify');
 const express = require('express');
+const KitchenAPI = require('../client/kitchen/api');
 
-function KitchenApp(clientConfig) {
+function KitchenApp(clientConfig, api) {
     return new Promise(
         (resolve, reject) => {
             var app = express.Router();
 
             var deps = ['jquery', 'angular', 'angular-timeago', 'angular-material', 'angular-material-icons', 'angular-socket-io'];
+
+            var kitchenApi = new KitchenAPI(api);
+            var apiDescription = require('./service').describeApi(kitchenApi);
 
             var bundleDeps = () => {
                 return new Promise(
@@ -52,14 +56,20 @@ function KitchenApp(clientConfig) {
                 )
             }
 
+            app.use('/service', require('./service').createHandler(kitchenApi));
 
             app.get('/app.js', (req, res, next) => {
                 var bundler = Browserify([], {
+                    debug: true 
                 });
 
                 deps.forEach((dep) => bundler.external(dep));
 
                 var configSource = 'module.exports = ' + JSON.stringify(clientConfig, null, 2) + ';';
+                var apiDescriptionSource = 'module.exports = ' + JSON.stringify({
+                    baseUrl: '/kitchen',
+                    apis: apiDescription
+                }, null, 2) + ';';
 
                 bundler.require(
                     require('string-to-stream')(configSource),
@@ -67,7 +77,16 @@ function KitchenApp(clientConfig) {
                         source: configSource,
                         basedir: require('path').resolve(__dirname, '..', 'client', 'kitchen'),
                         expose: 'config'
-                    })
+                    });
+
+                bundler.require(
+                    require('string-to-stream')(apiDescriptionSource),
+                    {
+                        source: apiDescriptionSource,
+                        basedir: require('path').resolve(__dirname, '..', 'client', 'kitchen'),
+                        expose: 'api-description'
+                    });
+
                 bundler.ignore('config');
                 bundler.ignore('api-description');
                 
@@ -78,7 +97,7 @@ function KitchenApp(clientConfig) {
                     }
                 );
 
-                bundler.add(require.resolve('../client/kitchen'), { debug: true });
+                bundler.add(require.resolve('../client/kitchen'), {  });
 
                 bundler.bundle((err, buf) => {
                     if (err) return next(err);

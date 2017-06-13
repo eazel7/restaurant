@@ -19,7 +19,8 @@ function App(api) {
         api),
         KitchenApp({
             apiUrl: require('config').apiUrl
-        }),
+        }, 
+        api),
         HomeApp({
         })
     ])
