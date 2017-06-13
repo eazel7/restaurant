@@ -7,7 +7,6 @@ const KitchenApp = require('./kitchen');
 
 function App(api) {
     return Promise.all([
-        ApiApp(api),
         WaiterApp({
             apiUrl: require('config').apiUrl,
             shopName: 'Amadeo'
@@ -26,8 +25,6 @@ function App(api) {
         })
     ])
         .then((results) => {
-            var apiApp = results[0];
-
             var app = express();
 
             app.use((req, res, next) => {
@@ -44,11 +41,10 @@ function App(api) {
                 else next();
             });
 
-            app.use('/api', results[0]);
-            app.use('/waiter', results[1]);
-            app.use('/admin', results[2]);
-            app.use('/kitchen', results[3]);
-            app.use('/', results[4]);
+            app.use('/waiter', results[0]);
+            app.use('/admin', results[1]);
+            app.use('/kitchen', results[2]);
+            app.use('/', results[3]);
 
             return app;
         });

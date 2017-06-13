@@ -6,12 +6,13 @@ angular
     (module.exports = 'restaurant.menu.service'),
     [
         require('angular-material'),
-        require('../orders/service')
+        require('../orders/service'),
+        require('../../base/api')
     ]
     )
     .service(
     'MenuService',
-    function ($http, $mdDialog, $q, OrdersService) {
+    function (API, $mdDialog, $q, OrdersService) {
         var service = {
             setupDish: function (dishId, tableId) {
                 return $q.all([
@@ -60,40 +61,22 @@ angular
                     });
             },
             listDishOptions: function (dishId) {
-                return $http.get(config.apiUrl + '/menu/dishes/' + encodeURIComponent(dishId) + '/options')
-                    .then(function (data) {
-                        return data.data;
-                    });
+                return API.menu.listDishOptions();
             },
             getDishOption: function (optionId) {
-                return $http.get(config.apiUrl + '/menu/options/' + encodeURIComponent(optionId))
-                .then(function (data) {
-                    return data.data;
-                })
+                return API.menu.getDishOption(optionId);
             },
             getDishOptions: function (dishId) {
-                return $http.get(config.apiUrl + '/menu/dishes/' + encodeURIComponent(dishId) + '/options')
-                    .then(function (data) {
-                        return data.data;
-                    });
+                return API.menu.getDishOptions();
             },
             getDish: function (dishId) {
-                return $http.get(config.apiUrl + '/menu/dishes/' + encodeURIComponent(dishId))
-                    .then(function (data) {
-                        return data.data;
-                    });
+                return API.menu.getDish(dishId);
             },
             listCategories: function () {
-                return $http.get(config.apiUrl + '/menu/categories')
-                    .then(function (data) {
-                        return data.data;
-                    });
+                return API.menu.listCategories();
             },
             listDishesByCategory: function (category) {
-                return $http.get(config.apiUrl + '/menu/categories/' + encodeURIComponent(category) + '/dishes')
-                    .then(function (data) {
-                        return data.data;
-                    });
+                return API.menu.listDishesByCategory(category);
             }
         }
 
