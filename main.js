@@ -45,6 +45,7 @@ require('async')
 
       bus.on('new-dish-ordered', (orderId) => io.emit('new-dish-ordered', orderId));
       bus.on('order-ready', (orderId) => io.emit('order-ready', orderId));
+      bus.on('table-status-changed', (tableId) => io.emit('table-status-changed', tableId));
 
       callback(null, io);
     },
