@@ -81,7 +81,23 @@ Tables.prototype.setTableStatus = function (tableId, status) {
 };
 
 Tables.prototype.setAdminMessage = function (tableId, message) {
+    if (!tableId) return Promise.reject(new Error('table id is required'));
 
+    return new Promise(
+        (resolve, reject) => {
+            this.tables.update({
+                _id: tableId
+            }, {
+                $set: {
+                    'adminMessage': message || null
+                }
+            }, (err) => {
+                if (err) return reject(err);
+
+                resolve();
+            })
+        }
+    )
 };
 
 module.exports = Tables;

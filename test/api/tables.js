@@ -25,8 +25,8 @@ describe('Tables', function () {
     describe('.setTableStatus', () => {
         it('requires table id', (done) => {
             target
-            .setTableStatus()
-            .then(
+                .setTableStatus()
+                .then(
                 () => done(new Error()),
                 (err) => {
                     try {
@@ -39,13 +39,13 @@ describe('Tables', function () {
                         done(e);
                     }
                 }
-            )
+                )
         })
-        
+
         it('requires table id', (done) => {
             target
-            .setTableStatus('table1')
-            .then(
+                .setTableStatus('table1')
+                .then(
                 () => done(new Error()),
                 (err) => {
                     try {
@@ -58,13 +58,13 @@ describe('Tables', function () {
                         done(e);
                     }
                 }
-            )
+                )
         });
 
         it('updates status in db', (done) => {
             target
-            .setTableStatus('table1', 'occupied')
-            .then(
+                .setTableStatus('table1', 'occupied')
+                .then(
                 () => {
                     db.collection('tables').findOne({
                         _id: 'table1'
@@ -80,7 +80,7 @@ describe('Tables', function () {
                         }
                     });
                 }
-            );
+                );
         });
 
         it('emits table-status-changed', (done) => {
@@ -95,7 +95,7 @@ describe('Tables', function () {
             });
 
             target
-            .setTableStatus('table1', 'occupied');
+                .setTableStatus('table1', 'occupied');
         });
     });
 
@@ -204,7 +204,7 @@ describe('Tables', function () {
     describe('.getTable', function () {
         it('requires table id', function (done) {
             target.getTable().then(
-                () =>  done(new Error()),
+                () => done(new Error()),
                 (err) => {
                     try {
                         assert(err);
@@ -237,8 +237,64 @@ describe('Tables', function () {
     });
 
     describe('.setAdminMessage', () => {
-        it('requires table id');
-        it('saves message to db');
-        it('clears message if empty');
+        it('requires table id', (done) => {
+            target.setAdminMessage()
+                .then(
+                () => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'table id is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+                );
+        });
+
+        it('saves message to db', (done) => {
+            target.setAdminMessage('table1', 'message')
+                .then(
+                () => {
+                    db.collection('tables').findOne({
+                        _id: 'table1'
+                    }, (err, doc) => {
+                        try {
+                            assert.ifError(err);
+                            assert(doc);
+                            assert.equal(doc.adminMessage, 'message');
+
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    });
+                }
+                );
+        });
+
+        it('clears message if empty', (done) => {
+            target.setAdminMessage('table1', '')
+                .then(
+                () => {
+                    db.collection('tables').findOne({
+                        _id: 'table1'
+                    }, (err, doc) => {
+                        try {
+                            assert.ifError(err);
+                            assert(doc);
+                            assert.equal(doc.adminMessage, null);
+
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    });
+                }
+                );
+        });
     });
 });
