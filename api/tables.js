@@ -78,6 +78,10 @@ Tables.prototype.setTableStatus = function (tableId, status) {
             })
         }
     )
-}
+};
+
+Tables.prototype.setAdminMessage = function (tableId, message) {
+
+};
 
 module.exports = Tables;

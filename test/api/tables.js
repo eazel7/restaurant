@@ -235,4 +235,10 @@ describe('Tables', function () {
             })
         });
     });
-})
+
+    describe('.setAdminMessage', () => {
+        it('requires table id');
+        it('saves message to db');
+        it('clears message if empty');
+    });
+});
