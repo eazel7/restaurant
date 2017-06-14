@@ -64,6 +64,13 @@ angular
                         this.table = table
                     }
                 },
+                'fab@': {
+                    template: require('./fab.html'),
+                    controllerAs: 'placeOrder',
+                    controller: function (table) {
+                        this.table = table
+                    }
+                },
                 '@': {
                     template: require('./default.html'),
                     controllerAs: 'placeOrder',

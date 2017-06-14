@@ -12,6 +12,7 @@
 </head>
 
 <body layout='row'>
+    <ui-view name="fab"></ui-view>
 
     <div layout="column" layout-fill>
 
@@ -19,9 +20,6 @@
             <div class="md-toolbar-tools" layout="row" layout-align="center center">
                 <md-button layout ng-click="toolbar.toggleSidenav()">
                     <ng-md-icon icon="menu"></ng-md-icon>
-                </md-button>
-                <md-button ng-if="toolbar.canGoBack()" ng-click="toolbar.goBack()" class="md-icon-button">
-                    <ng-md-icon icon="arrow_back"></ng-md-icon>
                 </md-button>
                 <ui-view flex layout name="top-toolbar"></ui-view>
             </div>
@@ -35,7 +33,7 @@
                 </md-list-item>
             </md-list>
             <div flex></div>
-            <div   layout="column">
+            <div layout="column">
                 <md-divider></md-divider>
                 <md-button ui-sref="settings" class="md-block">Configuración</md-button>
             </div>
