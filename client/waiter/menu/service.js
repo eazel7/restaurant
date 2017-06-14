@@ -16,8 +16,8 @@ angular
         var service = {
             setupDish: function (dishId, tableId) {
                 return $q.all([
-                    service.getDish(dishId),
-                    service.listDishOptions(dishId)
+                    API.menu.getDish(dishId),
+                    API.menu.listDishOptions(dishId)
                 ])
                     .then(function (results) {
                         var dish = results[0];

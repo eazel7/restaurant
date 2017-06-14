@@ -29,7 +29,7 @@ angular
                         if (table) return table;
 
                         return TablesService.unsetSelected().then(function () {
-                            return TableService.ensureSelected();
+                            return TablesService.ensureSelected();
                         })
                     });
                 },

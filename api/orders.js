@@ -27,6 +27,8 @@ Orders.prototype.closeTable = function (tableId) {
                         if (err) return reject(err);
 
                         resolve();
+                        
+                        this.bus.emit('table-status-changed', tableId);
                     });
                 });
         }

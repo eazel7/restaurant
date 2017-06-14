@@ -1,5 +1,6 @@
-function Tables(db) {
+function Tables(db, bus) {
     this.tables = db.collection('tables');
+    this.bus = bus;
 }
 
 Tables.prototype.add = function (name) {
@@ -72,6 +73,8 @@ Tables.prototype.setTableStatus = function (tableId, status) {
                 if (err) return reject(err);
 
                 resolve();
+
+                this.bus.emit('table-status-changed', tableId);
             })
         }
     )

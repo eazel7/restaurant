@@ -1,15 +1,19 @@
 const Db = require('tingodb')({ memStore: true }).Db;
 const Tables = require('../../api/tables');
 const assert = require('assert');
+const EventEmitter = require('events').EventEmitter;
 
 describe('Tables', function () {
     var db;
+    var bus;
     var target;
 
     beforeEach(function (done) {
         db = new Db('test', {});
+        bus = new EventEmitter();
+        bus.setMaxListeners(0);
 
-        target = new Tables(db);
+        target = new Tables(db, bus);
 
         db.collection('tables').insert({
             _id: 'table1',
@@ -77,6 +81,21 @@ describe('Tables', function () {
                     });
                 }
             );
+        });
+
+        it('emits table-status-changed', (done) => {
+            bus.on('table-status-changed', (tableId) => {
+                try {
+                    assert.equal(tableId, 'table1');
+
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+
+            target
+            .setTableStatus('table1', 'occupied');
         });
     });
 

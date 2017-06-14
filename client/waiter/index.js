@@ -3,40 +3,47 @@ const angular = require('angular');
 require('angular-socket-io')
 
 angular
-.module(
+    .module(
     (module.exports = 'restaurant'),
     [
         'btford.socket-io',
         require('angular-material'),
         require('./tables/service')
     ]
-)
-.controller(
+    )
+    .factory('socket', function (socketFactory) {
+        return socketFactory();
+    })
+    .controller(
     'LeftSidenavController',
-    function (TablesService, $state, $mdSidenav) {
+    function (TablesService, socket, $state, $mdSidenav) {
         var ctrl = this;
 
         ctrl.selectTable = function (table) {
             TablesService.setSelected(table._id)
-            .then(function () {
-                $state.go('place-order', {}, { reload: true}).then(function () {
-                    $mdSidenav('left').close();
+                .then(function () {
+                    $state.go('place-order', {}, { reload: true }).then(function () {
+                        $mdSidenav('left').close();
+                    })
                 })
-            })
         }
 
-        TablesService.list().then(function (tables) {
-            ctrl.tables = tables;
+        var refreshTables = function () {
+            TablesService.list().then(function (tables) {
+                ctrl.tables = tables;
+            });
+        };
+
+
+        socket.on('table-status-changed', function (tableId) {
+            refreshTables();
         })
     }
-)
-    .factory('socket', function (socketFactory) {
-        return socketFactory();
-    })
+    )
     .run(function ($rootScope, socket) {
         socket.on('order-ready', function (orderId) {
             $rootScope.$broadcast('order-ready', orderId);
-        })
+        });
     })
     .run(function ($rootScope, $mdSidenav) {
         $rootScope.$on('$stateChangeSuccess', function () {
@@ -70,7 +77,7 @@ angular
 
             var previousState = previousStateStack.slice(-2)[0];
             var index = previousStateStack.length - 2;
-            
+
             $state.go(previousState.name, previousState.params).then(function () {
                 previousStateStack.splice(index, 2);
             });
@@ -81,21 +88,21 @@ angular
         }
     }
     )
-.config(function($mdThemingProvider) {
-  $mdThemingProvider.theme('default')
-    .primaryPalette('lime')
-    .accentPalette('amber');
-});
+    .config(function ($mdThemingProvider) {
+        $mdThemingProvider.theme('default')
+            .primaryPalette('lime')
+            .accentPalette('amber');
+    });
 
 
 jquery(document).ready(function () {
     angular
-    .bootstrap(
+        .bootstrap(
         document,
         [
             'restaurant',
             require('./orders'),
             require('./settings')
         ]
-    )
+        )
 })

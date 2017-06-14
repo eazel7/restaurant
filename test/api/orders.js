@@ -56,6 +56,19 @@ describe('Orders', function () {
                 });
             })
         })
+        it('emit table-status-changed', function (done) {
+            bus.on('table-status-changed', (tableId) => {
+                try {
+                    assert.equal(tableId, 'table1');
+
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            })
+
+            target.closeTable('table1');
+        })
     })
 
 
