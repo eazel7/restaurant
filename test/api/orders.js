@@ -55,7 +55,8 @@ describe('Orders', function () {
                     }
                 });
             })
-        })
+        });
+
         it('emit table-status-changed', function (done) {
             bus.on('table-status-changed', (tableId) => {
                 try {
@@ -65,12 +66,11 @@ describe('Orders', function () {
                 } catch (e) {
                     done(e);
                 }
-            })
+            });
 
             target.closeTable('table1');
-        })
-    })
-
+        });
+    });
 
     describe('.setOrderReady', function () {
         it('requires order id', (done) => {
@@ -163,6 +163,21 @@ describe('Orders', function () {
                     }
                 });
         });
+
+        it('emit table-status-changed', function (done) {
+            bus.on('table-status-changed', (tableId) => {
+                try {
+                    assert.equal(tableId, 'table1');
+
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            })
+
+            target
+                .orderDish('table1', 'dish1', { withTomato: true })
+        })
 
         it('emits new-dish-ordered', function (done) {
             bus.once('new-dish-ordered', function (orderId) {

@@ -29,15 +29,16 @@ angular
         }
 
         var refreshTables = function () {
-            TablesService.list().then(function (tables) {
+            return TablesService.list().then(function (tables) {
                 ctrl.tables = tables;
             });
         };
 
-
-        socket.on('table-status-changed', function (tableId) {
-            refreshTables();
-        })
+        refreshTables().then(function () {
+            socket.on('table-status-changed', function (tableId) {
+                refreshTables();
+            });
+        });
     }
     )
     .run(function ($rootScope, socket) {

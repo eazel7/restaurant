@@ -30,7 +30,8 @@
         <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="false">
             <md-list ng-controller="LeftSidenavController as sidenav">
                 <md-list-item ng-repeat="table in sidenav.tables | orderBy:'name'" ng-click="sidenav.selectTable(table)">
-                    {{table.name}}
+                    <span class="md-list-item-text">{{table.name}}</span>
+                    <ng-md-icon class="md-secondary" icon="people" ng-if="table.status === 'occupied'"></ng-md-icon>
                 </md-list-item>
             </md-list>
             <div flex></div>

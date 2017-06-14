@@ -98,6 +98,7 @@ Orders.prototype.orderDish = function (tableId, dishId, optionals) {
                         resolve(id);
 
                         this.bus.emit('new-dish-ordered', id);
+                        this.bus.emit('table-status-changed', tableId);
                     });
             })
         });
