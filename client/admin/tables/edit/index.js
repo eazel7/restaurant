@@ -29,8 +29,7 @@ angular
                                     var ctrl = this;
 
                                     this.message = table.adminMessage;
-                                    debugger;
-
+                                    
                                     this.cancel = function () {
                                         $mdDialog.cancel();
                                     };
