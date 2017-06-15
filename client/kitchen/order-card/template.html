@@ -10,10 +10,13 @@
                 <span>{{card.table.name}}</span>
             </div>
         </div>
-
     </md-card-title>
     <md-card-content>
-        <md-list>
+        <p ng-if="card.order.notes" class="md-body-2">
+            <ng-md-icon icon="note"></ng-md-icon>&nbsp;{{card.order.notes}}
+        </p>
+
+        <md-list ng-if="(card.options|filter:{kind:'select'}).length">
             <md-list-item disabled ng-repeat="option in card.options|filter:{kind:'select'}">
                 <span>{{option.name}}</p>
                 <span class="md-secondary">
@@ -21,7 +24,7 @@
                 </span>
             </md-list-item>
         </md-list>
-        <md-list ng-repeat="option in dialog.options|filter:{kind:'bool'}">
+        <md-list ng-repeat="option in dialog.options|filter:{kind:'bool'}" ng-if="(card.options|filter:{kind:'bool'}).length">
             <md-list-item>
                 <p>{{option.name}}</p>
                 <md-checkbox class="md-secondary" ng-model="dialog.selected[option._id]"></md-checkbox>

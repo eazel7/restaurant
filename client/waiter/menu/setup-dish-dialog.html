@@ -11,11 +11,14 @@
       <md-button class="md-raised md-primary" ng-click="dialog.confirm()">
         <ng-md-icon icon="check"></ng-md-icon>
       </md-button>
-
     </div>
   </md-toolbar>
 
-  <md-dialog-content>
+  <md-dialog-content layout="column" layout-padding>
+    <md-input-container md-no-float="true" class="md-block" style="margin-top: 1em">
+      <label>Notas</label>
+      <textarea placeholder="" rows="4" ng-model="dialog.notes"></textarea>
+    </md-input-container>
     <md-list ng-repeat="option in dialog.options|filter:{kind:'select'}">
       <md-list-item>
         <p>{{option.name}}</p>

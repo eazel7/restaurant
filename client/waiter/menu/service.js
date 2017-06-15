@@ -33,6 +33,9 @@ angular
                             },
                             controllerAs: 'dialog',
                             controller: function (dish, options, tableId, $mdDialog) {
+                                var ctrl = this;
+
+                                
                                 this.cancel = function () {
                                     $mdDialog.cancel();
                                 }
@@ -50,7 +53,8 @@ angular
                                     OrdersService.placeOrder(
                                         tableId,
                                         dishId,
-                                        optionals
+                                        optionals,
+                                        ctrl.notes
                                     )
                                     .then(function (orderId) {
                                         $mdDialog.hide(orderId);

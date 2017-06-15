@@ -236,6 +236,26 @@ describe('Orders', function () {
 
         });
 
+        it('sets notes="notes"', function (done) {
+            target
+                .orderDish('table1', 'dish1', { withTomato: true }, 'notes')
+                .then((orderId) => {
+                    db.collection('orders').findOne({
+                        _id: orderId
+                    }, (err, order) => {
+                        try {
+                            assert.ifError(err);
+                            assert(order);
+                            assert.equal(order.notes, 'notes');
+
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    });
+                });
+        });
+
         it('sets orderDate', function (done) {
             target
                 .orderDish('table1', 'dish1', { withTomato: true })
