@@ -1,0 +1,21 @@
+<md-dialog aria-label="Borrar mesa">
+
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <h2 md-truncate flex>Cambiar mensaje</h2>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content layout-padding>
+    <md-input-container class="md-block" flex>
+      <textarea flex rows="6" style="resize: vertical" ng-model="dialog.message"></textarea>
+    </md-input-container>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <md-button ng-click="dialog.cancel()">
+      Cancelar
+    </md-button>
+    <md-button ng-click="dialog.confirm()" class="md-primary md-raised">
+      Confirmar
+    </md-button>
+</md-dialog>

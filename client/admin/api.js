@@ -42,6 +42,13 @@ Tables.prototype.getTable = function (tableId) {
     );
 };
 
+Tables.prototype.setAdminMessage = function (tableId, message) {
+    return this.api.tables.setAdminMessage(
+        tableId,
+        message
+    );
+};
+
 function Users(api) {
     this.api = api;
 }

@@ -21,6 +21,35 @@ angular
                     template: require('./top-toolbar.html'),
                     controllerAs: 'edit',
                     controller: function ($mdDialog, $state, table) {
+                        this.setAdminMessage = function () {
+                            $mdDialog.show({
+                                template: require('./set-admin-message-dialog.html'),
+                                controllerAs: 'dialog',
+                                controller: function($state, TablesService, $mdDialog) {
+                                    var ctrl = this;
+
+                                    this.message = table.adminMessage;
+                                    debugger;
+
+                                    this.cancel = function () {
+                                        $mdDialog.cancel();
+                                    };
+
+                                    this.confirm = function ()  {
+                                        TablesService.setAdminMessage(
+                                            table._id,
+                                            ctrl.message
+                                        )
+                                        .then(function () {
+                                            $mdDialog.hide().then(function () {
+                                                $state.reload();
+                                            })
+                                        })
+                                    }
+                                }
+                            })
+                        };
+
                         this.delete = function () {
                             $mdDialog.show({
                                 template: require('./delete-dialog.html'),

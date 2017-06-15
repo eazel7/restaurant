@@ -10,7 +10,6 @@
     </md-fab-trigger>
 
     <md-fab-actions>
-        <div>
             <md-button aria-label="Borrar" class="md-fab md-raised md-mini" ng-click="edit.delete()">
                 <md-tooltip md-direction="left" md-autohide="false">
                     Borrar
@@ -18,7 +17,13 @@
 
                 <ng-md-icon icon="delete" aria-label="Borrar"></ng-md-icon>
             </md-button>
-        </div>
+            <md-button aria-label="Cambiar mensaje" class="md-fab md-raised md-mini" ng-click="edit.setAdminMessage()">
+                <md-tooltip md-direction="left" md-autohide="false">
+                    Cambiar mensaje
+                </md-tooltip>
+
+                <ng-md-icon icon="note" aria-label="Cambiar mensaje"></ng-md-icon>
+            </md-button>
     </md-fab-actions>
 </md-fab-speed-dial>
 
