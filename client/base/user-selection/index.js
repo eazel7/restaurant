@@ -48,9 +48,6 @@ require('angular')
                             return PinLockService.askPin(function (pin) {
                                 return checkPin(user._id, pin);
                             })
-                            .then(function (token) {
-                                debugger;
-                            })
                         })
                     })
 
