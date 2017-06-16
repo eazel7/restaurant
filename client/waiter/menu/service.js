@@ -35,12 +35,14 @@ angular
                             controller: function (dish, options, tableId, $mdDialog) {
                                 var ctrl = this;
 
+                                this.amount = 1;
                                 
                                 this.cancel = function () {
                                     $mdDialog.cancel();
                                 }
                                 this.dish = dish;
                                 this.options = options;
+
                                 var optionals = this.selected = {};
 
                                 this.options.filter(function (option) {
@@ -54,7 +56,8 @@ angular
                                         tableId,
                                         dishId,
                                         optionals,
-                                        ctrl.notes
+                                        ctrl.notes,
+                                        ctrl.amount
                                     )
                                     .then(function (orderId) {
                                         $mdDialog.hide(orderId);

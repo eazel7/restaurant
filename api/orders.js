@@ -64,7 +64,7 @@ Orders.prototype.setOrderReady = function (orderId) {
     )
 }
 
-Orders.prototype.orderDish = function (tableId, dishId, optionals, notes) {
+Orders.prototype.orderDish = function (tableId, dishId, optionals, notes, amount) {
     return new Promise((resolve, reject) => {
         this.dishes.findOne({
             _id: dishId
@@ -80,10 +80,11 @@ Orders.prototype.orderDish = function (tableId, dishId, optionals, notes) {
                 dish: dishId,
                 optionals: optionals,
                 date: new Date(),
-                price: price,
+                price: price * amount,
                 ready: false,
                 archived: false,
-                notes: notes || ''
+                notes: notes || '',
+                amount: amount
             }, (err, doc) => {
                 if (err) return reject(err);
 

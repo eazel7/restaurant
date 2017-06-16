@@ -94,11 +94,16 @@ require('angular')
                             if (!volume || !voice) return;
 
                             MenuService.getDishOptions(dish._id).then(function (options) {
-                                var text = 'Nuevo pedido, ' + dish.name + '.';
+                                var text = 'Nuevo pedido,' + String(order.amount.toFixed(0)) + ',' + dish.name + '.';
+                                debugger;
 
                                 options.forEach(function (option) {
                                     text += option.name + ', ' + order.optionals[option._id] + ',';
-                                })
+                                });
+
+                                if (order.notes) {
+                                    text += ', notas,,' + order.notes;
+                                }
 
                                 SpeechService.speak(voice, text, volume);
                             })

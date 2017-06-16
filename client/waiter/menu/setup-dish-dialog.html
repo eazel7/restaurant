@@ -1,5 +1,9 @@
 <md-dialog aria-label="Configure su plato">
-
+  <style>
+  .no-errors > .md-errors-spacer { 
+    display:none;
+  }
+    </style>
   <md-toolbar class="md-warn">
     <div class="md-toolbar-tools">
       <h2 md-truncate flex>{{dialog.dish.name}}</h2>
@@ -7,7 +11,10 @@
       <md-button ng-click="dialog.cancel()">
         <ng-md-icon icon="arrow_back"></ng-md-icon>
       </md-button>
-
+      <span flex></span>
+      <md-input-container class="no-errors" style="width: 3em">
+        <input type="number" min="1" ng-model="dialog.amount" style="text-align: right" />
+      </md-input-container>
       <md-button class="md-raised md-primary" ng-click="dialog.confirm()">
         <ng-md-icon icon="check"></ng-md-icon>
       </md-button>

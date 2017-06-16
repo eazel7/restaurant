@@ -2,7 +2,7 @@
     <md-card-title>
         <div layout="column" flex class="md-card-title-text">
             <div layout>
-                <span flex>{{card.dish.name}}</span>
+                <span flex>{{card.order.amount}} x {{card.dish.name}}</span>
                 <md-checkbox class="select-order-checkbox" name="select-order-{{card.order._id}}" ng-model="selected"></md-checkbox>
             </div>
             <div layout>

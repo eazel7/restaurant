@@ -51,12 +51,13 @@ Orders.prototype.getOrder = function (orderId) {
     );
 };
 
-Orders.prototype.placeOrder = function (tableId, dishId, optionals, notes) {
+Orders.prototype.placeOrder = function (tableId, dishId, optionals, notes, amount) {
     return this.api.orders.orderDish(
         tableId,
         dishId,
         optionals,
-        notes
+        notes,
+        amount
     );
 };
 
