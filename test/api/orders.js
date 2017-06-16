@@ -217,7 +217,7 @@ describe('Orders', function () {
 
         it('sets price=30', function (done) {
             target
-                .orderDish('table1', 'dish1', { withTomato: true })
+                .orderDish('table1', 'dish1', { withTomato: true }, '', 1)
                 .then((orderId) => {
                     db.collection('orders').findOne({
                         _id: orderId
