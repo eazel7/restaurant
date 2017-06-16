@@ -152,7 +152,7 @@ describe('Orders', function () {
     describe('.orderDish', function () {
         it('resolves id', function (done) {
             target
-                .orderDish('table1', 'dish1', { withTomato: true })
+                .orderDish('table1', 'dish1', { withTomato: true }, '', 1)
                 .then((orderId) => {
                     try {
                         assert(orderId);
@@ -176,7 +176,7 @@ describe('Orders', function () {
             })
 
             target
-                .orderDish('table1', 'dish1', { withTomato: true })
+                .orderDish('table1', 'dish1', { withTomato: true }, '', 1)
         })
 
         it('emits new-dish-ordered', function (done) {
@@ -196,7 +196,7 @@ describe('Orders', function () {
 
         it('with archived=true', function (done) {
             target
-                .orderDish('table1', 'dish1', { withTomato: true })
+                .orderDish('table1', 'dish1', { withTomato: true }, '', 1)
                 .then((orderId) => {
                     db.collection('orders').findOne({
                         _id: orderId
@@ -238,7 +238,7 @@ describe('Orders', function () {
 
         it('sets notes="notes"', function (done) {
             target
-                .orderDish('table1', 'dish1', { withTomato: true }, 'notes')
+                .orderDish('table1', 'dish1', { withTomato: true }, 'notes', 1)
                 .then((orderId) => {
                     db.collection('orders').findOne({
                         _id: orderId
