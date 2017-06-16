@@ -181,11 +181,29 @@ Menu.prototype.addDishToCategory = function (dishId, categoryId) {
     );
 };
 
+function Settings(api) {
+    this.api = api;
+}
+
+Settings.prototype.get = function (key) {
+    return this.api.get(
+        key
+    );
+};
+
+Settings.prototype.set = function (key, value) {
+    return this.api.set(
+        key,
+        value
+    );
+};
+
 function AdminAPI(api) {
     this.orders = new Orders(api);
     this.tables = new Tables(api);
     this.users = new Users(api);
     this.menu = new Menu(api);
+    this.settings = new Settings(api);  
 }
 
 module.exports = AdminAPI;

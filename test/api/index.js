@@ -3,4 +3,5 @@ describe('API', function () {
     require('./orders');
     require('./tables');
     require('./users');
+    require('./settings');
 })
