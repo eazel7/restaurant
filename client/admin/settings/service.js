@@ -5,17 +5,12 @@ angular
     .module(
     (module.exports = 'restaurant.settings.service'),
     [
+        require('../../base/api')
     ]
     )
     .service(
     'SettingsService',
-    function ($http, $q) {
-        var service = {
-            getShopName: function () {
-                return $q.resolve(config.shopName)
-            }
-        }
-
-        return service;
+    function (API) {
+        return API.settings;
     }
     )

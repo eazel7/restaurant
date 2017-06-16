@@ -186,13 +186,13 @@ function Settings(api) {
 }
 
 Settings.prototype.get = function (key) {
-    return this.api.get(
+    return this.api.settings.get(
         key
     );
 };
 
 Settings.prototype.set = function (key, value) {
-    return this.api.set(
+    return this.api.settings.set(
         key,
         value
     );

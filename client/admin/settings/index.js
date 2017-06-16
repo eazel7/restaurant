@@ -13,15 +13,39 @@ require('angular')
             url: '/settings',
             resolve: {
                 shopName: function (SettingsService) {
-                    return SettingsService.getShopName();
+                    return SettingsService.get('shop-name');
+                },
+                location: function (SettingsService) {
+                    return SettingsService.get('location');
+                },
+                settings: function (shopName, location) {
+                    return {
+                        shopName: shopName || '',
+                        location: location || {}
+                    }
                 }
             },
             views: {
+                'top-toolbar@': {
+                    template: require('./top-toolbar.html'),
+                    controllerAs: 'toolbar',
+                    controller: function ($q, settings, SettingsService, $state) {
+                        this.save = function () {
+                            $q.all([
+                                SettingsService.set('shop-name', settings.shopName),
+                                SettingsService.set('location', settings.location)
+                            ])
+                            .then(function () {
+                                $state.reload();
+                            });
+                        }
+                    }
+                },
                 '@': {
                     template: require('./default.html'),
-                    controllerAs: 'settings',
-                    controller: function (shopName) {
-                        this.shopName = shopName;
+                    controllerAs: 'ctrl',
+                    controller: function (settings) {
+                        this.settings = settings;
                     }
                 }
             }

@@ -1,6 +1,28 @@
 <md-content layout-padding>
-    <md-input-container class="md-block">
-        <label>Nombre del local</label>
-        <input type="text" disabled ng-model="settings.shopName" />
-    </md-input-container>
+    <section>
+        <md-subheader>Generales</md-subheader>
+        <md-input-container class="md-block">
+            <label>Nombre del local</label>
+            <input type="text" ng-model="ctrl.settings.shopName" />
+        </md-input-container>
+    </section>
+    <section>
+        <md-subheader>Ubicación</md-subheader>
+        <md-input-container class="md-block">
+            <label>Calle y altura</label>
+            <input type="text" ng-model="ctrl.settings.location.streetAddress" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Localidad</label>
+            <input type="text" ng-model="ctrl.settings.location.town" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Departamento</label>
+            <input type="text" ng-model="ctrl.settings.location.city" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Código postal</label>
+            <input type="text" ng-model="ctrl.settings.location.postalCode" />
+        </md-input-container>
+    </section>
 </md-content>
