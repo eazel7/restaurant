@@ -18,10 +18,14 @@ require('angular')
                 location: function (SettingsService) {
                     return SettingsService.get('location');
                 },
-                settings: function (shopName, location) {
+                todoPago: function (SettingsService) {
+                    return SettingsService.get('todo-pago');
+                },
+                settings: function (shopName, location, todoPago) {
                     return {
                         shopName: shopName || '',
-                        location: location || {}
+                        location: location || {},
+                        todoPago: todoPago || {}
                     }
                 }
             },
@@ -33,7 +37,8 @@ require('angular')
                         this.save = function () {
                             $q.all([
                                 SettingsService.set('shop-name', settings.shopName),
-                                SettingsService.set('location', settings.location)
+                                SettingsService.set('location', settings.location),
+                                SettingsService.set('todo-pago', settings.todoPago)
                             ])
                             .then(function () {
                                 $state.reload();

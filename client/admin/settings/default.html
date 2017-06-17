@@ -25,4 +25,58 @@
             <input type="text" ng-model="ctrl.settings.location.postalCode" />
         </md-input-container>
     </section>
+    <section>
+        <md-subheader>TodoPago</md-subheader>
+        <md-input-container class="md-block">
+            <label>Merchant ID</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.merchantId" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Ciudad</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.city" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Código de País</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.countryCode" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>email</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.email" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Primer nombre</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.firstName" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Apellidos</label>
+            <input type="texst" ng-model="ctrl.settings.todoPago.lastName" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Teléfono</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.phoneNumber" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Código postal</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.postalCode" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Domicilio</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.streetAddress" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Código de moneda</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.currencyCode" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Código de autorización</label>
+            <input type="text" ng-model="ctrl.settings.todoPago.authorizationCode" />
+        </md-input-container>
+        <md-input-container class="md-block">
+            <label>Entorno</label>
+            <md-select ng-model="ctrl.settings.todoPago.environment">
+                <md-option value="developers">Desarrollo</md-option>
+                <md-option value="production">Producción</md-option>
+            </md-select>
+        </md-input-container>
+    </section>
 </md-content>
