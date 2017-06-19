@@ -7,6 +7,14 @@
         <label>Precio</label>
         <input type="number" ng-model="edit.dish.price" />
     </md-input-container>
+    <file-button file-read="edit.photoUpload($url, $data);" class="md-accent md-raised">Subir foto</file-button>
+
+    <pictures-carousel current="edit.currentPicture" pictures="edit.dish.pictures" map-picture-url="edit.mapPictureUrl($picture)">
+        <buttons>
+            <md-button ng-if="edit.currentPicture" ng-click="edit.deleteCurrentPicture()">
+                <ng-md-icon icon="delete_forever"></ng-md-icon>
+            </md-button>
+    </pictures-carousel>
 </md-content>
 
 <section>

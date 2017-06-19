@@ -69,6 +69,15 @@ function Menu(api) {
     this.api = api;
 }
 
+Menu.prototype.addDishPicture = function (dishId, picture) {
+    var buffer = new Buffer(picture, 'base64');
+
+    return this.api.menu.addDishPicture(
+        dishId,
+        buffer
+    );
+};
+
 Menu.prototype.addDishOption = function (dishId, name, kind) {
     return this.api.menu.addDishOption(
         dishId,
@@ -178,6 +187,13 @@ Menu.prototype.addDishToCategory = function (dishId, categoryId) {
     return this.api.menu.addDishToCategory(
         dishId,
         categoryId
+    );
+};
+
+Menu.prototype.removeDishPicture = function (dishId, pictureId) {
+    return this.api.menu.removeDishPicture(
+        dishId,
+        pictureId
     );
 };
 

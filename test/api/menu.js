@@ -26,7 +26,7 @@ describe('Menu', function () {
                 (callback) => db.collection('dishes').insert({
                     _id: 'dish2',
                     name: 'Dish 2',
-                    pictures: []
+                    pictures: ['picture1']
                 }, callback),
                 (callback) => db.collection('dishes-options').insert({
                     _id: 'dish2-option1',
@@ -72,7 +72,7 @@ describe('Menu', function () {
                     }, {
                         _id: 'dish2',
                         name: 'Dish 2',
-                        pictures: []
+                        pictures: ['picture1']
                     }], dishes)
 
                     done();
@@ -351,6 +351,65 @@ describe('Menu', function () {
                     })
                 }
             );
+        });
+    });
+
+    describe('.removeDishPicture', () => {
+        it('requires dish id', (done) => {
+            target.removeDishPicture()
+                .then(
+                () => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'dish id is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+                );
+        });
+        it('requires picture id', (done) => {
+            target.removeDishPicture('dish1')
+                .then(
+                () => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'picture id is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+                );
+        });
+
+        it('removes picture from list', (done) => {
+
+            target.removeDishPicture('dish2', 'picture1')
+                .then(
+                () => {
+                    db.collection('dishes').findOne({
+                        _id: 'dish1'
+                    }, (err, doc) => {
+                        try {
+                            assert.ifError(err);
+                            assert(doc);
+                            assert.deepEqual(doc.pictures, []);
+                            
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    })
+                }
+                );
         });
     });
 

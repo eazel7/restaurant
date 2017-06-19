@@ -1,0 +1,19 @@
+<div layout layout-align="space-between stretch">
+    <div layout layout-align="center center">
+    <md-button ng-click="prev()" flex="nogrow" class="md-icon-button">
+        <ng-md-icon icon="keyboard_arrow_left"></ng-md-icon>
+    </md-button>
+    </div>
+    <div flex layout="column" layout-align="center center">
+        <span ng-if="!current">No hay imágenes</span>
+        <img ng-if="current" ng-src="{{currentUrl}}" style="max-width: 100%" />
+        <div>
+            <ng-transclude ng-transclude-slot="buttons"></ng-transclude>
+        </div>
+    </div>
+    <div layout layout-align="center center">
+    <md-button class="md-icon-button" ng-click="next()" flex="nogrow">
+        <ng-md-icon icon="keyboard_arrow_right"></ng-md-icon>
+    </md-button>
+    </div>
+</div>

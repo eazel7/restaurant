@@ -9,7 +9,8 @@ angular
         require('angular-material'),
         require('angular-material-icons'),
         require('../../menu'),
-        require('../../tables')
+        require('../../tables'),
+        require('../../../base/pictures-carousel')
     ]
     )
     .config(function ($stateProvider, $urlRouterProvider) {
@@ -82,6 +83,10 @@ angular
                         this.addDish = function (dish) {
                             MenuService.setupDish(dish._id, table._id);
                         }
+
+                        this.mapPictureUrl = function (pictureId) {
+                            return '/admin/picture/' + encodeURIComponent(pictureId);
+                        };
 
                         this.pictureUrl = function (pictureId) {
                             return config.apiUrl + '/menu/pictures/' + encodeURIComponent(pictureId);

@@ -35,7 +35,9 @@ function describeApi(api) {
 
 function createHandler(api) {
     var router = require('express').Router();
-    var jsonParser = require('body-parser').json();
+    var jsonParser = require('body-parser').json({
+        limit: '5mb'
+    });
 
     var description = describeApi(api);
 

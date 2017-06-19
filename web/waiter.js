@@ -116,6 +116,13 @@ function WaiterApp(clientConfig, api) {
                 ].map((path) => require('fs').readFileSync(path)).join('\n'));
             })
 
+            app.get('/picture/:pictureId', (req, res, next) => {
+                api.menu.getPicture(req.params.pictureId).then((buffer) => {
+                    res.send(buffer);
+                    res.end();
+                }, (err) => next(err || new Error()))
+            })
+
             app.get('/', (req, res, next) => {
                 var html = require('fs').readFileSync(require.resolve('../client/waiter/index.html'));
 

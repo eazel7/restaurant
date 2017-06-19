@@ -69,6 +69,36 @@ Menu.prototype.setDishPrice = function (dishId, price) {
     )
 };
 
+Menu.prototype.removeDishPicture = function (dishId, pictureId) {
+    if (!dishId) return Promise.reject(new Error('dish id is required'));
+    if (!pictureId) return Promise.reject(new Error('picture id is required'));
+
+    return new Promise(
+        (resolve, reject) => {
+            this.dishes.findOne({
+                _id: dishId
+            }, (err, doc) => {
+                if (err) return reject(err);
+                if (!doc) return reject(new Error('invalid dish id'));
+
+                doc.pictures.splice(doc.pictures.indexOf(pictureId), 1);
+
+                this.dishes.update({
+                    _id: dishId
+                }, {
+                    $set: {
+                        pictures: doc.pictures
+                    }
+                }, (err) => {
+                    if (err) return reject(err);
+
+                    resolve();
+                })
+            })
+        }
+    );
+};
+
 Menu.prototype.addDish = function (name) {
     if (!name) return Promise.reject(new Error('name is required'));
 
@@ -230,7 +260,7 @@ Menu.prototype.addDishPicture = function (dishId, picture) {
                             }, (err) => {
                                 if (err) return reject(err);
 
-                                resolve();
+                                resolve(pictureId);
                             })
                     })
             })
