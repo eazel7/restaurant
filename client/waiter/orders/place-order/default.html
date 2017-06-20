@@ -20,7 +20,8 @@
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
-      <pictures-carousel ng-if="placeOrder.showPhotos" pictures="dish.pictures" map-picture-url="placeOrder.mapPictureUrl($picture)" current="dish.currentPicture"></pictures-carousel>
+      <pictures-carousel ng-if="placeOrder.showPhotos" pictures="dish.pictures" map-picture-url="placeOrder.mapPictureUrl($picture)"
+        current="dish.currentPicture"></pictures-carousel>
     </md-card-content>
     <md-card-actions layout layout-align="end">
       <md-button ng-click="placeOrder.addDish(dish)">

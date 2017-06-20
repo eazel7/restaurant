@@ -95,8 +95,7 @@ require('angular')
 
                             MenuService.getDishOptions(dish._id).then(function (options) {
                                 var text = 'Nuevo pedido,' + String(order.amount.toFixed(0)) + ',' + dish.name + '.';
-                                debugger;
-
+                                
                                 options.forEach(function (option) {
                                     text += option.name + ', ' + order.optionals[option._id] + ',';
                                 });
