@@ -70,7 +70,7 @@ require('angular')
                         var total = 0;
 
                         orderedDishes.forEach(function (order) {
-                            total += (order.dish.price || 0)
+                            total += (order.price || 0)
                         })
 
                         this.table = table;
