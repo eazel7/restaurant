@@ -7,7 +7,7 @@ function KitchenApp(clientConfig, api) {
         (resolve, reject) => {
             var app = express.Router();
 
-            var deps = ['jquery', 'angular', 'angular-timeago', 'angular-material', 'angular-material-icons', 'angular-socket-io'];
+            var deps = ['jquery', 'angular', 'angular-filter', 'angular-timeago', 'angular-material', 'angular-material-icons', 'angular-socket-io'];
 
             var kitchenApi = new KitchenAPI(api);
             var apiDescription = require('./service').describeApi(kitchenApi);

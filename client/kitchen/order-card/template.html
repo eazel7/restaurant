@@ -3,11 +3,8 @@
         <div layout="column" flex class="md-card-title-text">
             <div layout>
                 <span flex>{{card.order.amount}} x {{card.dish.name}}</span>
+                <span>{{card.order.date|timeAgo}}&nbsp;</span>
                 <md-checkbox class="select-order-checkbox" name="select-order-{{card.order._id}}" ng-model="selected"></md-checkbox>
-            </div>
-            <div layout>
-                <span flex>{{card.order.date|timeAgo}}</span>
-                <span>{{card.table.name}}</span>
             </div>
         </div>
     </md-card-title>

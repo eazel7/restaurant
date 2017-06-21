@@ -2,6 +2,7 @@ require('angular')
     .module(
     (module.exports = 'restaurant.kitchen.orders'),
     [
+        require('angular-filter'),
         require('angular-material'),
         require('angular-material-icons'),
         require('angular-ui-router'),
@@ -55,6 +56,7 @@ require('angular')
                             .then(function (order) {
                                 return TablesService.getTable(order.table).then(function (table) {
                                     order.table = table;
+                                    order.tableId = table._id;
 
                                     return order;
                                 })

@@ -24,7 +24,12 @@
 
         <md-content flex layout="column">
 
-            <order-card selected="order.selected" order-id="order._id" ng-repeat="order in kitchen.orders"></order-card>
+            <section ng-repeat="(tableId, orders) in kitchen.orders | groupBy: 'tableId'">
+                <md-subheader>{{orders[0].table.name}}</md-subheader>
+            <order-card selected="order.selected" ng-repeat="order in orders" order-id="order._id" ng-repeat-end></order-card>
+            </section>
+
+            
 
             <div ng-if="!kitchen.orders.length" class="md-display-1" layout layout-align="center center" layout-fill>
                 No hay pedidos pendientes
