@@ -8,7 +8,8 @@ angular
     [
         'btford.socket-io',
         require('angular-material'),
-        require('./tables/service')
+        require('./tables/service'),
+        require('../base/api')
     ]
     )
     .factory('socket', function (socketFactory) {
@@ -16,7 +17,7 @@ angular
     })
     .controller(
     'LeftSidenavController',
-    function (TablesService, socket, $state, $mdSidenav) {
+    function (TablesService, $q, API, socket, $state, $mdSidenav) {
         var ctrl = this;
 
         ctrl.selectTable = function (table) {
@@ -31,6 +32,18 @@ angular
         var refreshTables = function () {
             return TablesService.list().then(function (tables) {
                 ctrl.tables = tables;
+
+                return $q.all(
+                    tables.map(function (table) {
+                        if (!table.customer) return table;
+
+                        return API.customers.get(table.customer).then(function (customer) {
+                            table.customer = customer;
+
+                            return table;
+                        })
+                    })
+                )
             });
         };
 

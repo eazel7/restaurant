@@ -26,11 +26,14 @@
 
         <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="false">
             <md-list ng-controller="LeftSidenavController as sidenav">
-                <md-list-item ng-class="{'md-2-line': table.adminMessage }" ng-repeat="table in sidenav.tables | orderBy:'name'" ng-click="sidenav.selectTable(table)">
+                <md-list-item ng-class="{'md-2-line': !!table.adminMessage !== !!table.customer, 'md-3-line': table.adminMessage && table.customer }"
+                    ng-repeat="table in sidenav.tables | orderBy:'name'" ng-click="sidenav.selectTable(table)">
                     <div class="md-list-item-text">
                         <span>{{table.name}}</span>
                         <p ng-if="table.adminMessage">
-                            <ng-md-icon icon="note"></ng-md-icon>&nbsp;{{table.adminMessage}}</p>    
+                            <ng-md-icon icon="note"></ng-md-icon>&nbsp;{{table.adminMessage}}</p>
+                        <p ng-if="table.customer">
+                            <ng-md-icon icon="face"></ng-md-icon>&nbsp;{{table.customer.name}}</p>
                     </div>
                     <ng-md-icon class="md-secondary" icon="people" ng-if="table.status === 'occupied'"></ng-md-icon>
                 </md-list-item>

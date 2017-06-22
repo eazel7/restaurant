@@ -356,5 +356,20 @@ describe('Tables', function () {
                 }
             )
         });
+
+        it('emits table-status-changed', (done) => {
+            bus.on('table-status-changed', (tableId) => {
+                try {
+                    assert.equal(tableId, 'table1');
+
+                    done();
+                } catch (e) {
+                    done(e);
+                }
+            });
+
+            target
+                .setCustomer('table1', 'customer1');
+        });
     })
 });

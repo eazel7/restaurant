@@ -19,7 +19,7 @@ require('angular')
                         return TablesService.ensureSelected();
                     }
                 },
-                onEnter: function ($mdDialog, $state) {
+                onEnter: function ($mdDialog, $state, API, table) {
                     $mdDialog.show({
                         template: require('./dialog.html'),
                         controllerAs: 'dialog',
@@ -43,9 +43,14 @@ require('angular')
                             };
                         }
                     })
-                    .then(function () {
-                        //TODO: setear el cliente para la mesa
-                        $state.go('place-order');
+                    .then(function (customerId) {
+                        API.tables.setCustomer(
+                            table,
+                            customerId
+                        )
+                        .then(function () {
+                           $state.go('place-order'); 
+                        });
                     },function () {
                         $state.go('place-order');
                     })

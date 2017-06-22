@@ -116,6 +116,8 @@ Tables.prototype.setCustomer = function (tableId, customerId) {
                     if (err) return reject(err);
 
                     resolve();
+
+                    this.bus.emit('table-status-changed', tableId);
                 });
         }
     );

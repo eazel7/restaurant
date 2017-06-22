@@ -81,6 +81,13 @@ Tables.prototype.getTable = function (tableId) {
     );
 };
 
+Tables.prototype.setCustomer = function (tableId, customerId) {
+    return this.api.tables.setCustomer(
+        tableId,
+        customerId
+    );
+};
+
 function Customers(api) {
     this.api = api;
 }
@@ -98,7 +105,7 @@ Customers.prototype.search = function (filter) {
 };
 
 Customers.prototype.get = function (customerId) {
-    return this.api.customers.get(
+    return this. api.customers.get(
         customerId
     );
 };
