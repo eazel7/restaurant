@@ -297,4 +297,64 @@ describe('Tables', function () {
                 );
         });
     });
+
+    describe('.setCustomer', () => {
+        it('requires table id', (done) => {
+            target.setCustomer()
+                .then(
+                () => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'table id is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+                )
+        });
+
+        it('requires customer id', (done) => {
+            target.setCustomer('table1')
+                .then(
+                () => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'customer id is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+                )
+        });
+
+        it('saves to database', (done) => {
+            target
+            .setCustomer('table1', 'customer1')
+            .then(
+                () => {
+                    db.collection('tables').findOne({
+                        _id: 'table1'
+                    }, (err, doc) => {
+                        try {
+                            assert.ifError(err);
+                            assert(doc);
+                            assert.equal(doc.customer, 'customer1');
+
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    })
+                }
+            )
+        });
+    })
 });

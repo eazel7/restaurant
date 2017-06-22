@@ -21,7 +21,8 @@ Orders.prototype.closeTable = function (tableId) {
                         _id: tableId
                     }, {
                         $set: {
-                            status: 'free'
+                            status: 'free',
+                            customer: null
                         }
                     }, (err) => {
                         if (err) return reject(err);

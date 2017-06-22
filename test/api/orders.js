@@ -20,7 +20,8 @@ describe('Orders', function () {
                 (callback) => db.collection('tables').insert({
                     _id: 'table1',
                     name: 'Table 1',
-                    status: 'free'
+                    status: 'free',
+                    customer: 'customer1'
                 }, callback),
                 (callback) => db.collection('categories').insert({
                     _id: 'category1',
@@ -55,6 +56,25 @@ describe('Orders', function () {
                     }
                 });
             })
+        });
+
+        it('sets table.customer=null', (done) => {
+            target.closeTable('table1')
+                .then(() => {
+                    db.collection('tables').findOne({
+                        _id: 'table1'
+                    }, (err, doc) => {
+                        try {
+                            assert.ifError(err);
+                            assert(doc);
+                            assert.equal(doc.customer, null);
+
+                            done();
+                        } catch (e) {
+                            done(e);
+                        }
+                    })
+                })
         });
 
         it('emit table-status-changed', function (done) {
@@ -120,6 +140,7 @@ describe('Orders', function () {
                 }
             )
         });
+
         it('disappears form .listOrdersForKitchen', (done) => {
             target.setOrderReady('order1')
                 .then(() => {

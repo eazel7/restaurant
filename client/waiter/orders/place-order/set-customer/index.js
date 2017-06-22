@@ -44,7 +44,7 @@ require('angular')
                         }
                     })
                     .then(function () {
-                        
+                        //TODO: setear el cliente para la mesa
                         $state.go('place-order');
                     },function () {
                         $state.go('place-order');

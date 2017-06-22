@@ -66,16 +66,16 @@ Tables.prototype.setTableStatus = function (tableId, status) {
             this.tables.update({
                 _id: tableId
             }, {
-                $set: {
-                    status: status
-                }
-            }, (err) => {
-                if (err) return reject(err);
+                    $set: {
+                        status: status
+                    }
+                }, (err) => {
+                    if (err) return reject(err);
 
-                resolve();
+                    resolve();
 
-                this.bus.emit('table-status-changed', tableId);
-            })
+                    this.bus.emit('table-status-changed', tableId);
+                })
         }
     )
 };
@@ -88,16 +88,37 @@ Tables.prototype.setAdminMessage = function (tableId, message) {
             this.tables.update({
                 _id: tableId
             }, {
-                $set: {
-                    'adminMessage': message || null
-                }
-            }, (err) => {
-                if (err) return reject(err);
+                    $set: {
+                        'adminMessage': message || null
+                    }
+                }, (err) => {
+                    if (err) return reject(err);
 
-                resolve();
-            })
+                    resolve();
+                })
         }
     )
 };
+
+Tables.prototype.setCustomer = function (tableId, customerId) {
+    if (!tableId) return Promise.reject(new Error('table id is required'));
+    if (!customerId) return Promise.reject(new Error('customer id is required'));
+
+    return new Promise(
+        (resolve, reject) => {
+            this.tables.update({
+                _id: tableId
+            }, {
+                    $set: {
+                        customer: customerId
+                    }
+                }, (err) => {
+                    if (err) return reject(err);
+
+                    resolve();
+                });
+        }
+    );
+}
 
 module.exports = Tables;
