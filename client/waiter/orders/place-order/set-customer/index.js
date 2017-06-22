@@ -27,6 +27,10 @@ require('angular')
                         controller: function (API, $mdDialog) {
                             var ctrl = this;
 
+                            this.cancel = function () {
+                                $mdDialog.cancel();
+                            }
+
                             this.searchCustomers = function (filter) {
                                 return API.customers.search(filter);
                             };
