@@ -81,10 +81,33 @@ Tables.prototype.getTable = function (tableId) {
     );
 };
 
+function Customers(api) {
+    this.api = api;
+}
+
+Customers.prototype.create = function (name) {
+    return this.api.customers.create(
+        name
+    );
+};
+
+Customers.prototype.search = function (filter) {
+    return this.api.customers.search(
+        filter
+    );
+};
+
+Customers.prototype.get = function (customerId) {
+    return this.api.customers.get(
+        customerId
+    );
+};
+
 function WaiterAPI(api) {
     this.menu = new Menu(api);
     this.orders = new Orders(api);
     this.tables = new Tables(api);
+    this.customers = new Customers(api);
 }
 
 module.exports = WaiterAPI;

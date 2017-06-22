@@ -1,0 +1,44 @@
+<md-dialog aria-label="Buscar cliente">
+
+  <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools">
+      <h2 md-truncate flex>Buscar cliente</h2>
+
+      <md-button ng-click="dialog.cancel()">
+        <ng-md-icon icon="cancel"></ng-md-icon>
+      </md-button>
+
+      <md-button class="md-raised md-primary" ng-click="dialog.create()" ng-if="!dialog.selected && dialog.searchText">
+        <ng-md-icon icon="add"></ng-md-icon>&nbsp;Crear
+      </md-button>
+
+      <md-button class="md-raised md-primary" ng-click="dialog.useSelected()" ng-if="dialog.selected">
+        <ng-md-icon icon="check"></ng-md-icon>&nbsp;Seleccionar
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content layout-padding>
+          <md-autocomplete
+          md-selected-item="dialog.selected"
+          md-search-text="dialog.searchText"
+          md-items="customer in dialog.searchCustomers(dialog.searchText)"
+          md-item-text="customer.name"
+          md-min-length="3"
+          placeholder="Nombre del cliente">
+        <md-item-template>
+          <span md-highlight-text="dialog.searchText" md-highlight-flags="^i">{{customer.name}}</span>
+        </md-item-template>
+        <md-not-found>
+          No hay registros
+        </md-not-found>
+      </md-autocomplete>
+      
+      <div ng-if="dialog.selected">
+        <md-input-container>
+          <label>Seleccionado</label>
+          <input type="text" disabled value="{{dialog.selected.name}}" />
+        </md-input-container>
+      </div>
+  </md-dialog-content>
+</md-dialog>

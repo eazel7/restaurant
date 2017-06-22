@@ -7,12 +7,18 @@
     </md-fab-trigger>
 
     <md-fab-actions>
-        <div>
+        <div layout="column">
             <md-button aria-label="Cuenta" class="md-fab md-raised md-mini" ui-sref="ordered">
                 <md-tooltip md-direction="left" md-autohide="false">
                     Cuenta
                 </md-tooltip>
                 <ng-md-icon aria-label="Cuenta" icon="room_service"></ng-md-icon>
+            </md-button>
+            <md-button aria-label="Cliente" class="md-fab md-raised md-mini" ui-sref=".set-customer">
+                <md-tooltip md-direction="left" md-autohide="false">
+                    Cliente
+                </md-tooltip>
+                <ng-md-icon aria-label="Cliente" icon="person_pin"></ng-md-icon>
             </md-button>
         </div>
     </md-fab-actions>

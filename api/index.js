@@ -3,6 +3,7 @@ const Orders = require('./orders');
 const Tables = require('./tables');
 const Users = require('./users');
 const Settings = require('./settings');
+const Customers = require('./customers');
 
 function API(db, bus, pair) {
     if (!bus) {
@@ -18,6 +19,7 @@ function API(db, bus, pair) {
     this.tables = new Tables(db, bus);
     this.users = new Users(db, bus, pair)
     this.settings = new Settings(db, bus);
+    this.customers = new Customers(db, bus);
 }
 
 module.exports = API;

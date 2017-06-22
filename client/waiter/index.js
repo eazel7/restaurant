@@ -106,4 +106,4 @@ jquery(document).ready(function () {
             require('./settings')
         ]
         )
-})
+});
