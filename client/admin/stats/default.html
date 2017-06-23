@@ -21,7 +21,9 @@
                     <span class="md-list-item-text">
                         {{byDish.name}}
                     </span>
-                    <span class="md-secondary">{{byDish.amount}}</span>
+                    <span class="md-secondary">
+                        <span ng-if="byDish.average">{{(byDish.average/1000).toFixed(0)}}s (promedio en cocina) ×&nbsp;</span>
+                        {{byDish.amount}} pedidos</span>
                 </md-list-item>
             </md-list>
         </md-tab>

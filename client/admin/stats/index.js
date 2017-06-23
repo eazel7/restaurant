@@ -44,7 +44,7 @@ require('angular')
                                     ctrl.results = results;
 
                                     var byDish = {};
-
+                                    
                                     results.forEach(function (order) {
                                         (byDish[order.dish] = byDish[order.dish] || [])
                                         .push(order);
@@ -54,6 +54,29 @@ require('angular')
                                         Object.keys(byDish).map(function (dishId) {
                                             return API.menu.getDish(dishId).then(function (dish) {
                                                 dish.amount = byDish[dishId].length;
+
+                                                return dish;
+                                            })
+                                            .then(function (dish) {
+                                                var spans = [];
+
+                                                byDish[dishId].forEach(function (order) {
+                                                    if (order.date && order.readyAt) {
+                                                        var orderDate = (typeof(order.date) === 'string') ? Date.parse(order.date) : new Date(order.date);
+                                                        var readyDate = (typeof(order.readyDate) === 'string') ? Date.parse(order.readyAt) : new Date(order.readyAt);
+
+                                                        spans.push((readyDate.valueOf() - orderDate.valueOf()));
+                                                    }
+                                                });
+                                                var total = 0;
+
+                                                spans.forEach(function (span) {
+                                                    total += span;
+                                                });
+
+                                                var average = total / spans.length;
+
+                                                dish.average = average;
 
                                                 return dish;
                                             })
