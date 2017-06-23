@@ -8,30 +8,40 @@ function Orders(db, bus) {
 Orders.prototype.closeTable = function (tableId) {
     return new Promise(
         (resolve, reject) => {
-            this.orders.update({
-                table: tableId
-            }, {
-                    $set: {
-                        archived: true
-                    }
-                }, { multi: true }, (err) => {
-                    if (err) return reject(err);
+            this.tables.findOne({
+                _id: tableId
+            }, (err, tableDoc) => {
+                if (err) return reject(err);
 
-                    this.tables.update({
-                        _id: tableId
-                    }, {
+                if (!tableDoc) return reject('Invalid table');
+
+                this.orders.update({
+                    table: tableId,
+                    archived: false
+                }, {
                         $set: {
-                            status: 'free',
-                            customer: null
+                            archived: true,
+                            customer: tableDoc.customer
                         }
-                    }, (err) => {
+                    }, { multi: true }, (err) => {
                         if (err) return reject(err);
 
-                        resolve();
-                        
-                        this.bus.emit('table-status-changed', tableId);
+                        this.tables.update({
+                            _id: tableId
+                        }, {
+                                $set: {
+                                    status: 'free',
+                                    customer: null
+                                }
+                            }, (err) => {
+                                if (err) return reject(err);
+
+                                resolve();
+
+                                this.bus.emit('table-status-changed', tableId);
+                            });
                     });
-                });
+            });
         }
     );
 };
@@ -39,7 +49,7 @@ Orders.prototype.closeTable = function (tableId) {
 Orders.prototype.cancelOrder = function (orderId) {
     if (!orderId) return Promise.reject(new Error('order id is required'));
 
-    
+
 };
 
 Orders.prototype.setOrderReady = function (orderId) {

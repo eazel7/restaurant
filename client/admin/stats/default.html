@@ -25,4 +25,14 @@
                 </md-list-item>
             </md-list>
         </md-tab>
+        <md-tab label="× cliente">
+            <md-list>
+                <md-list-item ng-repeat="byCustomer in stats.byCustomer|orderBy:'-amount'">
+                    <span class="md-list-item-text">
+                        {{byCustomer.name}}
+                    </span>
+                    <span class="md-secondary">{{byCustomer.amount}}</span>
+                </md-list-item>
+            </md-list>
+        </md-tab>
     </md-tabs>

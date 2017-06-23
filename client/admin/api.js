@@ -225,6 +225,16 @@ Stats.prototype.listOrdersBetweenDates = function (from, to) {
     );
 };
 
+function Customers(api) {
+    this.api = api;
+}
+
+Customers.prototype.get = function (customerId) {
+    return this.api.customers.get(
+        customerId
+    );
+};
+
 function AdminAPI(api) {
     this.orders = new Orders(api);
     this.tables = new Tables(api);
@@ -232,6 +242,7 @@ function AdminAPI(api) {
     this.menu = new Menu(api);
     this.settings = new Settings(api);  
     this.stats = new Stats(api);
+    this.customers = new Customers(api);
 }
 
 module.exports = AdminAPI;

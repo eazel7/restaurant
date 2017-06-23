@@ -32,11 +32,14 @@ require('angular')
                         };
 
                         this.query = function (from, to) {
+                            var toPlusOneDay = new Date(ctrl.to);
+                            toPlusOneDay.setDate(toPlusOneDay.getDate() + 1);
+
                             API
                                 .stats
                                 .listOrdersBetweenDates(
                                 from.valueOf(),
-                                to.valueOf()
+                                toPlusOneDay.valueOf()
                                 ).then(function (results) {
                                     ctrl.results = results;
 
@@ -58,6 +61,28 @@ require('angular')
                                     )
                                     .then(function (byDish) {
                                         ctrl.byDish = byDish;
+                                    })
+
+                                    var byCustomer = {};
+
+                                    results.forEach(function (order) {
+                                        if (!order.customer) return;
+
+                                        (byCustomer[order.customer] = byCustomer[order.customer] || [])
+                                        .push(order);
+                                    });
+
+                                    $q.all(
+                                        Object.keys(byCustomer).map(function (customerId) {
+                                            return API.customers.get(customerId).then(function (customer) {
+                                                customer.amount = byCustomer[customerId].length;
+
+                                                return customer;
+                                            })
+                                        })
+                                    )
+                                    .then(function (byCustomer) {
+                                        ctrl.byCustomer = byCustomer;
                                     })
                                 })
                         };
