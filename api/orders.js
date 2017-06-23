@@ -36,6 +36,12 @@ Orders.prototype.closeTable = function (tableId) {
     );
 };
 
+Orders.prototype.cancelOrder = function (orderId) {
+    if (!orderId) return Promise.reject(new Error('order id is required'));
+
+    
+};
+
 Orders.prototype.setOrderReady = function (orderId) {
     if (!orderId) return Promise.reject(new Error('order id is required'));
 
@@ -51,7 +57,8 @@ Orders.prototype.setOrderReady = function (orderId) {
                     _id: orderId
                 }, {
                         $set: {
-                            ready: true
+                            ready: true,
+                            readyAt: Date.now()
                         }
                     }, (err) => {
                         if (err) return reject(err);
@@ -80,7 +87,7 @@ Orders.prototype.orderDish = function (tableId, dishId, optionals, notes, amount
                 table: tableId,
                 dish: dishId,
                 optionals: optionals,
-                date: new Date(),
+                date: Date.now(),
                 price: price * amount,
                 ready: false,
                 archived: false,

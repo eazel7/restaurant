@@ -92,6 +92,28 @@ describe('Orders', function () {
         });
     });
 
+    describe('.cancelOrder', () => {
+        it('requires order id', (done) => {
+            target.cancelOrder().then(
+                () => done(new Error()),
+                (err) => {
+                    try {
+                        assert(err);
+                        assert(err instanceof Error);
+                        assert.equal(err.message, 'order id is required');
+
+                        done();
+                    } catch (e) {
+                        done(e);
+                    }
+                }
+            );
+        });
+        
+        it('sets cancelled=true');
+        it('sets archived=true');
+    });
+
     describe('.setOrderReady', function () {
         it('requires order id', (done) => {
             target.setOrderReady()

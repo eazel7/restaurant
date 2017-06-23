@@ -75,7 +75,8 @@ jquery(document).ready(function () {
             require('./menu'),
             require('./settings'),
             require('./tables'),
-            require('./users')
+            require('./users'),
+            require('./stats')
         ]
         )
 })

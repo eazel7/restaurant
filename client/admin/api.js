@@ -214,12 +214,24 @@ Settings.prototype.set = function (key, value) {
     );
 };
 
+function Stats(api) {
+    this.api = api;
+}
+
+Stats.prototype.listOrdersBetweenDates = function (from, to) {
+    return this.api.stats.listOrdersBetweenDates(
+        from,
+        to
+    );
+};
+
 function AdminAPI(api) {
     this.orders = new Orders(api);
     this.tables = new Tables(api);
     this.users = new Users(api);
     this.menu = new Menu(api);
     this.settings = new Settings(api);  
+    this.stats = new Stats(api);
 }
 
 module.exports = AdminAPI;

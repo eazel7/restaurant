@@ -4,6 +4,7 @@ const Tables = require('./tables');
 const Users = require('./users');
 const Settings = require('./settings');
 const Customers = require('./customers');
+const Stats = require('./stats');
 
 function API(db, bus, pair) {
     if (!bus) {
@@ -20,6 +21,7 @@ function API(db, bus, pair) {
     this.users = new Users(db, bus, pair)
     this.settings = new Settings(db, bus);
     this.customers = new Customers(db, bus);
+    this.stats = new Stats(db, bus);
 }
 
 module.exports = API;
