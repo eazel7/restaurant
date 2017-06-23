@@ -1,0 +1,4 @@
+{
+    "mongodb": true,
+    "db": "mongodb://heroku:rpFmFz4n@ds135382.mlab.com:35382/demorestaurant2"
+}
