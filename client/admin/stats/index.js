@@ -68,13 +68,13 @@ require('angular')
                                                         spans.push((readyDate.valueOf() - orderDate.valueOf()));
                                                     }
                                                 });
-                                                var total = 0;
+                                                var totalTime = 0;
 
                                                 spans.forEach(function (span) {
-                                                    total += span;
+                                                    totalTime += span;
                                                 });
 
-                                                var average = total / spans.length;
+                                                var average = totalTime / spans.length;
 
                                                 dish.average = average;
 

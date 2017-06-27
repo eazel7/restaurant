@@ -9,7 +9,8 @@ angular
         require('angular-material'),
         require('angular-material-icons'),
         require('../base/user-selection'),
-        require('../base/api')
+        require('../base/api'),,
+        require('angular-material-data-table')
     ]
     )
     .config(function ($mdDateLocaleProvider) {

@@ -1,40 +1,59 @@
-
-    <div layout="row" layout-xs="column">
-        <md-input-container ng-class="{'md-block': stats.isXs() }" flex-md="50">
-            <label>Desde</label>
-            <md-datepicker ng-model="stats.from"></md-datepicker>
-        </md-input-container>
-        <md-input-container ng-class="{'md-block': stats.isXs() }" flex-md="50">
-            <label>Hasta</label>
-            <md-datepicker ng-model="stats.to"></md-datepicker>
-        </md-input-container>
-    </div>
-    <div layout layout-align="center center">
-        <md-button ng-click="stats.query(stats.from, stats.to)" class="md-primary md-raised">
-            <ng-md-icon icon="search"></ng-md-icon>&nbsp;Consultar
-        </md-button>
-    </div>
-    <md-tabs class="md-accent" md-border-bottom flex>
-        <md-tab label="× plato">
-            <md-list>
-                <md-list-item ng-repeat="byDish in stats.byDish|orderBy:'-amount'">
-                    <span class="md-list-item-text">
-                        {{byDish.name}}
-                    </span>
-                    <span class="md-secondary">
-                        <span ng-if="byDish.average">{{(byDish.average/1000).toFixed(0)}}s (promedio en cocina) ×&nbsp;</span>
-                        {{byDish.amount}} pedidos</span>
-                </md-list-item>
-            </md-list>
-        </md-tab>
-        <md-tab label="× cliente">
-            <md-list>
-                <md-list-item ng-repeat="byCustomer in stats.byCustomer|orderBy:'-amount'">
-                    <span class="md-list-item-text">
-                        {{byCustomer.name}}
-                    </span>
-                    <span class="md-secondary">{{byCustomer.amount}}</span>
-                </md-list-item>
-            </md-list>
-        </md-tab>
-    </md-tabs>
+<div layout="row" layout-xs="column">
+    <md-input-container ng-class="{'md-block': stats.isXs() }" flex-md="50">
+        <label>Desde</label>
+        <md-datepicker ng-model="stats.from"></md-datepicker>
+    </md-input-container>
+    <md-input-container ng-class="{'md-block': stats.isXs() }" flex-md="50">
+        <label>Hasta</label>
+        <md-datepicker ng-model="stats.to"></md-datepicker>
+    </md-input-container>
+</div>
+<div layout layout-align="center center">
+    <md-button ng-click="stats.query(stats.from, stats.to)" class="md-primary md-raised">
+        <ng-md-icon icon="search"></ng-md-icon>&nbsp;Consultar
+    </md-button>
+</div>
+<md-tabs class="md-primary" md-border-bottom flex>
+    <md-tab label="× cliente">
+        <md-table-container>
+            <table md-table ng-model="stats.byCustomer">
+                <thead md-head md-order="query.byCustomerOrder">
+                    <tr md-row>
+                        <th md-column md-order-by="name"><span>Cliente</span></th>
+                        <th md-column md-order-by="amount"><span>Cantidad de pedidos</span></th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row md-select="customer" md-select-id="name" md-auto-select ng-repeat="customer in stats.byCustomer|orderBy:query.byCustomerOrder">
+                        <td md-cell>{{customer.name}}</td>
+                        <td md-cell>{{customer.amount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+    </md-table>
+    </md-tab>
+    <md-tab label="× plato">
+        <md-table-container>
+            <table md-table ng-model="stats.byDish">
+                <thead md-head md-order="byDishQuery.order">
+                    <tr md-row>
+                        <th md-column md-order-by="name"><span>Plato</span></th>
+                        <th md-column md-order-by="average"><span>Tiempo de preparación</span></th>
+                        <th md-column md-order-by="amount"><span>Cantidad de pedidos</span></th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row md-select="dish" md-select-id="name" md-auto-select ng-repeat="dish in stats.byDish|orderBy:byDishQuery.order">
+                        <td md-cell>{{dish.name}}</td>
+                        <td md-cell>
+                            <span ng-if="dish.average">{{(dish.average/1000).toFixed(0)}}s</span>
+                        </td>
+                        <td md-cell>{{dish.amount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+    </md-table>
+    </md-tab>
+</md-tabs>

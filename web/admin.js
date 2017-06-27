@@ -10,7 +10,7 @@ function AdminApp(clientConfig, api) {
             
             var apisDescription = require('./service').describeApi(adminApi);
 
-            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router'];
+            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router', 'angular-material-data-table'];
 
             var depsScript;
 
@@ -113,7 +113,8 @@ function AdminApp(clientConfig, api) {
 
                 res.send([
                     require.resolve('angular-material/angular-material.css'),
-                    require.resolve('angular-material-icons/angular-material-icons.css')
+                    require.resolve('angular-material-icons/angular-material-icons.css'),
+                    require.resolve('angular-material-data-table/dist/md-data-table.css')
                 ].map((path) => require('fs').readFileSync(path)).join('\n'));
             })
 
