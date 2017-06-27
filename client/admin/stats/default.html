@@ -20,13 +20,13 @@
                 <thead md-head md-order="query.byCustomerOrder">
                     <tr md-row>
                         <th md-column md-order-by="name"><span>Cliente</span></th>
-                        <th md-column md-order-by="amount"><span>Cantidad de pedidos</span></th>
+                        <th md-column md-numeric md-order-by="amount"><span>Cantidad de pedidos</span></th>
                     </tr>
                 </thead>
                 <tbody md-body>
                     <tr md-row md-select="customer" md-select-id="name" md-auto-select ng-repeat="customer in stats.byCustomer|orderBy:query.byCustomerOrder">
                         <td md-cell>{{customer.name}}</td>
-                        <td md-cell>{{customer.amount}}</td>
+                        <td md-cell md-numeric>{{customer.amount}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -39,17 +39,19 @@
                 <thead md-head md-order="byDishQuery.order">
                     <tr md-row>
                         <th md-column md-order-by="name"><span>Plato</span></th>
-                        <th md-column md-order-by="average"><span>Tiempo de preparación</span></th>
-                        <th md-column md-order-by="amount"><span>Cantidad de pedidos</span></th>
+                        <th md-column md-numeric md-order-by="average"><span>Tiempo de preparación</span></th>
+                        <th md-column md-numeric md-order-by="amount"><span>Cantidad de pedidos</span></th>
+                        <th md-column md-numeric md-order-by="totalSold"><span>Total</span></th>
                     </tr>
                 </thead>
                 <tbody md-body>
                     <tr md-row md-select="dish" md-select-id="name" md-auto-select ng-repeat="dish in stats.byDish|orderBy:byDishQuery.order">
                         <td md-cell>{{dish.name}}</td>
-                        <td md-cell>
+                        <td md-cell md-numeric>
                             <span ng-if="dish.average">{{(dish.average/1000).toFixed(0)}}s</span>
                         </td>
-                        <td md-cell>{{dish.amount}}</td>
+                        <td md-cell md-numeric>{{dish.amount}}</td>
+                        <td md-cell md-numeric>{{dish.totalSold|currency}}</td>
                     </tr>
                 </tbody>
             </table>

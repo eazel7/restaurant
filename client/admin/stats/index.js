@@ -77,6 +77,7 @@ require('angular')
                                                 var average = totalTime / spans.length;
 
                                                 dish.average = average;
+                                                dish.totalSold = dish.amount * dish.price;
 
                                                 return dish;
                                             })
