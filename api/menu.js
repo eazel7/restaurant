@@ -5,7 +5,7 @@ function Menu(db) {
     this.dishesOptions = db.collection('dishes-options');
 }
 
-Menu.prototype.addCategory = function (name) {
+Menu.prototype.createCategory = function (name) {
     if (!name) return Promise.reject(new Error('name is required'));
 
     return new Promise((resolve, reject) => {
@@ -99,7 +99,7 @@ Menu.prototype.removeDishPicture = function (dishId, pictureId) {
     );
 };
 
-Menu.prototype.addDish = function (name) {
+Menu.prototype.createDish = function (name) {
     if (!name) return Promise.reject(new Error('name is required'));
 
     return new Promise((resolve, reject) => {

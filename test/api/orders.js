@@ -35,7 +35,8 @@ describe('Orders', function () {
                 }, callback),
                 (callback) => db.collection('orders').insert({
                     _id: 'order2',
-                    table: 'table1'
+                    table: 'table1',
+                    archived: true
                 }, callback)
             ],
             (err) => done(err));

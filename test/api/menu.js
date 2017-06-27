@@ -201,9 +201,9 @@ describe('Menu', function () {
         });
     });
 
-    describe('.addCategory', function () {
+    describe('.createCategory', function () {
         it('requires name', function (done) {
-            target.addCategory().then(
+            target.createCategory().then(
                 () => done(new Error()),
                 (err) => {
                     try {
@@ -220,7 +220,7 @@ describe('Menu', function () {
         });
 
         it('saves to db', function (done) {
-            target.addCategory('Category 2').then(
+            target.createCategory('Category 2').then(
                 (id) => {
                     try {
                         assert(id);
@@ -251,9 +251,9 @@ describe('Menu', function () {
         });
     });
 
-    describe('.addDish', function () {
+    describe('.createDish', function () {
         it('requires name', function (done) {
-            target.addDish().then(
+            target.createDish().then(
                 () => done(new Error()),
                 (err) => {
                     try {
@@ -270,7 +270,7 @@ describe('Menu', function () {
         });
 
         it('saves to db', function (done) {
-            target.addDish('Dish 2').then(
+            target.createDish('Dish 2').then(
                 (id) => {
                     try {
                         assert(id);
