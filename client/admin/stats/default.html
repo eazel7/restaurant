@@ -20,13 +20,17 @@
                 <thead md-head md-order="query.byCustomerOrder">
                     <tr md-row>
                         <th md-column md-order-by="name"><span>Cliente</span></th>
-                        <th md-column md-numeric md-order-by="amount"><span>Cantidad de pedidos</span></th>
+                        <th md-column md-numeric md-order-by="totalOrders"><span>Pedidos</span></th>
+                        <th md-column md-numeric md-order-by="totalPortions"><span>Porciones</span></th>
+                        <th md-column md-numeric md-order-by="totalSold"><span>Monto</span></th>
                     </tr>
                 </thead>
                 <tbody md-body>
                     <tr md-row md-select="customer" md-select-id="name" md-auto-select ng-repeat="customer in stats.byCustomer|orderBy:query.byCustomerOrder">
                         <td md-cell>{{customer.name}}</td>
-                        <td md-cell md-numeric>{{customer.amount}}</td>
+                        <td md-cell md-numeric>{{customer.totalOrders}}</td>
+                        <td md-cell md-numeric>{{customer.totalPortions}}</td>
+                        <td md-cell md-numeric>{{customer.totalSold|currency}}</td>
                     </tr>
                 </tbody>
             </table>

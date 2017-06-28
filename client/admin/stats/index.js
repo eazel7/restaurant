@@ -8,6 +8,75 @@ require('angular')
         require('../../base/api')
     ]
     )
+    .factory(
+        'computeOrdersByCustomer', 
+        function (API, $q) {
+            return function (orders) {
+                var defer = $q.defer();
+                
+                var dishesIds = []
+
+                orders.forEach(function (order) {
+                    if (dishesIds.indexOf(order.dish) === -1) dishesIds.push(order.dish);
+                });
+
+                var dishes = {};
+
+                $q.all(
+                    dishesIds.map(function (dishId) {
+                        return API.menu.getDish(dishId).then(function (dish) {
+                            dishes[dishId] = dish;
+                        })
+                    })
+                )
+                .then(function () {
+                    var customersIds = [];
+
+                    orders.forEach(function (order) {
+                        if (order.customer && customersIds.indexOf(order.customer) === -1) customersIds.push(order.customer);
+                    });
+
+                    var customers = {};
+
+                    $q.all(
+                        customersIds.map(function (customerId) {
+                            return API.customers.get(customerId).then(function (customer) {
+                                customers[customerId] = customer;
+                            })
+                        })
+                    )
+                    .then(function () {
+                        var results = [];
+
+                        for (var customerId in customers) {
+                            var row = customers[customerId];
+
+                            row.orders = orders.filter(function (order) {
+                                return order.customer === customerId;
+                            });
+
+                            row.totalSold = 0;
+                            row.totalPortions = 0;
+                            row.totalOrders = row.orders.length;
+
+                            row.orders.forEach(function (order) {
+                                if (Number.isNaN(dishes[order.dish].price)) return;
+
+                                row.totalPortions += (order.amount || 1); 
+                                row.totalSold += ((order.amount || 1) * (dishes[order.dish].price || 0));
+                            })  
+
+                            results.push(row)
+                        }
+
+                        defer.resolve(results);
+                    })
+                });
+
+                return defer.promise;
+            }
+        }
+    )
     .config(
     function ($stateProvider) {
         $stateProvider.state({
@@ -17,7 +86,7 @@ require('angular')
                 '@': {
                     template: require('./default.html'),
                     controllerAs: 'stats',
-                    controller: function ($mdMedia, API, $q) {
+                    controller: function ($mdMedia, API, $q, computeOrdersByCustomer) {
                         var ctrl = this;
 
                         var date = new Date();
@@ -87,27 +156,9 @@ require('angular')
                                         ctrl.byDish = byDish;
                                     })
 
-                                    var byCustomer = {};
-
-                                    results.forEach(function (order) {
-                                        if (!order.customer) return;
-
-                                        (byCustomer[order.customer] = byCustomer[order.customer] || [])
-                                        .push(order);
-                                    });
-
-                                    $q.all(
-                                        Object.keys(byCustomer).map(function (customerId) {
-                                            return API.customers.get(customerId).then(function (customer) {
-                                                customer.amount = byCustomer[customerId].length;
-
-                                                return customer;
-                                            })
-                                        })
-                                    )
-                                    .then(function (byCustomer) {
+                                    computeOrdersByCustomer(results).then(function (byCustomer) {
                                         ctrl.byCustomer = byCustomer;
-                                    })
+                                    });
                                 })
                         };
                     }
