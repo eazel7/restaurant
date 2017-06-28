@@ -125,6 +125,13 @@ function KitchenApp(clientConfig, api) {
                 res.end();
             });
 
+            app.get('/favicon.ico', (req, res, next) => {
+                res.set('content-type', 'image/x-icon');
+                res.send(require('fs').readFileSync(require.resolve('../client/kitchen/favicon.ico')));
+                res.end();
+            });
+
+
             return bundleDeps().then(() => resolve(app), (err) => reject(err));
         }
     )
