@@ -9,26 +9,85 @@ require('angular')
     ]
     )
     .factory(
-        'computeOrdersByCustomer', 
-        function (API, $q) {
-            return function (orders) {
-                var defer = $q.defer();
-                
-                var dishesIds = []
+    'computeOrdersByDish',
+    function (API, $q) {
+        return function (orders) {
+            var defer = $q.defer();
 
-                orders.forEach(function (order) {
-                    if (dishesIds.indexOf(order.dish) === -1) dishesIds.push(order.dish);
-                });
+            var byDish = {};
 
-                var dishes = {};
+            orders.forEach(function (order) {
+                (byDish[order.dish] = byDish[order.dish] || [])
+                    .push(order);
+            });
 
-                $q.all(
-                    dishesIds.map(function (dishId) {
-                        return API.menu.getDish(dishId).then(function (dish) {
-                            dishes[dishId] = dish;
-                        })
+            $q.all(
+                Object.keys(byDish).map(function (dishId) {
+                    return API.menu.getDish(dishId).then(function (dish) {
+                        dish.amount = byDish[dishId].length;
+
+                        return dish;
                     })
-                )
+                        .then(function (dish) {
+                            var spans = [];
+                            dish.totalPortions = 0;
+
+                            byDish[dishId].forEach(function (order) {
+                                dish.totalPortions += (order.amount || 1);
+
+                                if (order.date && order.readyAt) {
+                                    var orderDate = (typeof (order.date) === 'string') ? Date.parse(order.date) : new Date(order.date);
+                                    var readyDate = (typeof (order.readyDate) === 'string') ? Date.parse(order.readyAt) : new Date(order.readyAt);
+
+                                    spans.push((readyDate.valueOf() - orderDate.valueOf()));
+                                }
+                            });
+
+                            var totalTime = 0;
+
+                            spans.forEach(function (span) {
+                                totalTime += span;
+                            });
+
+                            var average = totalTime / spans.length;
+
+                            dish.average = average;
+                            dish.totalSold = dish.totalPortions * dish.price;
+
+                            return dish;
+                        })
+                })
+            )
+                .then(function (byDish) {
+                    defer.resolve(byDish);
+                }, function (err) {
+                    defer.reject(err);
+                })  ;
+
+            return defer.promise; 
+        };
+    })
+    .factory(
+    'computeOrdersByCustomer',
+    function (API, $q) {
+        return function (orders) {
+            var defer = $q.defer();
+
+            var dishesIds = []
+
+            orders.forEach(function (order) {
+                if (dishesIds.indexOf(order.dish) === -1) dishesIds.push(order.dish);
+            });
+
+            var dishes = {};
+
+            $q.all(
+                dishesIds.map(function (dishId) {
+                    return API.menu.getDish(dishId).then(function (dish) {
+                        dishes[dishId] = dish;
+                    })
+                })
+            )
                 .then(function () {
                     var customersIds = [];
 
@@ -45,37 +104,37 @@ require('angular')
                             })
                         })
                     )
-                    .then(function () {
-                        var results = [];
+                        .then(function () {
+                            var results = [];
 
-                        for (var customerId in customers) {
-                            var row = customers[customerId];
+                            for (var customerId in customers) {
+                                var row = customers[customerId];
 
-                            row.orders = orders.filter(function (order) {
-                                return order.customer === customerId;
-                            });
+                                row.orders = orders.filter(function (order) {
+                                    return order.customer === customerId;
+                                });
 
-                            row.totalSold = 0;
-                            row.totalPortions = 0;
-                            row.totalOrders = row.orders.length;
+                                row.totalSold = 0;
+                                row.totalPortions = 0;
+                                row.totalOrders = row.orders.length;
 
-                            row.orders.forEach(function (order) {
-                                if (Number.isNaN(dishes[order.dish].price)) return;
+                                row.orders.forEach(function (order) {
+                                    if (Number.isNaN(dishes[order.dish].price)) return;
 
-                                row.totalPortions += (order.amount || 1); 
-                                row.totalSold += ((order.amount || 1) * (dishes[order.dish].price || 0));
-                            })  
+                                    row.totalPortions += (order.amount || 1);
+                                    row.totalSold += ((order.amount || 1) * (dishes[order.dish].price || 0));
+                                })
 
-                            results.push(row)
-                        }
+                                results.push(row)
+                            }
 
-                        defer.resolve(results);
-                    })
+                            defer.resolve(results);
+                        })
                 });
 
-                return defer.promise;
-            }
+            return defer.promise;
         }
+    }
     )
     .config(
     function ($stateProvider) {
@@ -86,7 +145,7 @@ require('angular')
                 '@': {
                     template: require('./default.html'),
                     controllerAs: 'stats',
-                    controller: function ($mdMedia, API, $q, computeOrdersByCustomer) {
+                    controller: function ($mdMedia, API, $q, computeOrdersByCustomer, computeOrdersByDish) {
                         var ctrl = this;
 
                         var date = new Date();
@@ -112,49 +171,10 @@ require('angular')
                                 ).then(function (results) {
                                     ctrl.results = results;
 
-                                    var byDish = {};
-                                    
-                                    results.forEach(function (order) {
-                                        (byDish[order.dish] = byDish[order.dish] || [])
-                                        .push(order);
-                                    });
-
-                                    $q.all(
-                                        Object.keys(byDish).map(function (dishId) {
-                                            return API.menu.getDish(dishId).then(function (dish) {
-                                                dish.amount = byDish[dishId].length;
-
-                                                return dish;
-                                            })
-                                            .then(function (dish) {
-                                                var spans = [];
-
-                                                byDish[dishId].forEach(function (order) {
-                                                    if (order.date && order.readyAt) {
-                                                        var orderDate = (typeof(order.date) === 'string') ? Date.parse(order.date) : new Date(order.date);
-                                                        var readyDate = (typeof(order.readyDate) === 'string') ? Date.parse(order.readyAt) : new Date(order.readyAt);
-
-                                                        spans.push((readyDate.valueOf() - orderDate.valueOf()));
-                                                    }
-                                                });
-                                                var totalTime = 0;
-
-                                                spans.forEach(function (span) {
-                                                    totalTime += span;
-                                                });
-
-                                                var average = totalTime / spans.length;
-
-                                                dish.average = average;
-                                                dish.totalSold = dish.amount * dish.price;
-
-                                                return dish;
-                                            })
+                                    computeOrdersByDish(results)
+                                        .then(function (byDish) {
+                                            ctrl.byDish = byDish;
                                         })
-                                    )
-                                    .then(function (byDish) {
-                                        ctrl.byDish = byDish;
-                                    })
 
                                     computeOrdersByCustomer(results).then(function (byCustomer) {
                                         ctrl.byCustomer = byCustomer;

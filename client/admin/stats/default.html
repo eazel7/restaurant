@@ -14,6 +14,32 @@
     </md-button>
 </div>
 <md-tabs class="md-primary" md-border-bottom flex>
+    <md-tab label="× plato">
+        <md-table-container>
+            <table md-table ng-model="stats.byDish">
+                <thead md-head md-order="byDishQuery.order">
+                    <tr md-row>
+                        <th md-column md-order-by="name"><span>Plato</span></th>
+                        <th md-column md-numeric md-order-by="average"><span>Tiempo de preparación</span></th>
+                        <th md-column md-numeric md-order-by="amount"><span>Pedidos</span></th>
+                        <th md-column md-numeric md-order-by="totalPortions"><span>Porciones</span></th>
+                        <th md-column md-numeric md-order-by="totalSold"><span>Total</span></th>
+                    </tr>
+                </thead>
+                <tbody md-body>
+                    <tr md-row md-select="dish" md-select-id="name" md-auto-select ng-repeat="dish in stats.byDish|orderBy:byDishQuery.order">
+                        <td md-cell>{{dish.name}}</td>
+                        <td md-cell md-numeric>
+                            <span ng-if="dish.average">{{(dish.average/1000).toFixed(0)}}s</span>
+                        </td>
+                        <td md-cell md-numeric>{{dish.amount}}</td>
+                        <td md-cell md-numeric>{{dish.totalPortions}}</td>
+                        <td md-cell md-numeric>{{dish.totalSold|currency}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </md-table-container>
+    </md-tab>
     <md-tab label="× cliente">
         <md-table-container>
             <table md-table ng-model="stats.byCustomer">
@@ -35,31 +61,5 @@
                 </tbody>
             </table>
         </md-table-container>
-    </md-table>
-    </md-tab>
-    <md-tab label="× plato">
-        <md-table-container>
-            <table md-table ng-model="stats.byDish">
-                <thead md-head md-order="byDishQuery.order">
-                    <tr md-row>
-                        <th md-column md-order-by="name"><span>Plato</span></th>
-                        <th md-column md-numeric md-order-by="average"><span>Tiempo de preparación</span></th>
-                        <th md-column md-numeric md-order-by="amount"><span>Cantidad de pedidos</span></th>
-                        <th md-column md-numeric md-order-by="totalSold"><span>Total</span></th>
-                    </tr>
-                </thead>
-                <tbody md-body>
-                    <tr md-row md-select="dish" md-select-id="name" md-auto-select ng-repeat="dish in stats.byDish|orderBy:byDishQuery.order">
-                        <td md-cell>{{dish.name}}</td>
-                        <td md-cell md-numeric>
-                            <span ng-if="dish.average">{{(dish.average/1000).toFixed(0)}}s</span>
-                        </td>
-                        <td md-cell md-numeric>{{dish.amount}}</td>
-                        <td md-cell md-numeric>{{dish.totalSold|currency}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </md-table-container>
-    </md-table>
     </md-tab>
 </md-tabs>
