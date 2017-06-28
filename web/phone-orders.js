@@ -7,7 +7,7 @@ function PhoneOrdersApp(clientConfig, api) {
         (resolve, reject) => {
             var app = express.Router();
 
-            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router'];
+            var deps = ['jquery', 'angular', 'angular-material', 'angular-material-icons', 'angular-ui-router', 'angular-simple-logger', 'ui-leaflet'];
 
             var phoneOrdersApi = new PhoneOrdersAPI(api);
             var apiDescription = require('./service').describeApi(phoneOrdersApi);

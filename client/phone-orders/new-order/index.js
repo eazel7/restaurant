@@ -1,10 +1,15 @@
+require('angular-simple-logger');
+require('ui-leaflet');
+
 require('angular')
 .module(
     (module.exports = 'restaurant.phone-orders.new-order'),
     [
         require('angular-material'),
         require('angular-ui-router'),
-        require('angular-material-icons')
+        require('angular-material-icons'),
+        'nemLogging',
+        'ui-leaflet'
     ]
 )
 .config(
