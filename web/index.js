@@ -3,6 +3,7 @@ const WaiterApp = require('./waiter');
 const AdminApp = require('./admin');
 const HomeApp = require('./home');
 const KitchenApp = require('./kitchen');
+const PhoneOrdersApp = require('./phone-orders');
 
 function App(api) {
     return Promise.all([
@@ -17,6 +18,10 @@ function App(api) {
         },
         api),
         KitchenApp({
+            apiUrl: require('config').apiUrl
+        }, 
+        api),
+        PhoneOrdersApp({
             apiUrl: require('config').apiUrl
         }, 
         api),
@@ -43,7 +48,8 @@ function App(api) {
             app.use('/waiter', results[0]);
             app.use('/admin', results[1]);
             app.use('/kitchen', results[2]);
-            app.use('/', results[3]);
+            app.use('/phone-orders', results[3]);
+            app.use('/', results[4]);
 
             return app;
         });
