@@ -1,0 +1,125 @@
+#! /usr/bin/env node
+
+require('async')
+    .autoInject({
+        config: function (callback) {
+            callback(null, require('config'));
+        },
+        port: function (config, callback) {
+            callback(null, process.env.PORT || config.port);
+        },
+        db: function (config, callback) {
+            if (config.mongodb) {
+                require('mongodb').MongoClient.connect(config.db, callback);
+            } else {
+                var TingoDB = require('tingodb')();
+
+                var db = new TingoDB.Db(require('path').resolve(config.db), {});
+
+                callback(null, db);
+            }
+        },
+        pair: function (config, callback) {
+            callback(null, config.rsa);
+        },
+        api: function (db, bus, pair, callback) {
+            const API = require('../api');
+
+            callback(null, new API(db, bus, pair));
+        },
+        menu: function (callback) {
+            try {
+                var file = require('fs').readFileSync(process.argv[2], 'utf8');
+                var menu = [];
+                var category;
+
+                file.split('\n')
+                    .forEach(function (line) {
+                        if (Number.isInteger(Number.parseInt(line.slice(0, line.indexOf('.'))))) {
+                            category = {
+                                name: line,
+                                dishes: []
+                            };
+                            menu.push(category);
+                        } else {
+                            var name;
+
+                            if (line.indexOf(' $') !== -1) {
+                                category.dishes.push({
+                                    name: line.slice(0, line.indexOf(' $')),
+                                    price: Number.parseFloat(line.slice(line.indexOf(' $') + 2))
+                                });
+                            }
+                            else {
+                                category.dishes.push({
+                                    name: line,
+                                    price: null
+                                })
+                            }
+                        }
+                    })
+
+                callback(null, menu);
+            } catch (e) {
+                callback(e);
+            }
+        },
+        bus: function (callback) {
+            const EventEmitter = require('events').EventEmitter;
+
+            var bus = new EventEmitter();
+
+            bus.setMaxListeners(0);
+
+            callback(null, bus);
+        }
+    },
+    (err, results) => {
+        results.db.collections((err, collections) => {
+            require('async').eachSeries(
+                collections,
+                (collection, callback) => {
+                    results.db.collection(collection.collectionName).remove({}, (err) => callback(err));
+                },
+                (err) => {
+                    if (err) {
+                        console.error(err);
+                        return process.exit(-1);
+                    }
+
+                    require('async').eachSeries(
+                        results.menu,
+                        (category, callback) => {
+                            results.api.menu.createCategory(category.name)
+                                .then((categoryId) => {
+                                    require('async').eachSeries(category.dishes, (dish, callback) => {
+                                        results.api.menu.createDish(dish.name)
+                                            .then((dishId) => {
+                                                results.api.menu.setDishPrice(dishId, dish.price)
+                                                    .then(() => {
+                                                        results.api.menu.addDishToCategory(dishId, categoryId)
+                                                            .then(
+                                                            () => callback(),
+                                                            (err) => callback(err));
+                                                    },
+                                                    (err) => callback(err));
+                                            })
+                                    },
+                                        (err) => callback(err)
+                                    );
+                                }, (err) => callback(err));
+                        },
+                        (err) => {
+                            if (err) {
+                                console.log(err);
+                                return process.exit(-1);
+                            }
+
+                            process.exit();
+                        }
+                    )
+                }
+            )
+        });
+    }
+    );

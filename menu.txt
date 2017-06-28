@@ -1,0 +1,122 @@
+01. Entradas
+Bastones de mozzarella $100
+Papas AMADEO $100
+Matambre $130
+Empanadas $25
+02. Parrilla
+Asado $180
+Vacío $180
+Bife de chorizo $180
+Bondiola de cerdo $150
+Pollo asado ¼ $85
+Matambre tiernizado $130
+Chorizo $40
+Morcilla $40
+Chinchulines $95
+Riñones a la provenzal $95
+Mollejas $200
+Provoleta $100
+Costillitas de cerdo $100
+Parrillada para 2 personas $350
+Parrillada para 2 personas $450
+Parrillada para 2 personas $550
+03. Pesca
+Filet de merluza a la romana $90
+Filet de merluza caprese $95
+Filet de merluza al roquefort $100
+04. Minutas
+Matambre a la pizza $140
+Omelette $100
+Omelette liviano $110
+Tortilla de papas $90
+Tortilla de verduras $100
+Tortilla española $100
+05. Ensaladas
+Ensalada para armar (3 ingredientes) $60
+Ensalada AMADEO $100
+Ensalada Caesar con pollo $120
+Ensalada Caesar con salmón $160
+Ensalada caprese $180
+Ensalada verdes y salmón $160
+06. Salteados al Wok
+Wok de pollo $160
+Wok de lomo $180
+Wok de cerdo $150
+Chau fan $120
+Chau mien $120
+07. Pastas
+Sorrentinos de jamón y queso $130
+Ravioles de verdura $110
+Ravioles de ricota $110
+Fetuccine $95
+Ñoquis $95
+08. Pollo
+Pollo grillado con guarnición $125
+Pollo al ajillo $150
+Pollo al champignón $150
+Pollo al verdeo $150
+Pollo a la mostaza $150
+09. Lomo
+Lomo grillado con guarnición $220
+Lomo al ajillo $220
+Lomo al champignón $220
+Lomo al verdeo $220
+Lomo a la mostaza $220
+10. Risottos
+Risotto cde pollo $115
+Risotto vegetariano $110
+Risotto genovés $130
+11. Milanesas
+Milanesa sola con papas fritas $115
+Milanesa napolitana $130
+Milanesa fugazzeta $150
+Milanesa suiza $180
+Milanesa a caballo $110
+12. Supremas
+Suprema sola con papas fritas $125
+Suprema napolitana $140
+Suprema fugazzeta $160
+Suprema suiza $195
+Suprema a caballo $120
+13. Bebidas
+Gaseosa 600 c.c. $50
+Gaseosa 1,5 l. $80
+Agua saborizada $50
+Agua con o sin gas $45
+Cerveza Quilmes $80
+Cerveza Brahma $80
+Cerveza Stella Artois $110
+14. Vinos tintos
+Estancia Mendoza 750 c.c. $80
+Carcassonne 350 c.c. $60
+Carcassonne 750 c.c. $90
+Valderrobles 350 c.c. $70
+Valderrobles 750 c.c. $90
+Norton 350 c.c. $80
+Norton 750 c.c. $110
+López 350 c.c. $80
+López 750 c.c. $120
+Don Valentín 350 c.c. $80
+Don Valentín 750 c.c. $150
+Latitud 33 750 c.c. $180
+15. Vinos blancos
+Valderrobles 350 c.c. $50
+Valderrobles 750 c.c. $80
+Etchart Privado 750 c.c $100
+Marió 750 c.c. $120
+Norton Cosecha Tardía 750 c.c $130
+16. Guarniciones
+Papas fritas $60
+Papas a la española $100
+Puré de papas $120
+Puré de calabaza $160
+Arroz con vegetales $180
+Espinacas a la crema $160
+17. Postres
+Ensalada de frutas $60
+Flan casero $60
+Budín de pan $60
+Helados $70
+Panqueque con dulce de leche $70
+Té $25
+Café $25
