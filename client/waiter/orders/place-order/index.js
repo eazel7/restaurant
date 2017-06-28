@@ -23,7 +23,9 @@ angular
             url: '/',
             resolve: {
                 showPhotos: function (SettingsService) {
-                    return SettingsService.get().showPhotos;
+                    return SettingsService.get().then(function (settings) {
+                        return settings.showPhotos;
+                    });
                 },
                 table: function (TablesService, selectedTable) {
                     return TablesService.getTable(selectedTable).then(function (table) {

@@ -52,8 +52,6 @@ require('angular')
                         })
                         .then(function (dishOptions) {
                             ctrl.options = dishOptions;
-
-                            
                         })
                     }
                 })
