@@ -56,6 +56,8 @@ angular
     )
     .run(function ($rootScope, socket) {
         socket.on('order-ready', function (orderId) {
+            //TODO: Make device vibrate
+            //TODO: Show notification on the phone's lock screen
             $rootScope.$broadcast('order-ready', orderId);
         });
     })

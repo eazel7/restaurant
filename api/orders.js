@@ -75,6 +75,7 @@ Orders.prototype.setOrderReady = function (orderId) {
 
                         resolve();
 
+                        //TODO: Print ticket
                         this.bus.emit('order-ready', orderId);
                     })
             })
