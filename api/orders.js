@@ -1,9 +1,53 @@
+const escpos = require('escpos');
+
 function Orders(db, bus) {
     this.dishes = db.collection('dishes');
     this.tables = db.collection('tables');
     this.orders = db.collection('orders');
+    this.settings = db.collection('settings');
+
     this.bus = bus;
 }
+
+Orders.prototype.printTicket = function (tableId) {
+    return new Promise(
+        (resolve, reject) => {
+            this.settings.findOne({
+                _id: 'printer-device'
+            }, (err, doc) => {
+                if (err) return reject(err);
+
+                if (!doc || !doc.value) return reject(new Error('printer device not set'));
+
+                const device = new escpos.Serial(doc.value, {});
+
+                const printer = new escpos.Printer(device);
+
+                device.open(function (err) {
+                    if (err) return reject(err);
+
+                    try {
+                        printer
+                            .font('a')
+                            .align('ct')
+                            .style('bu')
+                            .size(1, 1)
+                            .text('Ticket...')
+                            .cut()
+                            .close();
+
+                        resolve();
+                    } catch (e) {
+                        return reject(e);
+                    }
+
+
+                });
+
+            })
+        }
+    );
+};
 
 Orders.prototype.closeTable = function (tableId) {
     return new Promise(

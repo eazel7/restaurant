@@ -77,6 +77,10 @@ require('angular')
 
                         this.total = total;
 
+                        this.printTicket = function () {
+                            OrdersService.printTicket(table._id);
+                        }
+
                         this.closeTable = function () {
                             $mdDialog.show({
                                 template: require('./close-table-dialog.html'),

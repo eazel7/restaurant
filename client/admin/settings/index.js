@@ -18,14 +18,14 @@ require('angular')
                 location: function (SettingsService) {
                     return SettingsService.get('location');
                 },
-                todoPago: function (SettingsService) {
-                    return SettingsService.get('todo-pago');
+                printerDevice: function (SettingsService) {
+                    return SettingsService.get('printer-device');
                 },
-                settings: function (shopName, location, todoPago) {
+                settings: function (shopName, location, printerDevice) {
                     return {
                         shopName: shopName || '',
                         location: location || {},
-                        todoPago: todoPago || {}
+                        printerDevice: printerDevice || ''
                     }
                 }
             },
@@ -38,7 +38,7 @@ require('angular')
                             $q.all([
                                 SettingsService.set('shop-name', settings.shopName),
                                 SettingsService.set('location', settings.location),
-                                SettingsService.set('todo-pago', settings.todoPago)
+                                SettingsService.set('printer-device', settings.printerDevice)
                             ])
                             .then(function () {
                                 $state.reload();

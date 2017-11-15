@@ -1,4 +1,8 @@
 <div layout-margin class="md-title" layout flex>{{ordered.table.name}}</div>
+<md-button layout ng-click="ordered.printTicket()">
+    <ng-md-icon icon="receipt"></ng-md-icon>&nbsp;
+    <span>Ticket</span>
+</md-button>
 <md-button layout ng-click="ordered.closeTable()">
     <ng-md-icon icon="payment"></ng-md-icon>&nbsp;
     <span>{{ordered.total|currency}}</span>
