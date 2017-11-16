@@ -10,8 +10,14 @@
         <md-subheader>Impresora</md-subheader>
         <md-input-container class="md-block">
             <label>Dispositivo</label>
-            <input type="text" ng-model="ctrl.settings.printerDevice" />
-        </md-input-container>
+            <md-select ng-model="ctrl.settings.printerDevice">
+              <md-option><em>Ninguna</em></md-option>
+              <md-option ng-repeat="printer in ctrl.printers" ng-value="printer.address">
+                {{printer.name}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+  
     </section>
     <section>
         <md-subheader>Ubicación</md-subheader>

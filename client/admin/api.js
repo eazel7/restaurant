@@ -235,6 +235,18 @@ Customers.prototype.get = function (customerId) {
     );
 };
 
+function Printers(api) {
+    this.api = api;
+}
+
+Printers.prototype.listDevices = function () {
+    return this.api.printer.listDevices();
+};
+
+Printers.prototype.startScan = function () {
+    return this.api.printer.startScan();
+}
+
 function AdminAPI(api) {
     this.orders = new Orders(api);
     this.tables = new Tables(api);
@@ -243,6 +255,7 @@ function AdminAPI(api) {
     this.settings = new Settings(api);  
     this.stats = new Stats(api);
     this.customers = new Customers(api);
+    this.printer = new Printers(api);
 }
 
 module.exports = AdminAPI;

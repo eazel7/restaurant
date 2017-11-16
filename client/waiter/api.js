@@ -45,6 +45,12 @@ Orders.prototype.closeTable = function (tableId) {
     );
 };
 
+Orders.prototype.printTicket = function (tableId) {
+    return this.api.printer.printTicket(
+        tableId
+    );
+};
+
 Orders.prototype.getOrder = function (orderId) {
     return this.api.orders.getOrder(
         orderId

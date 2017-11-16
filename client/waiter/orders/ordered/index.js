@@ -28,6 +28,11 @@ require('angular')
                         })
                     });
                 },
+                printTicket: (OrdersService, table) => {
+                    return () => {
+                        return OrdersService.printTicket(table._id);
+                    }
+                },
                 selectedTable: function (TablesService) {
                     return TablesService.ensureSelected();
                 },
@@ -66,7 +71,7 @@ require('angular')
                 'top-toolbar@': {
                     template: require('./top-toolbar.html'),
                     controllerAs: 'ordered',
-                    controller: function (orderedDishes, table, $mdDialog, $state) {
+                    controller: function (orderedDishes, table, $mdDialog, $state, printTicket) {
                         var total = 0;
 
                         orderedDishes.forEach(function (order) {
@@ -77,9 +82,7 @@ require('angular')
 
                         this.total = total;
 
-                        this.printTicket = function () {
-                            OrdersService.printTicket(table._id);
-                        }
+                        this.printTicket = printTicket;
 
                         this.closeTable = function () {
                             $mdDialog.show({

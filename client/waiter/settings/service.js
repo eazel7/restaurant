@@ -17,7 +17,7 @@ require('angular')
 
                     return $q.resolve(current);
                 } catch (e) {
-                    return defaultSettings;
+                    return $q.resolve(defaultSettings);
                 }
             },
             set: function (newSettings) {

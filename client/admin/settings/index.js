@@ -3,6 +3,7 @@ require('angular')
     (module.exports = 'restaurant.settings'),
     [
         require('./service'),
+        require('../printer/service'),
         require('angular-material'),
         require('angular-ui-router')
     ]
@@ -21,6 +22,25 @@ require('angular')
                 printerDevice: function (SettingsService) {
                     return SettingsService.get('printer-device');
                 },
+                printers: function (PrinterService) {
+                    return PrinterService.listDevices();
+                },
+                refreshPrinters: function (PrinterService, printers) {
+                    return () => {
+                        PrinterService
+                        .listDevices()
+                        .then(
+                            (devices) => {
+                                printers.splice(0, printers.length);
+
+                                devices.forEach((newDevice) => printers.push(newDevice));
+                            }
+                        );
+                    };
+                },
+                scanPrinters: function (PrinterService) {
+                    return () => PrinterService.startScan();
+                },
                 settings: function (shopName, location, printerDevice) {
                     return {
                         shopName: shopName || '',
@@ -33,7 +53,9 @@ require('angular')
                 'top-toolbar@': {
                     template: require('./top-toolbar.html'),
                     controllerAs: 'toolbar',
-                    controller: function ($q, settings, SettingsService, $state) {
+                    controller: function ($q, settings, SettingsService, $state, scanPrinters) {
+                        this.scanPrinters = scanPrinters;
+                        
                         this.save = function () {
                             $q.all([
                                 SettingsService.set('shop-name', settings.shopName),
@@ -49,8 +71,13 @@ require('angular')
                 '@': {
                     template: require('./default.html'),
                     controllerAs: 'ctrl',
-                    controller: function (settings) {
+                    controller: function (settings, printers, $interval, refreshPrinters) {
                         this.settings = settings;
+                        this.printers = printers;
+
+                        $interval(() => {
+                            refreshPrinters();
+                        }, 5000);
                     }
                 }
             }

@@ -3,14 +3,14 @@ const angular = require('angular');
 
 angular
     .module(
-    (module.exports = 'restaurant.settings.service'),
+    (module.exports = 'restaurant.printer.service'),
     [
         require('../../base/api')
     ]
     )
     .service(
-    'SettingsService',
+    'PrinterService',
     function (API) {
-        return API.settings;
+        return API.printer;
     }
     );
