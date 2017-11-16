@@ -1,4 +1,4 @@
-FROM resin/%%RESIN_MACHINE_NAME%%-node:6
+FROM resin/%%RESIN_MACHINE_NAME%%-node:8
 
 # Install other apt deps
 RUN apt-get update && apt-get install -yq \
@@ -32,7 +32,6 @@ RUN apt-get update && apt-get install -yq \
   libudev-dev \
   && \
   apt-get clean && rm -rf /var/lib/apt/lists/*
-
 
 # Set Xorg and FLUXBOX preferences
 RUN mkdir ~/.fluxbox
