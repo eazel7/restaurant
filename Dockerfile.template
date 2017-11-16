@@ -1,4 +1,4 @@
-FROM resin/%%RESIN_MACHINE_NAME%%-node:8
+FROM resin/%%RESIN_MACHINE_NAME%%-node:7
 
 # Install other apt deps
 RUN apt-get update && apt-get install -yq \
@@ -46,7 +46,7 @@ WORKDIR /usr/src/app
 # Move app to filesystem
 COPY . /usr/src/app
 RUN npm install
-RUN npm rebuild
+# RUN npm rebuild
 
 ## uncomment if you want systemd
 ENV INITSYSTEM on
