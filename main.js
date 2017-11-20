@@ -1,3 +1,7 @@
+if (require('is-electron')()) {
+  require('require-rebuild')();
+}
+
 require('async')
   .autoInject({
     config: function (callback) {

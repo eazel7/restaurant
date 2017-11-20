@@ -46,8 +46,6 @@ WORKDIR /usr/src/app
 # Move app to filesystem
 COPY . /usr/src/app
 RUN npm install
-RUN ./node_modules/.bin/electron-rebuild -o usb
-RUN ./node_modules/.bin/electron-rebuild -o serialport
 
 ## uncomment if you want systemd
 ENV INITSYSTEM on
