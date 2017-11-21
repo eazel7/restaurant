@@ -1,7 +1,3 @@
-if (require('is-electron')()) {
-  require('require-rebuild')();
-}
-
 require('async')
   .autoInject({
     config: function (callback) {
@@ -60,6 +56,16 @@ require('async')
     },
     listen: function (server, port, callback) {
       server.listen(port, callback);
+    },
+    postApp: function (web, config, callback) {
+      if (!config.postAppSpawn) return callback();
+
+      var child = require('child_process').spawn(
+        config.postAppSpawn.command,
+        config.postAppSpawn.args
+      );
+
+      callback();
     }
   }, (err, results) => {
     if (err) {
@@ -68,7 +74,4 @@ require('async')
 
       return;
     }
-    
-    if (!results.config.browser) return;
-    else require('./start-electron')(results);
   });

@@ -1,24 +1,24 @@
 {
-  "name": "resin-electronjs",
-  "version": "0.2.0",
-  "description": "electronJS-based resin application",
+  "name": "restaurant-cerovueltas",
+  "version": "0.3.0",
+  "description": "Aplicación para restaurants",
   "main": "main.js",
   "scripts": {
     "dev": "NODE_ENV=development node_modules/.bin/electron .",
     "lint": "eslint .",
     "watch-test": "node_modules/.bin/mocha -w -G",
-    "test": "node_modules/.bin/mocha -G",
-    "start": "NODE_ENV=production startx ./node_modules/electron/dist/electron ."
+    "test": "node_modules/.bin/mocha -G"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/resin-io/resin-electronjs.git"
+    "url": "git+https://gitlab.com/eazel7/restaurant.git"
   },
   "keywords": [
     "resin",
     "io",
     "electron",
-    "js"
+    "js",
+    "restaurant"
   ],
   "dependencies": {
     "angular": "^1.6.4",
@@ -38,8 +38,7 @@
     "angular-ui-router": "^0.4.2",
     "angular-websocket": "^2.0.1",
     "async": "^2.4.0",
-    "bluetooth-hci-socket": "git+https://github.com/sandeepmistry/node-bluetooth-hci-socket.git",
-    "bluetooth-serial-port": "git+https://github.com/eelcocramer/node-bluetooth-serial-port.git",
+    "bluetooth-serial-port": "^2.1.5",
     "body-parser": "^1.17.1",
     "browserify": "^14.3.0",
     "config": "^1.26.1",
@@ -62,14 +61,15 @@
     "stringify": "^5.1.0",
     "tingodb": "^0.5.1",
     "todo-pago": "github:TodoPago/SDK-Node.js",
-    "ui-leaflet": "^1.0.3"
+    "ui-leaflet": "^1.0.3",
+    "usb": "^1.2.0"
   },
-  "author": "Carlo Maria Curinga",
+  "author": "Diego Pérez",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/resin-io/resin-electronjs/issues"
+    "url": "https://gitlab.com/eazel7/restaurant/issues"
   },
-  "homepage": "https://github.com/resin-io/resin-electronjs#readme",
+  "homepage": "https://gitlab.com/eazel7/restaurant",
   "jshintConfig": {
     "esversion": 6,
     "strict": true

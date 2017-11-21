@@ -14,7 +14,4 @@ fi
 echo "Bring hci0 up..."
 hciconfig hci0 up
 
-# rm /tmp/.X0-lock &>/dev/null || true
-# startx /usr/src/app/node_modules/electron/dist/electron /usr/src/app --enable-logging
-
 (cd /usr/src/app && node main.js)
