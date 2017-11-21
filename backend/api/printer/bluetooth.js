@@ -146,7 +146,7 @@ Printer.prototype.printTicket = function (tableId) {
 
                 var date = new Date();
 
-                var lineaFecha =`Fecha: ${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+                var lineaFecha =`Fecha: ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
                 printer
                     .println(lineaFecha);
