@@ -65,6 +65,9 @@ require('async')
         config.postAppSpawn.args
       );
 
+      child.stdout.pipe(process.stdout);
+      child.stderr.pipe(process.stderr);      
+
       callback();
     }
   }, (err, results) => {
