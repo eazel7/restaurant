@@ -128,7 +128,7 @@ Printer.prototype.printTicket = function (tableId) {
                 const escpos = require('escpos');
                 const printer = new escpos.Printer(btSerial);
                 
-                var maxLineSize = 31;
+                var maxLineSize = 32;
 
                 printer
                 .marginLeft(0)
@@ -146,13 +146,13 @@ Printer.prototype.printTicket = function (tableId) {
 
                 var date = new Date();
 
-                var lineaFecha =`    Fecha: ${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+                var lineaFecha =`Fecha: ${date.getDay()}/${date.getMonth() + 1}/${date.getFullYear()}`;
 
                 printer
                     .println(lineaFecha);
 
                 ticket.orders.forEach((item) => {
-                    printer.println();
+                    printer.println('');
 
                     var start = item.amount.toFixed() + ' x ';
                     var end = '   $ ' + item.price.toFixed(2);

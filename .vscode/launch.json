@@ -17,6 +17,16 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Cloud demo",
+            "program": "${workspaceFolder}/backend/main.js",
+            "env": {
+                "NODE_ENV": "cloud-demo"
+            },
+            "cwd": "${workspaceFolder}/backend"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Electron Main",
             "runtimeExecutable": "${workspaceRoot}/frontend/node_modules/.bin/electron",
             "windows": {
