@@ -134,13 +134,12 @@ Printer.prototype.printTicket = function (tableId) {
                 .marginLeft(0)
                     .align('LT')
                     .font('C')
-                    .style('bu')
                     .size(1, 1);
 
                 printer.feed(3);
 
                 if (shopName) {
-                    printer.println('   ' + shopName);
+                    printer.println(shopName);
                     printer.println('-'.repeat(maxLineSize));
                 }
 
@@ -167,7 +166,6 @@ Printer.prototype.printTicket = function (tableId) {
                 printer.align('RT');
                 printer.println('$ ' + ticket.total.toFixed(2));
                 printer.feed(5);
-                printer.cut();
 
                 return resolve(ticket);
             }
