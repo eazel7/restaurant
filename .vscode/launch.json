@@ -8,23 +8,24 @@
             "type": "node",
             "request": "launch",
             "name": "Default",
-            "program": "${workspaceFolder}/main.js",
+            "program": "${workspaceFolder}/backend/main.js",
             "env": {
-                "NODE_ENV": "default"
-            }
+                "NODE_ENV": "development"
+            },
+            "cwd": "${workspaceFolder}/backend"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Electron Main",
-            "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron",
+            "runtimeExecutable": "${workspaceRoot}/frontend/node_modules/.bin/electron",
             "windows": {
-                "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/electron.cmd"
+                "runtimeExecutable": "${workspaceRoot}/frontend/node_modules/.bin/electron.cmd"
             },
-            "program": "${workspaceRoot}/main.js",
+            "program": "${workspaceRoot}/frontend/start-electron.js",
             "protocol": "legacy",
             "env": {
-                "NODE_ENV": "local"
+                "URL_LAUNCHER_URL": "http://localhost:10080/kitchen"
             }
         },
         {
@@ -44,7 +45,8 @@
             "type": "node",
             "request": "launch",
             "name": "Mocha Tests",
-            "program": "${workspaceRoot}/node_modules/mocha/bin/_mocha",
+            "cwd":"${workspaceFolder}/backend",
+            "program": "${workspaceRoot}/backend/node_modules/mocha/bin/_mocha",
             "args": [
                 "-u",
                 "tdd",

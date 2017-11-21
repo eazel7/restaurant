@@ -28,7 +28,7 @@ function Orders(api) {
     this.api = api;
 }
 
-Orders.prototype.getOrder =function (orderId) {
+Orders.prototype.getOrder = function (orderId) {
     return this.api.orders.getOrder(
         orderId
     );
@@ -44,10 +44,50 @@ Orders.prototype.setOrderReady = function (orderId) {
     );
 };
 
+function Settings() {
+}
+
+Settings.prototype.getIpAddresses = function () {
+    return new Promise(
+        (resolve, reject) => {
+            var addresses = [];
+            var os = require('os');
+            var ifaces = os.networkInterfaces();
+
+            Object.keys(ifaces).forEach(function (ifname) {
+                var alias = 0;
+
+                ifaces[ifname].forEach(function (iface) {
+                    if ('IPv4' !== iface.family || iface.internal !== false) {
+                        // skip over internal (i.e. 127.0.0.1) and non-ipv4 addresses
+                        return;
+                    }
+
+                    if (alias >= 1) {
+                        addresses.push({
+                            address: iface.address,
+                            name: ifname + ':' + alias
+                        });
+                    } else {
+                        addresses.push({
+                            address: iface.address,
+                            name: ifname
+                        });
+                    }
+                    ++alias;
+                });
+            });
+
+            resolve(addresses);
+        }
+    )
+}
+
 function KitchenAPI(api) {
     this.tables = new Tables(api);
     this.orders = new Orders(api);
     this.menu = new Menu(api);
+    this.settings = new Settings();
 }
 
 module.exports = KitchenAPI;

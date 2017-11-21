@@ -1,12 +1,17 @@
 require('angular')
     .module(
     (module.exports = 'restaurant.kitchen.settings.service'),
-    []
+    [
+        require('../../base/api')
+    ]
     )
     .service(
     'SettingsService',
-    function ($window) {
+    function ($window, API) {
         return {
+            getIpAddresses: function () {
+                return API.settings.getIpAddresses();
+            },
             get: function (key, defaultValue) {
                 try {
                     var current = JSON.parse($window.localStorage.kitchenSettings) || {};

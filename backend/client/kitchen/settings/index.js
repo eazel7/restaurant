@@ -13,12 +13,19 @@ require('angular')
         $stateProvider.state({
             'name': 'settings',
             'url': '/settings',
+            'resolve': {
+                'ipAddresses': function (SettingsService) {
+                    return SettingsService.getIpAddresses();
+                }
+            },
             'views': {
                 '@': {
                     'template': require('./default.html'),
                     'controllerAs': 'settings',
-                    'controller': function (SpeechService, SettingsService, $scope) {
+                    'controller': function (SpeechService, SettingsService, $scope, ipAddresses) {
                         var ctrl = this;
+
+                        this.ipAddresses = ipAddresses;
 
                         this.volume = SettingsService.get('volume', 100);
 

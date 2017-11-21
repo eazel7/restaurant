@@ -8,7 +8,6 @@
 ">
 
     <div layout="column" layout-fill>
-
         <md-toolbar>
             <div class="md-toolbar-tools" layout="row" layout-align="center center">
                 <md-button ui-sref="orders">
@@ -19,7 +18,6 @@
         </md-toolbar>
 
         <div layout="column" layout-padding flex>
-
             <md-slider-container class="md-block">
 
                 <md-select ng-model="settings.voice">
@@ -28,7 +26,13 @@
                 <ng-md-icon icon="{{ settings.volume > 0 ? 'volume_up' : 'volume_off' }}"></ng-md-icon>
                 <md-slider ng-model="settings.volume" aria-label="Volume" flex md-discrete></md-slider>
             </md-slider-container>
-
+            <section>
+                <md-subheader>Direcciones IP</md-subheader>
+                <md-input-container class="md-block" ng-repeat="address in settings.ipAddresses">
+                    <label>{{address.name}}</label>
+                    <input type="text" disabled value="{{address.address}}" />
+                </md-input-container>
+            </section>
         </div>
     </div>
 </body>
