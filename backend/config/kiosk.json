@@ -2,7 +2,7 @@
     "port": 80,
     "db": "/data",
     "postAppSpawn": {
-        "command": "./start-frontend.sh",
+        "command": "../frontend/start.sh",
         "args": []
     }
 }

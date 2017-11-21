@@ -1,0 +1,32 @@
+{
+  "name": "restaurant-cerovueltas",
+  "version": "0.3.0",
+  "description": "Aplicación para restaurants",
+  "main": "index.js",
+  "scripts": {
+    "dev": "NODE_ENV=development node_modules/.bin/electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/eazel7/restaurant.git"
+  },
+  "keywords": [
+    "resin",
+    "io",
+    "electron",
+    "js",
+    "restaurant"
+  ],
+  "dependencies": {
+    "electron": "^1.7.9"
+  },
+  "author": "Diego Pérez",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://gitlab.com/eazel7/restaurant/issues"
+  },
+  "homepage": "https://gitlab.com/eazel7/restaurant",
+  "engines": {
+    "node": ">4.0.0"
+  }
+}

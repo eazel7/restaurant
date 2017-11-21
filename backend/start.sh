@@ -14,4 +14,4 @@ fi
 echo "Bring hci0 up..."
 hciconfig hci0 up
 
-(cd /usr/src/app && node main.js)
+(cd /usr/src/app/backend && node main.js)

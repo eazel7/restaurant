@@ -47,10 +47,11 @@ WORKDIR /usr/src/app
 
 # Move app to filesystem
 COPY . /usr/src/app
-RUN npm install
+RUN (cd backend && npm install)
+RUN (cd frontend && npm install)
 
 ## uncomment if you want systemd
 ENV INITSYSTEM on
 
 # Start app
-CMD ["bash", "/usr/src/app/start.sh"]
+CMD ["bash", "/usr/src/app/backend/start.sh"]
