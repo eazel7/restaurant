@@ -1,4 +1,3 @@
-const config = require('config');
 const electron = require('electron');
 
 const { app, BrowserWindow } = electron;
@@ -14,7 +13,7 @@ const electronConfig = {
     URL_LAUNCHER_HEIGHT: parseInt(process.env.URL_LAUNCHER_HEIGHT || 1080, 10),
     URL_LAUNCHER_TITLE: process.env.URL_LAUNCHER_TITLE || 'Restaurant',
     URL_LAUNCHER_CONSOLE: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
-    URL_LAUNCHER_URL: process.env.URL_LAUNCHER_URL || `http://localhost:` + config.port + config.launchUrl,
+    URL_LAUNCHER_URL: process.env.URL_LAUNCHER_URL,
     URL_LAUNCHER_ZOOM: parseFloat(process.env.URL_LAUNCHER_ZOOM || 1.0),
     URL_LAUNCHER_OVERLAY_SCROLLBARS: process.env.URL_LAUNCHER_CONSOLE === '1' ? 1 : 0,
 };
