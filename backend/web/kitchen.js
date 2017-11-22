@@ -131,6 +131,14 @@ function KitchenApp(clientConfig, api) {
                 res.end();
             });
 
+            app.get('/bell.mp3', (req, res, next) => {
+                res.set('content-type', 'audio/mpeg');
+                res.send(require('fs').readFileSync(
+                    require('path').resolve(__dirname, '../client/kitchen/bell.mp3'))
+                );
+                res.end();
+            });
+
 
             return bundleDeps().then(() => resolve(app), (err) => reject(err));
         }

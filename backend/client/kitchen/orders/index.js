@@ -86,31 +86,42 @@ require('angular')
                     OrdersService.getOrder(orderId).then(function (order) {
                         MenuService.getDish(order.dish).then(function (dish) {
                             NotificationsService.showNotification('Nuevo pedido: ' + dish.name);
+                            var readOutLoud = function () {
+                                if (SettingsService.get('readOrderOutLoud', false)) {
 
-                            if (SettingsService.get('readOrderOutLoud', false)) {
+                                    var volume = SettingsService.get('volume', 100) / 100;
 
-                                var volume = SettingsService.get('volume', 100) / 100;
+                                    var voice = SettingsService.get('voice', SpeechService.getVoices().filter(function (voice) {
+                                        return voice.lang.indexOf('es') === 0;
+                                    })[0]);
 
-                                var voice = SettingsService.get('voice', SpeechService.getVoices().filter(function (voice) {
-                                    return voice.lang.indexOf('es') === 0;
-                                })[0]);
+                                    if (!volume || !voice) return;
 
-                                if (!volume || !voice) return;
+                                    MenuService.getDishOptions(dish._id).then(function (options) {
+                                        var text = 'Nuevo pedido,' + String(order.amount.toFixed(0)) + ',' + dish.name + '.';
 
-                                MenuService.getDishOptions(dish._id).then(function (options) {
-                                    var text = 'Nuevo pedido,' + String(order.amount.toFixed(0)) + ',' + dish.name + '.';
+                                        options.forEach(function (option) {
+                                            text += option.name + ', ' + order.optionals[option._id] + ',';
+                                        });
 
-                                    options.forEach(function (option) {
-                                        text += option.name + ', ' + order.optionals[option._id] + ',';
-                                    });
+                                        if (order.notes) {
+                                            text += ', notas,,' + order.notes;
+                                        }
 
-                                    if (order.notes) {
-                                        text += ', notas,,' + order.notes;
-                                    }
-
-                                    SpeechService.speak(voice, text, volume);
-                                })
+                                        SpeechService.speak(voice, text, volume);
+                                    })
+                                }
                             }
+
+                            if (SettingsService.get('playBell', true)) {
+                                var audio = new Audio('/kitchen/bell.mp3');;
+                                audio.volume = SettingsService.get('volume', 100) / 100;
+
+                                audio.addEventListener('ended', readOutLoud);
+                                audio.play();
+                            } else readOutLoud();
+
+
                         })
                     });
                     refreshOrders();

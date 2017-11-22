@@ -29,6 +29,7 @@ require('angular')
 
                         this.volume = SettingsService.get('volume', 100);
                         this.readOrderOutLoud = SettingsService.get('readOrderOutLoud', false);
+                        this.playBell = SettingsService.get('playBell', true);
 
                         this.voices = SpeechService.getVoices();
 
@@ -42,6 +43,10 @@ require('angular')
                         
                         $scope.$watch(function () { return ctrl.readOrderOutLoud; }, function (readOrderOutLoud) {
                             SettingsService.set('readOrderOutLoud', readOrderOutLoud);
+                        });
+                        
+                        $scope.$watch(function () { return ctrl.playBell; }, function (playBell) {
+                            SettingsService.set('playBell', playBell);
                         });
                         
                         $scope.$watch(function () { return ctrl.volume; }, function (volume) {
