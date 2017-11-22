@@ -18,13 +18,15 @@
         </md-toolbar>
 
         <div layout="column" layout-padding flex>
+            <md-switch ng-model="settings.readOrderOutLoud" aria-label="Leer pedido en voz alta">
+                Leer pedido en voz alta
+            </md-switch>
             <md-slider-container class="md-block">
-
-                <md-select ng-model="settings.voice">
+                <md-select style="margin-right: 2em;max-width: inherit;width: 8em;" ng-disabled="!settings.readOrderOutLoud" ng-model="settings.voice">
                     <md-option ng-value="voice.voiceURI" ng-repeat="voice in settings.voices">{{voice.lang}}</md-option>
                 </md-select>
                 <ng-md-icon icon="{{ settings.volume > 0 ? 'volume_up' : 'volume_off' }}"></ng-md-icon>
-                <md-slider ng-model="settings.volume" aria-label="Volume" flex md-discrete></md-slider>
+                <md-slider ng-disabled="!settings.readOrderOutLoud" ng-model="settings.volume" aria-label="Volume" flex md-discrete></md-slider>
             </md-slider-container>
             <section>
                 <md-subheader>Direcciones IP</md-subheader>

@@ -87,27 +87,30 @@ require('angular')
                         MenuService.getDish(order.dish).then(function (dish) {
                             NotificationsService.showNotification('Nuevo pedido: ' + dish.name);
 
-                            var volume = SettingsService.get('volume', 100) / 100;
+                            if (SettingsService.get('readOrderOutLoud', false)) {
 
-                            var voice = SettingsService.get('voice', SpeechService.getVoices().filter(function (voice) {
-                                return voice.lang.indexOf('es') === 0;
-                            })[0]);
+                                var volume = SettingsService.get('volume', 100) / 100;
 
-                            if (!volume || !voice) return;
+                                var voice = SettingsService.get('voice', SpeechService.getVoices().filter(function (voice) {
+                                    return voice.lang.indexOf('es') === 0;
+                                })[0]);
 
-                            MenuService.getDishOptions(dish._id).then(function (options) {
-                                var text = 'Nuevo pedido,' + String(order.amount.toFixed(0)) + ',' + dish.name + '.';
-                                
-                                options.forEach(function (option) {
-                                    text += option.name + ', ' + order.optionals[option._id] + ',';
-                                });
+                                if (!volume || !voice) return;
 
-                                if (order.notes) {
-                                    text += ', notas,,' + order.notes;
-                                }
+                                MenuService.getDishOptions(dish._id).then(function (options) {
+                                    var text = 'Nuevo pedido,' + String(order.amount.toFixed(0)) + ',' + dish.name + '.';
 
-                                SpeechService.speak(voice, text, volume);
-                            })
+                                    options.forEach(function (option) {
+                                        text += option.name + ', ' + order.optionals[option._id] + ',';
+                                    });
+
+                                    if (order.notes) {
+                                        text += ', notas,,' + order.notes;
+                                    }
+
+                                    SpeechService.speak(voice, text, volume);
+                                })
+                            }
                         })
                     });
                     refreshOrders();

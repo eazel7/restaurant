@@ -5,6 +5,11 @@ require('angular')
         require('../../base/api')
     ]
     )
+    .run(function ($rootScope) {
+        window.speechSynthesis.addEventListener('voiceschanged', () => {
+            $rootScope.$broadcast('voiceschanged');
+        })
+    })
     .service(
     'SettingsService',
     function ($window, API) {

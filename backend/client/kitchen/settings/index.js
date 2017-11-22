@@ -28,12 +28,22 @@ require('angular')
                         this.ipAddresses = ipAddresses;
 
                         this.volume = SettingsService.get('volume', 100);
+                        this.readOrderOutLoud = SettingsService.get('readOrderOutLoud', false);
 
                         this.voices = SpeechService.getVoices();
+
+                        $scope.$on('voiceschanged', () => {
+                            this.voices = SpeechService.getVoices();
+                        });
+
                         this.voice = SettingsService.get('voice', this.voices.filter(function (voice) {
                             return voice.lang.indexOf('es') === 0;
                         })[0]);
-
+                        
+                        $scope.$watch(function () { return ctrl.readOrderOutLoud; }, function (readOrderOutLoud) {
+                            SettingsService.set('readOrderOutLoud', readOrderOutLoud);
+                        });
+                        
                         $scope.$watch(function () { return ctrl.volume; }, function (volume) {
                             SettingsService.set('volume', volume);
                         });
