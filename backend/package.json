@@ -43,6 +43,7 @@
     "browserify": "^14.3.0",
     "config": "^1.26.1",
     "cors": "^2.8.3",
+    "dateformat": "^3.0.2",
     "escpos": "^2.4.4",
     "express": "^4.15.2",
     "express-session": "^1.15.2",

@@ -144,11 +144,10 @@ Printer.prototype.printTicket = function (tableId) {
                 }
 
                 var date = new Date();
-
-                var lineaFecha =`Fecha: ${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+                var dateLine =`Fecha: ${require('dateformat')(date, 'dd/mm/yyyy HH:MM')}`;
 
                 printer
-                    .println(lineaFecha);
+                    .println(dateLine);
 
                 ticket.orders.forEach((item) => {
                     printer.println('');
