@@ -1,0 +1,29 @@
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -yq \
+  git \
+  nodejs \
+  nodejs-legacy \
+  npm \
+  build-essential \
+  apt-utils \
+  node-gyp \
+  clang \
+  bluez \
+  libbluetooth-dev \
+  libudev-dev \
+  libusb-1.0-0-dev \
+  libusb-dev \
+  && \
+  apt-get clean && rm -rf /var/lib/apt/lists/*
+
+
+ADD . /src
+
+WORKDIR /src/backend
+
+RUN npm install
+
+ENV NODE_ENV cloud-demo
+EXPOSE 10080
+CMD node .
