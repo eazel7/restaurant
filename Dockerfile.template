@@ -41,17 +41,20 @@ RUN echo "xset s off" > ~/.fluxbox/startup && echo "xserver-command=X -s 0 dpms"
 RUN echo "#!/bin/bash" > /etc/X11/xinit/xserverrc \
   && echo "" >> /etc/X11/xinit/xserverrc \
   && echo 'exec /usr/bin/X -s 0 dpms -nocursor -nolisten tcp "$@"' >> /etc/X11/xinit/xserverrc
+## uncomment if you want systemd
+ENV INITSYSTEM on
+
+RUN echo "${TIMEZONE}" > /etc/timezone
+RUN dpkg-reconfigure tzdata
+
+# Move app to filesystem
+COPY . /usr/src/app
 
 # Move to app dir
 WORKDIR /usr/src/app
 
-# Move app to filesystem
-COPY . /usr/src/app
 RUN (cd backend && npm install)
 RUN (cd frontend && npm install)
-
-## uncomment if you want systemd
-ENV INITSYSTEM on
 
 # Start app
 CMD ["bash", "/usr/src/app/backend/start.sh"]

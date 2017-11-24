@@ -19,6 +19,9 @@ require('angular')
                 location: function (SettingsService) {
                     return SettingsService.get('location');
                 },
+                ticketHeader: function (SettingsService) {
+                    return SettingsService.get('ticket-header');
+                },
                 printerDevice: function (SettingsService) {
                     return SettingsService.get('printer-device');
                 },
@@ -41,11 +44,12 @@ require('angular')
                 scanPrinters: function (PrinterService) {
                     return () => PrinterService.startScan();
                 },
-                settings: function (shopName, location, printerDevice) {
+                settings: function (shopName, location, printerDevice, ticketHeader) {
                     return {
                         shopName: shopName || '',
                         location: location || {},
-                        printerDevice: printerDevice || ''
+                        printerDevice: printerDevice || '',
+                        ticketHeader: ticketHeader || ''
                     }
                 }
             },
@@ -60,7 +64,8 @@ require('angular')
                             $q.all([
                                 SettingsService.set('shop-name', settings.shopName),
                                 SettingsService.set('location', settings.location),
-                                SettingsService.set('printer-device', settings.printerDevice)
+                                SettingsService.set('printer-device', settings.printerDevice),
+                                SettingsService.set('ticket-header', settings.ticketHeader)
                             ])
                             .then(function () {
                                 $state.reload();

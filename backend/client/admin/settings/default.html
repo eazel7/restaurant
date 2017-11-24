@@ -11,32 +11,21 @@
         <md-input-container class="md-block">
             <label>Dispositivo</label>
             <md-select ng-model="ctrl.settings.printerDevice">
-              <md-option><em>Ninguna</em></md-option>
-              <md-option ng-repeat="printer in ctrl.printers" ng-value="printer.address">
-                {{printer.name}}
-              </md-option>
+                <md-option>
+                    <em>Ninguna</em>
+                </md-option>
+                <md-option ng-repeat="printer in ctrl.printers" ng-value="printer.address">
+                    {{printer.name}}
+                </md-option>
             </md-select>
-          </md-input-container>
-  
-    </section>
-    <section>
-        <md-subheader>Ubicación</md-subheader>
-        <md-input-container class="md-block">
-            <label>Calle y altura</label>
-            <input type="text" ng-model="ctrl.settings.location.streetAddress" />
         </md-input-container>
+
         <md-input-container class="md-block">
-            <label>Localidad</label>
-            <input type="text" ng-model="ctrl.settings.location.town" />
-        </md-input-container>
-        <md-input-container class="md-block">
-            <label>Departamento</label>
-            <input type="text" ng-model="ctrl.settings.location.city" />
-        </md-input-container>
-        <md-input-container class="md-block">
-            <label>Código postal</label>
-            <input type="text" ng-model="ctrl.settings.location.postalCode" />
+            <label>
+                Cabecera del ticket
+            </label>
+            <textarea rows="5" ng-model="" cols="30" style="font-family: monospace" ng-model="ctrl.settings.ticketHeader"></textarea>
         </md-input-container>
     </section>
-    
+
 </md-content>
