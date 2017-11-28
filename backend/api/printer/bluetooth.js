@@ -89,7 +89,7 @@ Printer.prototype.getTicket = function (tableId) {
                 )
         }
     )
-}
+};
 
 Printer.prototype.getKitchenTicket = function (tableId) {
     return new Promise(
@@ -174,7 +174,7 @@ Printer.prototype.getKitchenTicket = function (tableId) {
             });
         }
     )
-}
+};
 
 Printer.prototype.getPrinterAddress = function () {
     return new Promise(
@@ -365,8 +365,6 @@ Printer.prototype.printKitchenTicket = function (tableId) {
 
                 return resolve(ticket);
             });
-        // }
-        // );
     };
 
     var connect = (address) => {
