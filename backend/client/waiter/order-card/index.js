@@ -37,14 +37,14 @@ require('angular')
                             return MenuService.getDish(order.dish);
                         })
                         .then(function (dish) {
+                            if (!dish) return [];
+
                             ctrl.dish = dish;
 
                             return MenuService.getDishOptions(dish._id);
                         })
                         .then(function (dishOptions) {
                             ctrl.options = dishOptions;
-
-                            
                         })
                     }
                 })

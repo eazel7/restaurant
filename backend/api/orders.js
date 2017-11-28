@@ -51,7 +51,7 @@ Orders.prototype.closeTable = function (tableId) {
 Orders.prototype.cancelOrder = function (orderId) {
     if (!orderId) return Promise.reject(new Error('order id is required'));
 
-
+    return Promise.reject(new Error('not implemented'));
 };
 
 Orders.prototype.setOrderReady = function (orderId) {
@@ -104,6 +104,7 @@ Orders.prototype.orderDish = function (tableId, dishId, optionals, notes, amount
                 price: price * amount,
                 ready: false,
                 archived: false,
+                printed: false,
                 notes: notes || '',
                 amount: amount
             }, (err, doc) => {

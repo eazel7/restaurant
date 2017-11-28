@@ -10,6 +10,7 @@ angular
         require('angular-material-icons'),
         require('../../menu'),
         require('../../tables'),
+        require('../../orders/service'),
         require('../../settings/service'),
         require('./set-customer'),
         require('../../../base/pictures-carousel')
@@ -35,6 +36,9 @@ angular
                             return TablesService.ensureSelected();
                         })
                     });
+                },
+                kitchenTicket: function (OrdersService, table) {
+                    return OrdersService.getKitchenTicket(table._id);
                 },
                 selectedTable: function (TablesService) {
                     return TablesService.ensureSelected();
@@ -64,26 +68,37 @@ angular
                     template: require('./top-toolbar.html'),
                     controllerAs: 'placeOrder',
                     controller: function (table) {
-                        this.table = table
+                        this.table = table;
                     }
                 },
                 'fab@': {
                     template: require('./fab.html'),
                     controllerAs: 'placeOrder',
-                    controller: function (table) {
-                        this.table = table
+                    controller: function (table, OrdersService, kitchenTicket) {
+                        this.table = table;
+                        
+                        this.printKitchenTicket = function () {
+                            OrdersService.printKitchenTicket(table._id).then(() => {
+                                kitchenTicket.orders = [];
+                            });
+                        };
+                        
+                        this.kitchenTicket = kitchenTicket;
                     }
                 },
                 '@': {
                     template: require('./default.html'),
                     controllerAs: 'placeOrder',
-                    controller: function (categories, table, showPhotos, MenuService) {
+                    controller: function (categories, table, showPhotos, MenuService, $state) {
                         this.categories = categories;
                         this.table = table;
                         this.showPhotos = showPhotos;
 
                         this.addDish = function (dish) {
-                            MenuService.setupDish(dish._id, table._id);
+                            MenuService.setupDish(dish._id, table._id)
+                            .then(function () {
+                                $state.reload();
+                            })
                         }
 
                         this.mapPictureUrl = function (pictureId) {

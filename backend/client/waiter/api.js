@@ -73,6 +73,18 @@ Orders.prototype.listByTable = function (tableId) {
     );
 };
 
+Orders.prototype.printKitchenTicket = function (tableId) {
+    return this.api.printer.printKitchenTicket(
+        tableId
+    );
+};
+
+Orders.prototype.getKitchenTicket = function (tableId) {
+    return this.api.printer.getKitchenTicket(
+        tableId
+    );
+}
+
 function Tables(api) {
     this.api = api;
 }
