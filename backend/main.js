@@ -55,7 +55,12 @@ require('async')
       callback(null, server);
     },
     listen: function (server, port, callback) {
-      server.listen(port, callback);
+      server.listen(port, (err) => {
+        if (err) console.error(err);
+        else console.log(`listening on port ${port}`);
+
+        callback(err);
+      });
     },
     postApp: function (web, config, callback) {
       if (!config.postAppSpawn) return callback();

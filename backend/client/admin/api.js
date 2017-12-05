@@ -11,7 +11,7 @@ Orders.prototype.placeOrder = function (tableId, dishId, optionals) {
 };
 
 Orders.prototype.listByTable = function (tableId) {
-    return this.api.listOrderedDishesByTable(
+    return this.api.orders.listOrderedDishesByTable(
         tableId
     );
 };

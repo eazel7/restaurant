@@ -1,12 +1,30 @@
 function Printer(db, bus) {
+    this.orders = db.collection('orders');
+    this.dishes = db.collection('dishes');
+    this.tables = db.collection('tables');
+    this.dishesOptions = db.collection('dishes-options');
 }
 
 Printer.prototype.printTicket = function (tableId) {
-    return Promise.reject(new Error('unable to print: stub module'));
+    return new Promise.resolve();
 };
 
 Printer.prototype.printKitchenTicket = function (tableId) {
-    return Promise.reject(new Error('unable to print: stub module'));
+    return new Promise(
+        (resolve, reject) => {
+            this.orders.update({
+                table: tableId
+            }, {
+                $set: {
+                    printed: true
+                }
+            }, (err) => {
+                if (err) return reject(err);
+                
+                resolve();
+            });
+        }
+    )
 };
 
 Printer.prototype.getTicket = function (tableId) {

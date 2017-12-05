@@ -29,7 +29,7 @@
                     <md-option ng-value="voice.voiceURI" ng-repeat="voice in settings.voices">{{voice.lang}}</md-option>
                 </md-select>
                 <ng-md-icon icon="{{ settings.volume > 0 ? 'volume_up' : 'volume_off' }}"></ng-md-icon>
-                <md-slider ng-disabled="!settings.readOrderOutLoud" ng-model="settings.volume" aria-label="Volume" flex md-discrete></md-slider>
+                <md-slider ng-disabled="!settings.readOrderOutLoud && !settings.playBell" ng-model="settings.volume" aria-label="Volume" flex md-discrete></md-slider>
             </md-slider-container>
             <section>
                 <md-subheader>Direcciones IP</md-subheader>

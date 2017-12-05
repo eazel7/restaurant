@@ -1,0 +1,22 @@
+<md-content layout-padding>
+    <md-card ng-repeat="order in ctrl.orderedDishes">
+        <md-card-title>
+            <div layout flex class="md-card-title-text">
+                <span flex>{{order.amount}} × {{order.dish.name}}</span>
+                <md-button class="md-raised md-mini">Cancelar</md-button>
+            </div>
+        </md-card-title>
+        <md-card-content>
+            <div layout>
+                <span flex>Pedido hace {{order.date|timeAgo}}</span>
+                <span ng-if="!order.ready && order.printed">Pedida</span>
+                <span ng-if="order.ready">Lista</span>
+            </div>
+            <md-subheading ng-if="order.dish.options.length">Opcionales</md-subheading>
+            <div layout layout-margin ng-repeat="option in order.dish.options">
+                <span flex>{{option.name}}</span>
+                <span>{{order.optionals[option._id]}}</span>
+            </div>
+        </md-card-content>
+    </md-card>
+</md-content>

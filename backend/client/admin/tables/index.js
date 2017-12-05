@@ -6,7 +6,9 @@ angular
     [   
         require('./service'),
         require('./edit'),
-        require('./create')
+        require('./create'),
+        require('./ordered'),
+        require('./cancel-orders')
     ]
     )
     .config(function ($stateProvider) {
