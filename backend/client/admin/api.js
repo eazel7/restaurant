@@ -16,6 +16,12 @@ Orders.prototype.listByTable = function (tableId) {
     );
 };
 
+Orders.prototype.cancel = function (orderId) {
+    return this.api.orders.cancelOrder(
+        orderId
+    );
+};
+
 function Tables(api) {
     this.api = api;
 }

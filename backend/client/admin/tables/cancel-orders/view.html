@@ -3,7 +3,7 @@
         <md-card-title>
             <div layout flex class="md-card-title-text">
                 <span flex>{{order.amount}} × {{order.dish.name}}</span>
-                <md-button class="md-raised md-mini">Cancelar</md-button>
+                <md-button ng-click="ctrl.cancel(order)" class="md-raised md-mini">Cancelar</md-button>
             </div>
         </md-card-title>
         <md-card-content>

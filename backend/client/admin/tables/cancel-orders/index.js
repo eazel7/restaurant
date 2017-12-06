@@ -45,8 +45,15 @@ require('angular')
                 '@': {
                     template: require('./view.html'),
                     controllerAs: 'ctrl',
-                    controller: function (orderedDishes) {
+                    controller: function (orderedDishes, OrdersService, $state) {
                         this.orderedDishes = orderedDishes;
+
+                        this.cancel = function (order) {
+                            OrdersService.cancel(order._id)
+                            .then(function () {
+                                $state.reload();
+                            });
+                        };
                     }
                 }   
             }

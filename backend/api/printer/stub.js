@@ -96,7 +96,8 @@ Printer.prototype.getKitchenTicket = function (tableId) {
                 this.orders.find(
                     {
                         table: tableId,
-                        printed: false
+                        printed: false,
+                        archived: false
                     }
                 )
                     .toArray(

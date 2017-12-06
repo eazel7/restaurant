@@ -50,8 +50,60 @@ Orders.prototype.closeTable = function (tableId) {
 
 Orders.prototype.cancelOrder = function (orderId) {
     if (!orderId) return Promise.reject(new Error('order id is required'));
+    if (typeof (orderId) != 'string') return Promise.reject('order id must be a string');
 
-    return Promise.reject(new Error('not implemented'));
+    return new Promise(
+        (resolve, reject) => {
+            this.orders.findOne({
+                _id: orderId
+            }, (err, order) => {
+                if (err) return reject(err);
+
+                if (!order) return reject(new Error('order not found'));
+
+                this.orders.update(
+                    {
+                        _id: orderId
+                    },
+                    {
+                        $set: {
+                            cancelled: true,
+                            cancelledAt: Date.now(),
+                            archived: true
+                        }
+                    },
+                    (err) => {
+                        if (err) return reject(err);
+
+                        this.orders.count({
+                            table: order.table,
+                            archived: false
+                        }, (err, count) => {
+                            if (err) return reject(err);
+
+                            if (count !== 0) return resolve();
+                            else {
+                                this.tables.update({
+                                    _id: order.table
+                                }, {
+                                        $set: {
+                                            status: 'free',
+                                            customer: null
+                                        }
+                                    }, (err) => {
+                                        if (err) return reject(err);
+
+                                        resolve();
+
+                                        this.bus.emit('table-status-changed', order.table);
+                                    });
+                            };
+                        }
+                        );
+                    });
+            }
+            );
+        })
 };
 
 Orders.prototype.setOrderReady = function (orderId) {
@@ -77,7 +129,6 @@ Orders.prototype.setOrderReady = function (orderId) {
 
                         resolve();
 
-                        //TODO: Print ticket
                         this.bus.emit('order-ready', orderId);
                     })
             })
