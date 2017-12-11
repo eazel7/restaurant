@@ -1,4 +1,6 @@
 function Printer(db, bus) {
+    this.bus = bus;
+
     this.orders = db.collection('orders');
     this.dishes = db.collection('dishes');
     this.tables = db.collection('tables');
@@ -12,17 +14,56 @@ Printer.prototype.printTicket = function (tableId) {
 Printer.prototype.printKitchenTicket = function (tableId) {
     return new Promise(
         (resolve, reject) => {
-            this.orders.update({
-                table: tableId
-            }, {
-                $set: {
-                    printed: true
+            this.orders.find({
+                table: tableId,
+                printed: false,
+                archived: false
+            }).toArray(
+                (err, docs) =>{
+                    if (err) return reject(err);
+
+                    if (!docs.length) return resolve();
+
+                    this.orders.update({
+                        table: tableId
+                    }, {
+                            $set: {
+                                printed: true
+                            }
+                        }, (err) => {
+                            if (err) return reject(err);
+        
+                            this.tables.update({
+                                _id: tableId
+                            }, {
+                                    $set: {
+                                        status: 'occupied'
+                                    }
+                                }, (err) => {
+                                    if (err) return reject(err);
+        
+                                    resolve();
+        
+                                    this.bus.emit('table-status-changed', tableId);
+
+                                    require('async')
+                                    .eachSeries(
+                                        docs,
+                                        (doc, callback) => {
+                                            try {
+                                                this.bus.emit('new-dish-ordered', docs._id);
+                                                callback();
+                                            } catch (e) {
+                                            } finally {
+                                                callback();
+                                            }                              
+                                        },
+                                        (err) => {}
+                                    )
+                                });
+                        });
                 }
-            }, (err) => {
-                if (err) return reject(err);
-                
-                resolve();
-            });
+            )
         }
     )
 };
