@@ -19,7 +19,7 @@ Printer.prototype.printKitchenTicket = function (tableId) {
                 printed: false,
                 archived: false
             }).toArray(
-                (err, docs) =>{
+                (err, docs) => {
                     if (err) return reject(err);
 
                     if (!docs.length) return resolve();
@@ -30,9 +30,11 @@ Printer.prototype.printKitchenTicket = function (tableId) {
                             $set: {
                                 printed: true
                             }
+                        }, {
+                            multi: true
                         }, (err) => {
                             if (err) return reject(err);
-        
+
                             this.tables.update({
                                 _id: tableId
                             }, {
@@ -41,13 +43,13 @@ Printer.prototype.printKitchenTicket = function (tableId) {
                                     }
                                 }, (err) => {
                                     if (err) return reject(err);
-        
+
                                     resolve();
-        
+
                                     this.bus.emit('table-status-changed', tableId);
 
                                     require('async')
-                                    .eachSeries(
+                                        .eachSeries(
                                         docs,
                                         (doc, callback) => {
                                             try {
@@ -56,14 +58,14 @@ Printer.prototype.printKitchenTicket = function (tableId) {
                                             } catch (e) {
                                             } finally {
                                                 callback();
-                                            }                              
+                                            }
                                         },
-                                        (err) => {}
-                                    )
+                                        (err) => { }
+                                        )
                                 });
                         });
                 }
-            )
+                )
         }
     )
 };

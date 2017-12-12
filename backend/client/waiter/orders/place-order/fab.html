@@ -8,19 +8,19 @@
 
     <md-fab-actions>
         <div layout="column">
-            <md-button ng-class="{'md-primary': !!placeOrder.kitchenTicket.orders.length}" ng-disabled="!placeOrder.kitchenTicket.orders.length" aria-label="Cuenta" ng-click="placeOrder.printKitchenTicket()" class="md-fab md-raised md-mini">
+            <md-button ng-class="{'md-primary': !!placeOrder.kitchenTicket.orders.length}" ng-disabled="!placeOrder.kitchenTicket.orders.length" aria-label="Cuenta" ng-click="placeOrder.printKitchenTicket()" class="md-fab md-raised">
                 <md-tooltip md-direction="left" md-autohide="false">
                     Comanda ({{placeOrder.kitchenTicket.orders.length}})
                 </md-tooltip>
                 {{placeOrder.kitchenTicket.orders.length}}
             </md-button>
-            <md-button aria-label="Cuenta" class="md-fab md-raised md-mini" ui-sref="ordered">
+            <md-button aria-label="Cuenta" class="md-fab md-raised" ui-sref="ordered">
                 <md-tooltip md-direction="left" md-autohide="false">
                     Cuenta
                 </md-tooltip>
                 <ng-md-icon aria-label="Cuenta" icon="room_service"></ng-md-icon>
             </md-button>
-            <md-button aria-label="Cliente" class="md-fab md-raised md-mini" ui-sref=".set-customer">
+            <md-button aria-label="Cliente" class="md-fab md-raised" ui-sref=".set-customer">
                 <md-tooltip md-direction="left" md-autohide="false">
                     Cliente
                 </md-tooltip>
