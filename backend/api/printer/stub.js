@@ -140,7 +140,10 @@ Printer.prototype.getKitchenTicket = function (tableId) {
                     {
                         table: tableId,
                         printed: false,
-                        archived: false
+                        archived: false,
+                        cancelled: {
+                            $ne: true
+                        }
                     }
                 )
                     .toArray(
