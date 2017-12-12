@@ -51,7 +51,7 @@ Printer.prototype.printKitchenTicket = function (tableId) {
                                         docs,
                                         (doc, callback) => {
                                             try {
-                                                this.bus.emit('new-dish-ordered', docs._id);
+                                                this.bus.emit('new-dish-ordered', doc._id);
                                                 callback();
                                             } catch (e) {
                                             } finally {
