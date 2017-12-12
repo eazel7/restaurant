@@ -411,6 +411,8 @@ Printer.prototype.printKitchenTicket = function (tableId) {
                                         $set: {
                                             printed: true
                                         }
+                                    }, {
+                                        multi: true
                                     }, (err) => {
                                         if (err) return reject(err);
 
