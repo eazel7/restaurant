@@ -8,26 +8,26 @@
   }
 </style>
 
-<section ng-repeat="category in placeOrder.categories|orderBy:'name'">
-  <md-subheader>{{category.name}}</md-subheader>
-  <md-card ng-repeat="dish in category.dishes|orderBy:'name'">
-    <md-card-title>
-      <md-card-title-text>
-        <span flex layout class="md-title">
-            <span flex>{{dish.name}}</span>
-        <span class="md-title">{{dish.price|currency}}</span>
-        </span>
-      </md-card-title-text>
-    </md-card-title>
-    <md-card-content>
-      <pictures-carousel ng-if="placeOrder.showPhotos && dish.pictures.length" pictures="dish.pictures" map-picture-url="placeOrder.mapPictureUrl($picture)"
-        current="dish.currentPicture"></pictures-carousel>
-    </md-card-content>
-    <md-card-actions layout layout-align="end">
-      <md-button ng-click="placeOrder.addDish(dish)">
-        <ng-md-icon icon="plus_one"></ng-md-icon>
-      </md-button>
-    </md-card-actions>
-  </md-card>
-  <md-divider ng-if="!$last"></md-divider>
-</section>
+<md-card ng-repeat="category in placeOrder.categories|orderBy:'name'">
+  <md-card-title>
+    <md-card-title-text>
+      <span flex layout class="md-title">
+        <span flex>{{category.name}}</span>
+        <md-button class="md-icon" ng-click="category.expanded = !category.expanded">
+          <ng-md-icon ng-if="category.expanded" icon="expand_less"></ng-md-icon>
+          <ng-md-icon ng-if="!category.expanded" icon="expand_more"></ng-md-icon>
+        </md-button>
+      </span>
+    </md-card-title-text>
+  </md-card-title>
+  <md-card-content>
+    <md-list ng-if="category.expanded">
+      <md-list-item ng-repeat="dish in category.dishes|orderBy:'name'">
+        <span class="md-list-item-text">{{dish.name}}</span>
+        <md-button class="md-secondary" ng-click="placeOrder.addDish(dish)">
+            <ng-md-icon icon="plus_one"></ng-md-icon>
+          </md-button>        
+      </md-list-item>
+    </md-list>
+  </md-card-content>
+</md-card>

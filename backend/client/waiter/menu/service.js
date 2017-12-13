@@ -40,6 +40,7 @@ angular
                                 this.cancel = function () {
                                     $mdDialog.cancel();
                                 }
+                                
                                 this.dish = dish;
                                 this.options = options;
 
