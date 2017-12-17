@@ -25,7 +25,13 @@ Printer.prototype.printKitchenTicket = function (tableId, orders) {
                     if (!docs.length) return resolve();
 
                     this.orders.update({
-                        table: tableId
+                        $or: [{
+                            table: tableId
+                        }, {
+                            _id: {
+                                $in: orders
+                            }
+                        }]
                     }, {
                             $set: {
                                 printed: true

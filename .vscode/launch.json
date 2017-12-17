@@ -10,7 +10,7 @@
             "name": "Default",
             "program": "${workspaceFolder}/backend/main.js",
             "env": {
-                "NODE_ENV": "development"
+                // "NODE_ENV": "development"
             },
             "cwd": "${workspaceFolder}/backend"
         },

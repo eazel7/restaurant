@@ -91,23 +91,24 @@ Printer.prototype.getTicket = function (tableId) {
     )
 };
 
-Printer.prototype.getKitchenTicket = function (tableId) {
+Printer.prototype.getKitchenTicket = function (tableId, orders) {
     return new Promise(
         (resolve, reject) => {
             this.tables.findOne({
                 _id: tableId
             }, (err, tableDoc) => {
                 if (err) return reject(err);
-
                 this.orders.find(
-                    {
+                    tableId ? {
                         table: tableId,
                         printed: false,
                         archived: false,
                         cancelled: {
                             $ne: true
                         }
-                    }
+                    } : {
+                            _id: { $in: orders }
+                        }
                 )
                     .toArray(
                     (err, docs) => {
@@ -168,7 +169,7 @@ Printer.prototype.getKitchenTicket = function (tableId) {
                                 if (err) return reject(err);
 
                                 ticket.orders = orderedDishes;
-                                ticket.tableName = tableDoc.name;
+                                ticket.tableName = tableDoc ? tableDoc.name : '';
 
                                 resolve(ticket);
                             }
@@ -329,16 +330,13 @@ Printer.prototype.printKitchenTicket = function (tableId, orders) {
                     .font('C')
                     .size(1, 1);
 
-                // printer.flush(() => {
-                //     printer.feed(3);
-
                 var date = new Date();
                 var dateLine = `Fecha: ${require('dateformat')(date, 'dd/mm/yyyy HH:MM')}`;
 
                 printer
                     .println(dateLine);
 
-                printer.println(ticket.tableName);
+                if (ticket.tableName) printer.println(ticket.tableName);
                 printer
                     .println('');
                 printer
@@ -393,7 +391,7 @@ Printer.prototype.printKitchenTicket = function (tableId, orders) {
     };
 
     return Promise.all([
-        this.getKitchenTicket(tableId),
+        this.getKitchenTicket(tableId, orders),
         this.getPrinterAddress()
     ])
         .then((results) => {
@@ -408,8 +406,35 @@ Printer.prototype.printKitchenTicket = function (tableId, orders) {
                         connect(address)
                             .then(() => {
                                 return printTicket(ticket).then(() => {
-                                    this.orders.update({
+                                    this.orders.update(tableId ? {
                                         table: tableId
+                                    } : {
+                                            _id: {
+                                                $in: orders
+                                            }
+                                        }, {
+                                            $set: {
+                                                printed: true
+                                            }
+                                        }, {
+                                            multi: true
+                                        }, (err) => {
+                                            if (err) return reject(err);
+
+                                            resolve();
+                                        })
+                                });
+                            })
+                            .then((result) => resolve(result), (err) => reject(err));
+                    } else {
+                        printTicket(ticket)
+                            .then((result) => {
+                                this.orders.update(tableId ? {
+                                    table: tableId
+                                } : {
+                                        _id: {
+                                            $in: orders
+                                        }
                                     }, {
                                         $set: {
                                             printed: true
@@ -419,14 +444,9 @@ Printer.prototype.printKitchenTicket = function (tableId, orders) {
                                     }, (err) => {
                                         if (err) return reject(err);
 
-                                        resolve();
+                                        resolve(result);
                                     })
-                                });
-                            })
-                            .then((result) => resolve(result), (err) => reject(err));
-                    } else {
-                        printTicket(ticket)
-                            .then((result) => resolve(result), (err) => reject(err));
+                            }, (err) => reject(err));
                     }
                 }
             );
