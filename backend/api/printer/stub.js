@@ -11,7 +11,7 @@ Printer.prototype.printTicket = function (tableId) {
     return new Promise.resolve();
 };
 
-Printer.prototype.printKitchenTicket = function (tableId) {
+Printer.prototype.printKitchenTicket = function (tableId, orders) {
     return new Promise(
         (resolve, reject) => {
             this.orders.find({

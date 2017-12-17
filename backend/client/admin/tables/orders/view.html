@@ -1,9 +1,10 @@
 <md-content layout-padding>
+    <h1 style="text-align: center" ng-if="!ctrl.orderedDishes.length">No hay actualmente pedidos para esta mesa</h1>
     <md-card ng-repeat="order in ctrl.orderedDishes">
         <md-card-title>
             <div layout flex class="md-card-title-text">
                 <span flex>{{order.amount}} × {{order.dish.name}}</span>
-                <md-button ng-click="ctrl.cancel(order)" class="md-raised md-mini">Cancelar</md-button>
+                <md-checkbox ng-model="order.selected"></md-checkbox>
             </div>
         </md-card-title>
         <md-card-content>
@@ -12,7 +13,7 @@
                 <span ng-if="!order.ready && order.printed">Pedida</span>
                 <span ng-if="order.ready">Lista</span>
             </div>
-            <md-subheading ng-if="order.dish.options.length">Opcionales</md-subheading>
+            <md-subheading ng-if="order.ddish.options.length">Opcionales</md-subheading>
             <div layout layout-margin ng-repeat="option in order.dish.options">
                 <span flex>{{option.name}}</span>
                 <span>{{order.optionals[option._id]}}</span>

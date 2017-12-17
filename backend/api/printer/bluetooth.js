@@ -314,7 +314,7 @@ Printer.prototype.printTicket = function (tableId) {
         );
 };
 
-Printer.prototype.printKitchenTicket = function (tableId) {
+Printer.prototype.printKitchenTicket = function (tableId, orders) {
     var printTicket = (ticket) => {
         return new Promise(
             (resolve, reject) => {

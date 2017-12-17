@@ -21,8 +21,8 @@ angular
                     template: require('./top-toolbar.html'),
                     controllerAs: 'edit',
                     controller: function ($mdDialog, $state, table) {
-                        this.cancelOrders = function () {
-                            $state.go('^.cancel-orders', { table: table._id });
+                        this.orders = function () {
+                            $state.go('^.orders', { table: table._id });
                         };
 
                         this.setAdminMessage = function () {
