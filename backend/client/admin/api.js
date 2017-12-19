@@ -30,6 +30,15 @@ function Tables(api) {
     this.api = api;
 }
 
+Tables.prototype.closeTable = function (tableId) {
+    return this.api.printer.printTicket(tableId)
+        .then(() => this.api.orders.closeTable(tableId));
+};
+
+Tables.prototype.getTicket = function (tableId) {
+    return this.api.printer.getTicket(tableId);
+}
+
 Tables.prototype.list = function () {
     return this.api.tables.list();
 }
@@ -262,7 +271,7 @@ function AdminAPI(api) {
     this.tables = new Tables(api);
     this.users = new Users(api);
     this.menu = new Menu(api);
-    this.settings = new Settings(api);  
+    this.settings = new Settings(api);
     this.stats = new Stats(api);
     this.customers = new Customers(api);
     this.printer = new Printers(api);

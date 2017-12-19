@@ -1,5 +1,8 @@
 <span flex></span>
-
+<md-button layout ng-click="ctrl.closeTable()">
+    <ng-md-icon icon="payment"></ng-md-icon>&nbsp;
+    <span>{{ctrl.ticket.total|currency}}</span>
+</md-button>
 <md-button ng-click="ctrl.reprintTicket()">
     <ng-md-icon icon="print"></ng-md-icon>&nbsp;Imprimir</md-button>
 <md-button ng-click="ctrl.cancel()">

@@ -22,6 +22,9 @@ require('angular')
                 table: function (TablesService, $stateParams) {
                     return TablesService.getTable($stateParams.table);
                 },
+                ticket: function (table, TablesService) {
+                    return TablesService.getTicket(table._id);
+                },
                 orderedDishes: function (OrdersService, MenuService, table, $q) {
                     return OrdersService.listByTable(table._id)
                         .then(function (orderedDishes) {
@@ -44,8 +47,14 @@ require('angular')
             views: {
                 'top-toolbar@': {
                     template: require('./top-toolbar.html'),
-                    controller: function (orderedDishes, OrdersService, $q, $state) {
+                    controller: function (table, ticket, orderedDishes, TablesService, OrdersService, $q, $state) {
+                        this.ticket = ticket;
 
+                        this.closeTable = function () {
+                            TablesService.closeTable(table._id).then(function () {
+                                $state.reload();
+                            });
+                        };
                         this.cancel = function (order) {
                             $q.all(
                                 orderedDishes

@@ -8,7 +8,7 @@ function Printer(db, bus) {
 }
 
 Printer.prototype.printTicket = function (tableId) {
-    return new Promise.resolve();
+    return Promise.resolve();
 };
 
 Printer.prototype.printKitchenTicket = function (tableId, orders) {
