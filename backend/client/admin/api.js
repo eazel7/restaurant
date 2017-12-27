@@ -22,8 +22,8 @@ Orders.prototype.cancel = function (orderId) {
     );
 };
 
-Orders.prototype.reprintTicket = function (orders) {
-    return this.api.printer.printKitchenTicket(null, orders);
+Orders.prototype.reprintTicket = function (tableId, orders) {
+    return this.api.printer.printKitchenTicket(tableId, orders);
 };
 
 function Tables(api) {

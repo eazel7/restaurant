@@ -4,6 +4,7 @@
         <md-card-title>
             <div layout flex class="md-card-title-text">
                 <span flex>{{order.amount}} × {{order.dish.name}}</span>
+                <span>{{order.price|currency}}&nbsp;</span>
                 <md-checkbox ng-model="order.selected"></md-checkbox>
             </div>
         </md-card-title>

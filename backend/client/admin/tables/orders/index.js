@@ -71,6 +71,7 @@ require('angular')
 
                         this.reprintTicket = function () {
                             OrdersService.reprintTicket(
+                                table._id,
                                 orderedDishes
                                     .filter(function (orderedDish) {
                                         return orderedDish.selected;

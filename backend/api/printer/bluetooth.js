@@ -99,15 +99,15 @@ Printer.prototype.getKitchenTicket = function (tableId, orders) {
             }, (err, tableDoc) => {
                 if (err) return reject(err);
                 this.orders.find(
-                    tableId ? {
-                        table: tableId,
-                        printed: false,
-                        archived: false,
-                        cancelled: {
-                            $ne: true
-                        }
+                    !!orders ? {
+                        _id: { $in: orders }
                     } : {
-                            _id: { $in: orders }
+                            table: tableId,
+                            printed: false,
+                            archived: false,
+                            cancelled: {
+                                $ne: true
+                            }
                         }
                 )
                     .toArray(
@@ -213,8 +213,24 @@ Printer.prototype.getShopName = function () {
     );
 };
 
+Printer.prototype.getTableName = function (tableId) {
+    return new Promise(
+        (resolve, reject) => {
+            this.tables.findOne({
+                _id: tableId
+            }, (err, doc) => {
+                if (err) return reject(err);
+
+                if (!doc) return resolve();
+
+                resolve(doc.name);
+            });
+        }
+    );
+};
+
 Printer.prototype.printTicket = function (tableId) {
-    var printTicket = (ticket, shopName) => {
+    var printTicket = (ticket, shopName, tableName) => {
         return new Promise(
             (resolve, reject) => {
                 const escpos = require('escpos');
@@ -234,6 +250,10 @@ Printer.prototype.printTicket = function (tableId) {
                 if (shopName) {
                     printer.println(shopName);
                     printer.println('-'.repeat(maxLineSize));
+                }
+
+                if (tableName) {
+                    printer.println(tableName);
                 }
 
                 var date = new Date();
@@ -288,7 +308,8 @@ Printer.prototype.printTicket = function (tableId) {
     return Promise.all([
         this.getTicket(tableId),
         this.getPrinterAddress(),
-        this.getShopName()
+        this.getShopName(),
+        this.getTableName(tableId)
     ])
         .then((results) => {
             return new Promise(
@@ -296,17 +317,18 @@ Printer.prototype.printTicket = function (tableId) {
                     var ticket = results[0];
                     var address = results[1];
                     var shopName = results[2];
+                    var tableName = results[3];
 
                     var isOpen = btSerial.isOpen();
 
                     if (!isOpen) {
                         connect(address)
                             .then(() => {
-                                return printTicket(ticket, shopName);
+                                return printTicket(ticket, shopName, tableName);
                             })
                             .then((result) => resolve(result), (err) => reject(err));
                     } else {
-                        printTicket(ticket, shopName)
+                        printTicket(ticket, shopName, tableName)
                             .then((result) => resolve(result), (err) => reject(err));
                     }
                 }
