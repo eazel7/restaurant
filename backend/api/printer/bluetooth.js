@@ -31,6 +31,7 @@ function Printer(db, bus) {
     this.dishes = db.collection('dishes');
     this.dishesOptions = db.collection('dishes-options');
     this.settings = db.collection('settings');
+    this.bus = bus;
 }
 
 Printer.prototype.getTicket = function (tableId) {
@@ -443,7 +444,17 @@ Printer.prototype.printKitchenTicket = function (tableId, orders) {
                                         }, (err) => {
                                             if (err) return reject(err);
 
-                                            resolve();
+                                            require('async').eachSeries(ticket.orders,
+                                                (order, callback) => {
+                                                    this.bus.emit('new-dish-ordered', order._id);
+
+                                                    callback();
+                                                },
+                                                (err) => {
+                                                    if (err) reject(err);
+
+                                                    resolve();
+                                                });
                                         })
                                 });
                             })
@@ -466,7 +477,17 @@ Printer.prototype.printKitchenTicket = function (tableId, orders) {
                                     }, (err) => {
                                         if (err) return reject(err);
 
-                                        resolve(result);
+                                        require('async').eachSeries(ticket.orders,
+                                            (order, callback) => {
+                                                this.bus.emit('new-dish-ordered', order._id);
+
+                                                callback();
+                                            },
+                                            (err) => {
+                                                if (err) reject(err);
+
+                                                resolve(result);
+                                            });
                                     })
                             }, (err) => reject(err));
                     }
