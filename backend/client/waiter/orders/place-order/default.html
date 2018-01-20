@@ -8,7 +8,11 @@
   }
 </style>
 
-<md-card ng-repeat="category in placeOrder.categories|orderBy:'name'">
+<md-input-container md-no-float layout-padding layout>
+  <input placeholder="Filtrar" ng-model="placeOrder.filter.name" type="text" flex />
+</md-input-container>
+
+<md-card ng-repeat="category in placeOrder.categories|orderBy:'name' | filter:placeOrder.containingDishes">
   <md-card-title>
     <md-card-title-text>
       <span flex layout class="md-title">
@@ -22,7 +26,7 @@
   </md-card-title>
   <md-card-content>
     <md-list ng-if="category.expanded">
-      <md-list-item ng-repeat="dish in category.dishes|orderBy:'name'">
+      <md-list-item ng-repeat="dish in category.dishes|orderBy:'name'| filter:placeOrder.filter">
         <span class="md-list-item-text">{{dish.name}}</span>
         <md-button class="md-secondary" ng-click="placeOrder.addDish(dish)">
             <ng-md-icon icon="plus_one"></ng-md-icon>

@@ -89,10 +89,15 @@ angular
                 '@': {
                     template: require('./default.html'),
                     controllerAs: 'placeOrder',
-                    controller: function (categories, table, showPhotos, MenuService, $state) {
+                    controller: function (categories, table, showPhotos, MenuService, $state, $filter) {
                         this.categories = categories;
                         this.table = table;
                         this.showPhotos = showPhotos;
+                        var filter = this.filter = {};
+                        
+                        this.containingDishes = function (category) {
+                            return $filter('filter')(category.dishes, filter).length ;
+                        };
 
                         this.addDish = function (dish) {
                             MenuService.setupDish(dish._id, table._id)
